@@ -24,11 +24,19 @@ const useCartStore = create(
     (set, get) => ({
       lines: [],
 
+      // Not persisted. The job ticket pill bumps once, keyed on lastAdded.at,
+      // and the drawer state lives here so the nav, the pill and the product
+      // page all open the same drawer.
+      lastAdded: null,
+      drawerOpen: false,
+      openDrawer: () => set({ drawerOpen: true }),
+      closeDrawer: () => set({ drawerOpen: false }),
+
       addLine: (line) => {
         const lineId = newId()
         const l = { ...line, lineId, quantity: Number(line.quantity) || 0 }
         l.unitPriceSnapshot = priceLine(l).unit
-        set((s) => ({ lines: [...s.lines, l] }))
+        set((s) => ({ lines: [...s.lines, l], lastAdded: { at: Date.now(), lineId, name: l.name, quantity: l.quantity, variantLabel: l.variantLabel } }))
         return lineId
       },
 

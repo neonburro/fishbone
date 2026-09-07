@@ -1,17 +1,16 @@
 // src/components/brand/Logo.jsx
-import { palette } from '../../theme'
-import { Box } from '@chakra-ui/react'
+//
+// Fishbone Graphics logo. Placeholder lockup until the client's art arrives.
+// Swap this one file to replace the logo site-wide. Keep the props (variant,
+// color, accent, height) and every nav, footer and overlay updates.
+//
+// The wordmark is SVG text in the display face so its first glyph sits at
+// x=0 of its box. The nav pulls the lockup back by its own padding so that
+// glyph lands on the rail, the same x as every heading on the site.
 
-/**
- * Fishbone Graphics logo. Placeholder wordmark until the client's art arrives.
- * Swap this one file to replace the logo site-wide.
- *
- * props:
- *  variant: 'full' (mark + wordmark) | 'mark' (mark only)
- *  color:   stroke/fill color for the mark + wordmark (default bone.100 hex)
- *  accent:  eye/dot color (default ember)
- *  height:  CSS height (width scales)
- */
+import { Box } from '@chakra-ui/react'
+import { palette } from '../../theme'
+
 export default function Logo({ variant = 'full', color = palette.bone, accent = palette.ember, height = '36px', ...rest }) {
   if (variant === 'mark') {
     return (
@@ -23,27 +22,27 @@ export default function Logo({ variant = 'full', color = palette.bone, accent = 
   return (
     <Box as="span" display="inline-flex" alignItems="center" gap="10px" h={height} {...rest}>
       <FishMark color={color} accent={accent} />
-      <svg viewBox="0 0 300 64" height="100%" role="img" aria-label="Fishbone Graphics" style={{ display: 'block' }}>
+      <svg viewBox="0 0 250 64" height="100%" role="img" aria-label="Fishbone Graphics" style={{ display: 'block' }}>
         <text
           x="0"
-          y="40"
+          y="42"
           fill={color}
-          fontFamily="'Barlow Condensed', 'Arial Narrow', sans-serif"
-          fontWeight="800"
-          fontSize="46"
-          letterSpacing="-0.5"
+          fontFamily="'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif"
+          fontWeight="900"
+          fontSize="50"
+          letterSpacing="-1"
         >
           FISHBONE
         </text>
         <text
           x="1"
-          y="58"
+          y="59"
           fill={color}
-          fontFamily="'Barlow Condensed', 'Arial Narrow', sans-serif"
-          fontWeight="600"
-          fontSize="14"
-          letterSpacing="6.2"
-          opacity="0.8"
+          fontFamily="'JetBrains Mono', Menlo, monospace"
+          fontWeight="500"
+          fontSize="10.5"
+          letterSpacing="5.6"
+          opacity="0.75"
         >
           GRAPHICS
         </text>

@@ -3,13 +3,29 @@ import { supabase, toError } from '../supabase'
 
 export const DEFAULT_SETTINGS = {
   store: {
-    name: 'Fishbone Graphics & Screen Printing',
+    name: 'Fishbone Graphics',
+    legal_name: 'Fishbone Graphics & Screen Printing',
+    tagline: 'Ridgway, Colorado. Printing since 1985.',
+    founded: 1985,
     phone: '(970) 626-4437',
     email: 'hello@fishbonegraphics.com',
     address1: '250 S Lena St',
+    address2: '',
     city: 'Ridgway',
     state: 'CO',
     zip: '81432',
+    lat: 38.1512,
+    lng: -107.7593,
+    plus_code: '5622+5Q Ridgway, Colorado',
+    region: 'Uncompahgre Valley, San Juan Mountains',
+    elevation_ft: 6985,
+    directions_note: 'On South Lena Street, two blocks south of Hartwell Park and Highway 62. Street parking out front.',
+    landmarks: [
+      { name: 'Ridgway Town Park', distance: '2 blocks' },
+      { name: 'Ouray', distance: '10 mi south on US-550' },
+      { name: 'Telluride', distance: '37 mi via CO-62' },
+      { name: 'Montrose', distance: '26 mi north on US-550' },
+    ],
     hours: [
       { days: 'Mon-Fri', open: '9:00 AM', close: '5:00 PM' },
       { days: 'Sat', open: 'By appointment', close: '' },
@@ -22,7 +38,7 @@ export const DEFAULT_SETTINGS = {
   tax: { rate: 0 },
   shipping: { flat_rate: 0, enabled: true },
   payments: { provider: 'invoice' },
-  ordering: { turnaround_days: 10, rush_available: true },
+  ordering: { turnaround_days: 10, rush_available: true, min_order_note: 'Most screen print jobs start at 12 pieces.' },
   announcement: { enabled: false, text: '' },
 }
 
