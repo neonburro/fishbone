@@ -1,6 +1,27 @@
-import { extendTheme } from '@chakra-ui/react'
+// src/theme/index.js
+//
+// "Ink & Bone". The Chakra theme for the Fishbone Graphics storefront.
+//
+// ── THE PALETTE IS PROVISIONAL ──────────────────────────────────────────────
+// The client's logo has not arrived. Every color the site uses is defined
+// HERE and nowhere else: ink (page and surfaces), bone (type), ember (hot ink,
+// the primary accent), river (Uncompahgre teal), hivis (fluorescent, tiny
+// doses). Components reach for these through Chakra tokens ('ember.500') or
+// through the exported `palette` and `alpha()` helpers when they need a raw
+// value for an SVG or an rgba. Nobody hardcodes a hex outside this file, so
+// when the real palette lands it is retuned in one place and the whole site
+// follows.
+//
+// ── TYPE ────────────────────────────────────────────────────────────────────
+// Display is Big Shoulders Display, an industrial condensed face with poster
+// energy. H1 and H2 are uppercase with tight tracking. Body is Instrument
+// Sans. Mono is JetBrains Mono and it does the small precise work: order
+// numbers, SKUs, prices in tables and the kickers, the small uppercase labels
+// that replace badges everywhere on the site.
+//
+// No oxford commas, no em dashes.
 
-// "Ink & Bone" — dark, tactile print-shop system for Fishbone Graphics.
+import { extendTheme } from '@chakra-ui/react'
 
 const colors = {
   ink: {
@@ -69,11 +90,54 @@ const colors = {
   },
 }
 
+// Raw values for SVG fills, canvas, rgba() and anything Chakra tokens cannot
+// reach. Same numbers as above, named the way the brief names them.
+export const palette = {
+  ink: colors.ink[900],
+  inkSurface: colors.ink[500],
+  inkRaised: colors.ink[400],
+  inkBorder: colors.ink[300],
+  bone: colors.bone[100],
+  boneMuted: colors.bone[300],
+  boneSubtle: colors.bone[500],
+  ember: colors.ember[500],
+  emberHover: colors.ember[400],
+  emberPressed: colors.ember[600],
+  river: colors.river[500],
+  riverHover: colors.river[400],
+  hivis: colors.hivis[500],
+  paper: colors.paper[50],
+}
+
+// alpha('#FF6A13', 0.2) -> 'rgba(255,106,19,0.2)'
+export function alpha(hex, a = 1) {
+  const h = String(hex).replace('#', '')
+  const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16)
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`
+}
+
+// One easing everywhere. Heavy ease out: leaves fast, lands almost still.
+export const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
+
 const fonts = {
-  heading: `'Barlow Condensed', 'Arial Narrow', Impact, sans-serif`,
-  body: `'Barlow', 'Helvetica Neue', Arial, sans-serif`,
+  heading: `'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif`,
+  body: `'Instrument Sans', 'Helvetica Neue', Arial, sans-serif`,
   mono: `'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace`,
 }
+
+// The kicker. Small mono uppercase, wide tracking. Used as a Text variant, as
+// the Badge base style and as FormLabel, so one definition drives all three.
+const kicker = {
+  fontFamily: 'mono',
+  fontWeight: 500,
+  textTransform: 'uppercase',
+  letterSpacing: '0.18em',
+  fontSize: '11px',
+  lineHeight: 1.4,
+}
+
+const focusRing = { borderColor: 'ember.500', boxShadow: `0 0 0 1px ${palette.ember}` }
+const invalidRing = { borderColor: 'ember.600', boxShadow: `0 0 0 1px ${palette.emberPressed}` }
 
 const theme = extendTheme({
   config: {
@@ -92,8 +156,8 @@ const theme = extendTheme({
     full: '9999px',
   },
   shadows: {
-    outline: '0 0 0 3px rgba(255, 106, 19, 0.55)',
-    raised: '0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 30px rgba(0,0,0,0.45)',
+    outline: `0 0 0 3px ${alpha(palette.ember, 0.55)}`,
+    raised: `0 1px 0 ${alpha('#FFFFFF', 0.03)} inset, 0 10px 30px ${alpha('#000000', 0.45)}`,
   },
   semanticTokens: {
     colors: {
@@ -127,6 +191,10 @@ const theme = extendTheme({
       '::-webkit-scrollbar': { width: '10px', height: '10px' },
       '::-webkit-scrollbar-thumb': { bg: 'ink.300', borderRadius: '4px' },
       '::-webkit-scrollbar-track': { bg: 'ink.900' },
+      '@media (prefers-reduced-motion: reduce)': {
+        html: { scrollBehavior: 'auto' },
+        '*, *::before, *::after': { animationDuration: '0.01ms !important', animationIterationCount: '1 !important', transitionDuration: '0.01ms !important' },
+      },
     },
   },
   components: {
@@ -135,31 +203,26 @@ const theme = extendTheme({
         fontFamily: 'heading',
         fontWeight: 800,
         textTransform: 'uppercase',
-        letterSpacing: '-0.01em',
-        lineHeight: 0.95,
+        letterSpacing: '-0.015em',
+        lineHeight: 0.92,
         color: 'bone.100',
       },
       sizes: {
-        '4xl': { fontSize: { base: '3.25rem', md: '5rem', lg: '6.5rem' } },
-        '3xl': { fontSize: { base: '2.75rem', md: '4rem', lg: '5rem' } },
-        '2xl': { fontSize: { base: '2.25rem', md: '3.25rem' } },
-        xl: { fontSize: { base: '1.9rem', md: '2.5rem' } },
-        lg: { fontSize: { base: '1.5rem', md: '1.9rem' } },
-        md: { fontSize: '1.25rem' },
-        sm: { fontSize: '1.05rem' },
-        xs: { fontSize: '0.9rem' },
+        '4xl': { fontSize: { base: '4rem', md: '7rem', lg: '9.5rem' }, fontWeight: 900, letterSpacing: '-0.02em' },
+        '3xl': { fontSize: { base: '3.25rem', md: '5rem', lg: '6.5rem' }, fontWeight: 900 },
+        '2xl': { fontSize: { base: '2.6rem', md: '4rem' } },
+        xl: { fontSize: { base: '2.1rem', md: '2.8rem' } },
+        lg: { fontSize: { base: '1.6rem', md: '2rem' } },
+        md: { fontSize: '1.35rem' },
+        sm: { fontSize: '1.1rem' },
+        xs: { fontSize: '0.95rem' },
       },
     },
     Text: {
       variants: {
-        eyebrow: {
-          fontFamily: 'heading',
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.12em',
-          fontSize: 'sm',
-          color: 'ember.500',
-        },
+        kicker: { ...kicker, color: 'ember.500' },
+        // Older name for the same object. Kept so nothing breaks.
+        eyebrow: { ...kicker, color: 'ember.500' },
         mono: {
           fontFamily: 'mono',
           fontSize: 'sm',
@@ -176,13 +239,14 @@ const theme = extendTheme({
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
         borderRadius: 'base',
+        transitionTimingFunction: EASE,
         _focusVisible: { boxShadow: 'outline' },
       },
       sizes: {
-        lg: { h: '52px', px: 7, fontSize: 'lg' },
-        md: { h: '44px', px: 5, fontSize: 'md' },
-        sm: { h: '36px', px: 4, fontSize: 'sm' },
-        xs: { h: '28px', px: 3, fontSize: 'xs' },
+        lg: { h: '52px', px: 7, fontSize: 'xl' },
+        md: { h: '44px', px: 5, fontSize: 'lg' },
+        sm: { h: '36px', px: 4, fontSize: 'md' },
+        xs: { h: '28px', px: 3, fontSize: 'sm' },
       },
       variants: {
         ember: {
@@ -244,8 +308,8 @@ const theme = extendTheme({
             borderRadius: 'base',
             _placeholder: { color: 'bone.600' },
             _hover: { borderColor: 'ink.100' },
-            _focusVisible: { borderColor: 'ember.500', boxShadow: '0 0 0 1px #FF6A13' },
-            _invalid: { borderColor: 'ember.600', boxShadow: '0 0 0 1px #E55A0C' },
+            _focusVisible: focusRing,
+            _invalid: invalidRing,
           },
         },
       },
@@ -260,7 +324,7 @@ const theme = extendTheme({
             color: 'bone.100',
             fontFamily: 'mono',
             _hover: { borderColor: 'ink.100' },
-            _focusVisible: { borderColor: 'ember.500', boxShadow: '0 0 0 1px #FF6A13' },
+            _focusVisible: focusRing,
           },
           stepper: { borderColor: 'ink.300', color: 'bone.300', _active: { bg: 'ink.300' } },
         },
@@ -275,8 +339,8 @@ const theme = extendTheme({
           borderRadius: 'base',
           _placeholder: { color: 'bone.600' },
           _hover: { borderColor: 'ink.100' },
-          _focusVisible: { borderColor: 'ember.500', boxShadow: '0 0 0 1px #FF6A13' },
-          _invalid: { borderColor: 'ember.600', boxShadow: '0 0 0 1px #E55A0C' },
+          _focusVisible: focusRing,
+          _invalid: invalidRing,
         },
       },
     },
@@ -288,7 +352,7 @@ const theme = extendTheme({
             borderColor: 'ink.300',
             color: 'bone.100',
             _hover: { borderColor: 'ink.100' },
-            _focusVisible: { borderColor: 'ember.500', boxShadow: '0 0 0 1px #FF6A13' },
+            _focusVisible: focusRing,
             '> option': { bg: 'ink.500', color: 'bone.100' },
           },
           icon: { color: 'bone.300' },
@@ -297,13 +361,9 @@ const theme = extendTheme({
     },
     FormLabel: {
       baseStyle: {
-        fontFamily: 'heading',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        fontSize: 'sm',
+        ...kicker,
         color: 'bone.300',
-        mb: 1.5,
+        mb: 2,
       },
     },
     FormError: {
@@ -340,23 +400,23 @@ const theme = extendTheme({
         label: { color: 'bone.100' },
       },
     },
+    // Badges are kickers. No filled pills anywhere on the site. The variant
+    // only changes the ink color.
     Badge: {
       baseStyle: {
-        fontFamily: 'heading',
-        fontWeight: 700,
-        textTransform: 'uppercase',
-        letterSpacing: '0.1em',
-        borderRadius: 'sm',
-        px: 2,
-        py: 0.5,
-        fontSize: '0.7rem',
+        ...kicker,
+        fontSize: '10px',
+        borderRadius: 0,
+        px: 0,
+        py: 0,
+        bg: 'transparent',
       },
       variants: {
-        hivis: { bg: 'hivis.500', color: 'ink.900' },
-        ember: { bg: 'ember.500', color: 'ink.900' },
-        river: { bg: 'river.500', color: 'ink.900' },
-        outline: { border: '1px solid', borderColor: 'bone.500', color: 'bone.300' },
-        ink: { bg: 'ink.300', color: 'bone.300' },
+        hivis: { color: 'hivis.500' },
+        ember: { color: 'ember.500' },
+        river: { color: 'river.500' },
+        outline: { color: 'bone.300', borderBottom: '1px solid', borderColor: 'ink.200', pb: '1px' },
+        ink: { color: 'bone.500' },
       },
       defaultProps: { variant: 'ink' },
     },
@@ -365,11 +425,8 @@ const theme = extendTheme({
         ticket: {
           table: { fontFamily: 'mono', fontSize: 'sm' },
           th: {
-            fontFamily: 'heading',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            fontSize: 'xs',
+            ...kicker,
+            fontSize: '10px',
             color: 'bone.500',
             borderBottom: '1px solid',
             borderColor: 'ink.300',
@@ -386,14 +443,14 @@ const theme = extendTheme({
     Drawer: {
       baseStyle: {
         dialog: { bg: 'ink.500', color: 'bone.100' },
-        overlay: { bg: 'rgba(11,11,12,0.8)' },
+        overlay: { bg: alpha(palette.ink, 0.8) },
         closeButton: { color: 'bone.300' },
       },
     },
     Modal: {
       baseStyle: {
         dialog: { bg: 'ink.500', color: 'bone.100', borderRadius: 'base', border: '1px solid', borderColor: 'ink.300' },
-        overlay: { bg: 'rgba(11,11,12,0.8)' },
+        overlay: { bg: alpha(palette.ink, 0.8) },
       },
     },
     Skeleton: {
@@ -425,9 +482,10 @@ const theme = extendTheme({
         filledTrack: { bg: 'river.500' },
       },
     },
+    // The sheet. Left aligned, capped at 1680, rail 20 / 40. See theme/layout.js.
     Container: {
-      baseStyle: { px: { base: 5, md: 8 } },
-      sizes: { page: { maxW: '1280px' }, narrow: { maxW: '820px' } },
+      baseStyle: { px: { base: 5, md: 10 }, mx: 0, w: '100%' },
+      sizes: { page: { maxW: '1680px' }, narrow: { maxW: '900px' } },
     },
   },
 })

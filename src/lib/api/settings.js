@@ -1,3 +1,4 @@
+// src/lib/api/settings.js
 import { supabase, toError } from '../supabase'
 
 export const DEFAULT_SETTINGS = {
@@ -10,7 +11,7 @@ export const DEFAULT_SETTINGS = {
     state: 'CO',
     zip: '81432',
     hours: [
-      { days: 'Mon – Fri', open: '9:00 AM', close: '5:00 PM' },
+      { days: 'Mon-Fri', open: '9:00 AM', close: '5:00 PM' },
       { days: 'Sat', open: 'By appointment', close: '' },
       { days: 'Sun', open: 'Closed', close: '' },
     ],

@@ -1,3 +1,5 @@
+// src/pages/Product/index.jsx
+import { palette } from '../../theme'
 import { useEffect, useMemo, useState } from 'react'
 import {
   Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Checkbox, CheckboxGroup, Container, Divider, FormControl, FormLabel,
@@ -132,7 +134,7 @@ export default function Product() {
       status: 'success',
       render: undefined,
     })
-    navigate('/cart')
+    navigate('/cart/')
   }
 
   if (loading) return <ProductSkeleton />
@@ -163,9 +165,9 @@ export default function Product() {
       />
       <Container size="page" pt={{ base: 5, md: 8 }} pb={{ base: '120px', lg: 24 }}>
         <Breadcrumb separator="/" fontSize="sm" color="bone.500" mb={{ base: 5, md: 8 }} fontFamily="heading" textTransform="uppercase" letterSpacing="0.08em" fontWeight={600} sx={{ ol: { flexWrap: 'wrap' }, li: { whiteSpace: 'nowrap' } }}>
-          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop" color="bone.300">Shop</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop/" color="bone.300">Shop</BreadcrumbLink></BreadcrumbItem>
           {product.categories?.key && (
-            <BreadcrumbItem><BreadcrumbLink as={RouterLink} to={`/shop/${product.categories.key}`} color="bone.300">{product.categories.name}</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbItem><BreadcrumbLink as={RouterLink} to={`/shop/${product.categories.key}/`} color="bone.300">{product.categories.name}</BreadcrumbLink></BreadcrumbItem>
           )}
           <BreadcrumbItem isCurrentPage><Text as="span" color="ember.500">{product.name}</Text></BreadcrumbItem>
         </Breadcrumb>
@@ -296,7 +298,7 @@ export default function Product() {
                       <List spacing={1.5}>
                         {product.features.map((f) => (
                           <ListItem key={f} display="flex" gap={3} alignItems="flex-start" color="bone.300" fontSize="sm">
-                            <RegMark size="12px" color="#2BB3A3" mt="4px" /> {f}
+                            <RegMark size="12px" color={palette.river} mt="4px" /> {f}
                           </ListItem>
                         ))}
                       </List>

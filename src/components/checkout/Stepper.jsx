@@ -1,3 +1,4 @@
+// src/components/checkout/Stepper.jsx
 import { Box, HStack, Text } from '@chakra-ui/react'
 import { FiCheck } from 'react-icons/fi'
 

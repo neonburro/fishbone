@@ -1,3 +1,5 @@
+// src/components/layout/Header.jsx
+import { alpha, palette } from '../../theme'
 import { useEffect, useState } from 'react'
 import {
   Box, Container, Flex, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerContent, DrawerBody,
@@ -24,7 +26,7 @@ const navStyle = ({ isActive }) => ({
   textTransform: 'uppercase',
   letterSpacing: '0.08em',
   fontSize: '1rem',
-  color: isActive ? '#FF6A13' : '#D9D2C5',
+  color: isActive ? palette.ember : palette.boneMuted,
   padding: '6px 2px',
   borderBottom: isActive ? '2px solid #FF6A13' : '2px solid transparent',
   transition: 'color .15s',
@@ -56,7 +58,7 @@ export default function Header() {
         </Box>
       )}
       <Box
-        bg={scrolled ? 'rgba(11,11,12,0.92)' : 'ink.900'}
+        bg={scrolled ? alpha(palette.ink, 0.92) : 'ink.900'}
         backdropFilter={scrolled ? 'blur(8px)' : undefined}
         borderBottom="1px solid"
         borderColor={scrolled ? 'ink.300' : 'transparent'}
@@ -64,7 +66,7 @@ export default function Header() {
       >
         <Container size="page">
           <Flex h={{ base: '64px', md: '76px' }} align="center" justify="space-between" gap={4}>
-            <ChakraLink as={RouterLink} to="/" aria-label="Fishbone Graphics — home" _hover={{ textDecoration: 'none', opacity: 0.9 }} display="flex">
+            <ChakraLink as={RouterLink} to="/" aria-label="Fishbone Graphics. Home" _hover={{ textDecoration: 'none', opacity: 0.9 }} display="flex">
               <Logo height="34px" />
             </ChakraLink>
 
@@ -75,13 +77,13 @@ export default function Header() {
             </HStack>
 
             <HStack spacing={2}>
-              <Button as={RouterLink} to="/quote" size="sm" display={{ base: 'none', md: 'inline-flex' }}>
+              <Button as={RouterLink} to="/quote/" size="sm" display={{ base: 'none', md: 'inline-flex' }}>
                 Get a quote
               </Button>
               <Box position="relative">
                 <IconButton
                   as={RouterLink}
-                  to="/cart"
+                  to="/cart/"
                   aria-label={`Order sheet, ${count} ${count === 1 ? 'line' : 'lines'}`}
                   icon={<FiShoppingBag size={20} />}
                   variant="ghost"
@@ -125,7 +127,7 @@ export default function Header() {
                   style={({ isActive }) => ({
                     display: 'flex', alignItems: 'center', gap: 12,
                     fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
-                    fontSize: '1.6rem', padding: '12px 0', borderBottom: '1px solid #26262B', color: isActive ? '#FF6A13' : '#F2EDE4',
+                    fontSize: '1.6rem', padding: '12px 0', borderBottom: '1px solid #26262B', color: isActive ? palette.ember : palette.bone,
                   })}
                 >
                   <RegMark size="14px" color="currentColor" />
@@ -133,8 +135,8 @@ export default function Header() {
                 </NavLink>
               ))}
             </VStack>
-            <Button as={RouterLink} to="/quote" size="lg" mt={8} w="100%">Get a quote</Button>
-            <Button as={RouterLink} to="/cart" variant="outline" size="lg" mt={3} w="100%" leftIcon={<FiShoppingBag />}>
+            <Button as={RouterLink} to="/quote/" size="lg" mt={8} w="100%">Get a quote</Button>
+            <Button as={RouterLink} to="/cart/" variant="outline" size="lg" mt={3} w="100%" leftIcon={<FiShoppingBag />}>
               Order sheet {count > 0 ? `(${count})` : ''}
             </Button>
             <Box mt="auto" pt={8} pb={6}>

@@ -1,6 +1,7 @@
+// src/lib/pricing.js
 /**
  * Client-side price ESTIMATES. The server (place_order RPC) is the source of truth.
- * Mirrors: unit_price_for(product_id, qty) + variant.price_adjustment, and setup fee math.
+ * Mirrors: unit_price_for(product_id, qty) + variant.price_adjustment and setup fee math.
  */
 
 const num = (v, d = 0) => {
@@ -8,7 +9,7 @@ const num = (v, d = 0) => {
   return Number.isFinite(n) ? n : d
 }
 
-/** Active tier for qty, or null when no tier matches. */
+/** Active tier for qty or null when no tier matches. */
 export function tierFor(tiers = [], qty = 0) {
   const q = num(qty)
   const list = [...(tiers || [])].sort((a, b) => num(a.min_qty) - num(b.min_qty))

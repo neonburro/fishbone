@@ -1,3 +1,4 @@
+// src/components/brand/RegMark.jsx
 import { Box } from '@chakra-ui/react'
 
 /** Printer's registration mark: circle + crosshair. Decorative by default. */

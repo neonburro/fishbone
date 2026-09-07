@@ -1,8 +1,9 @@
+// src/lib/format.js
 const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
 
 export function money(n) {
   const v = Number(n)
-  if (!Number.isFinite(v)) return '—'
+  if (!Number.isFinite(v)) return '-'
   return usd.format(v)
 }
 
@@ -55,7 +56,7 @@ const METHOD_LABELS = {
   heat_transfer: 'Heat transfer',
   vinyl: 'Vinyl',
   sublimation: 'Sublimation',
-  none: 'Blank — no decoration',
+  none: 'Blank, no decoration',
 }
 
 export function methodLabel(key = '', options = []) {
@@ -64,9 +65,9 @@ export function methodLabel(key = '', options = []) {
 }
 
 export function formatDate(d, opts = { month: 'short', day: 'numeric', year: 'numeric' }) {
-  if (!d) return '—'
+  if (!d) return '-'
   const dt = typeof d === 'string' && d.length === 10 ? new Date(`${d}T12:00:00`) : new Date(d)
-  if (Number.isNaN(dt.getTime())) return '—'
+  if (Number.isNaN(dt.getTime())) return '-'
   return dt.toLocaleDateString('en-US', opts)
 }
 

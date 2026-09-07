@@ -1,3 +1,4 @@
+// src/components/common/PulledRule.jsx
 import { Box } from '@chakra-ui/react'
 
 /** 2px ember rule with a rough, squeegee-pulled end. */

@@ -1,3 +1,4 @@
+// src/components/cart/EstimateSummary.jsx
 import { Box, Divider, HStack, Stack, Text } from '@chakra-ui/react'
 import { money } from '../../lib/format'
 import useEstimate from '../../hooks/useEstimate'

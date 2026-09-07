@@ -1,3 +1,5 @@
+// src/components/brand/Halftone.jsx
+import { alpha, palette } from '../../theme'
 import { Box } from '@chakra-ui/react'
 
 /**
@@ -5,7 +7,7 @@ import { Box } from '@chakra-ui/react'
  * `fade` controls which edge the dots dissolve toward: 'top' | 'bottom' | 'left' | 'right' | 'none'
  */
 export default function Halftone({
-  color = 'rgba(242,237,228,0.10)',
+  color = alpha(palette.bone, 0.10),
   size = 14,
   dot = 1.6,
   fade = 'bottom',

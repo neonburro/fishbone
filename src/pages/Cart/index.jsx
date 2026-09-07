@@ -1,3 +1,5 @@
+// src/pages/Cart/index.jsx
+import { palette } from '../../theme'
 import { Box, Button, Container, Grid, GridItem, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
@@ -20,16 +22,16 @@ export default function Cart() {
 
   return (
     <Container size="page" py={{ base: 8, md: 14 }}>
-      <SEO title="Your order sheet" noIndex path="/cart" />
+      <SEO title="Your order sheet" noIndex path="/cart/" />
       <FadeIn>
-        <HStack spacing={3} mb={3}><RegMark size="14px" color="#FF6A13" /><Text variant="eyebrow">Order sheet</Text></HStack>
+        <HStack spacing={3} mb={3}><RegMark size="14px" color={palette.ember} /><Text variant="eyebrow">Order sheet</Text></HStack>
         <Heading as="h1" size="2xl">What’s going on press.</Heading>
         <PulledRule mt={4} mb={{ base: 8, md: 12 }} />
       </FadeIn>
 
       {lines.length === 0 ? (
-        <EmptyState title="Your order sheet is blank." message="Pick a garment, tell us where the ink goes, and it shows up here. Or skip all that and just ask for a quote." ctaLabel="Shop blanks" ctaTo="/shop">
-          <Button as={RouterLink} to="/quote" variant="link" mt={4} display="block" mx="auto">Request a quote instead</Button>
+        <EmptyState title="Your order sheet is blank." message="Pick a garment, tell us where the ink goes and it shows up here. Or skip all that and just ask for a quote." ctaLabel="Shop blanks" ctaTo="/shop/">
+          <Button as={RouterLink} to="/quote/" variant="link" mt={4} display="block" mx="auto">Request a quote instead</Button>
         </EmptyState>
       ) : (
         <Grid templateColumns={{ base: '1fr', lg: '7fr 4fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">
@@ -40,7 +42,7 @@ export default function Cart() {
               ))}
             </Stack>
             <HStack mt={6} justify="space-between" flexWrap="wrap" rowGap={3}>
-              <Button as={RouterLink} to="/shop" variant="ghost" leftIcon={<FiArrowLeft />}>Add another product</Button>
+              <Button as={RouterLink} to="/shop/" variant="ghost" leftIcon={<FiArrowLeft />}>Add another product</Button>
               <Button variant="link" color="bone.500" onClick={() => { if (window.confirm('Clear the whole order sheet?')) clear() }}>Clear sheet</Button>
             </HStack>
           </GridItem>
@@ -53,7 +55,7 @@ export default function Cart() {
                   {invalid.length === 1 ? 'One line has' : `${invalid.length} lines have`} a size breakdown that doesn’t match the quantity. Fix it before checkout.
                 </Text>
               )}
-              <Button as={RouterLink} to="/checkout" size="lg" w="100%" mt={6} rightIcon={<FiArrowRight />} isDisabled={invalid.length > 0} pointerEvents={invalid.length > 0 ? 'none' : undefined}>
+              <Button as={RouterLink} to="/checkout/" size="lg" w="100%" mt={6} rightIcon={<FiArrowRight />} isDisabled={invalid.length > 0} pointerEvents={invalid.length > 0 ? 'none' : undefined}>
                 Check out
               </Button>
               <Text fontSize="xs" color="bone.500" mt={3} textAlign="center">No payment collected yet. We proof first, then invoice.</Text>

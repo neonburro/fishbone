@@ -1,3 +1,4 @@
+// src/App.jsx
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Box, Spinner, Center } from '@chakra-ui/react'

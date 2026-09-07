@@ -1,3 +1,5 @@
+// src/components/common/ErrorBoundary.jsx
+import { palette } from '../../theme'
 import { Component } from 'react'
 import { Box, Button, Container, Heading, Text } from '@chakra-ui/react'
 import RegMark from '../brand/RegMark'
@@ -28,7 +30,7 @@ export default class ErrorBoundary extends Component {
     return (
       <Box py={{ base: 16, md: 28 }} minH="60vh" display="flex" alignItems="center">
         <Container size="narrow" textAlign="center">
-          <RegMark size="40px" color="#FF6A13" mb={6} />
+          <RegMark size="40px" color={palette.ember} mb={6} />
           <Heading size="xl" mb={3}>Misprint.</Heading>
           <Text color="bone.300" mb={6}>
             Something on this page came off the press wrong. Reload and we&rsquo;ll pull it again.

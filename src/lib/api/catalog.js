@@ -1,3 +1,4 @@
+// src/lib/api/catalog.js
 import { supabase, toError } from '../supabase'
 
 const PRODUCT_CARD_FIELDS =

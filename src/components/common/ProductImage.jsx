@@ -1,3 +1,4 @@
+// src/components/common/ProductImage.jsx
 import { useState } from 'react'
 import { Box, Image } from '@chakra-ui/react'
 import Placeholder from './Placeholder'

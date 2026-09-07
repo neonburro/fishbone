@@ -1,3 +1,5 @@
+// src/pages/Services/index.jsx
+import { alpha, palette } from '../../theme'
 import { Box, Button, Grid, GridItem, Heading, HStack, List, ListItem, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
@@ -13,7 +15,7 @@ const SERVICES = [
     id: 'screen-printing', n: '01', title: 'Screen printing', tag: 'The core of the shop since 1985',
     copy: 'Plastisol for punch and durability, water-based and discharge when you want it soft and vintage. Manual presses for the hand-pulled stuff, automatic for the big runs. We burn our own screens and mix our own Pantones.',
     bullets: ['Up to 8 spot colors, tight registration', 'Simulated process and halftones for photographic art', 'Specialty inks: puff, metallic, glow, high-density', 'Tees, hoodies, totes, bandanas, koozies, posters'],
-    best: 'Runs of 24+ with 1–6 colors. The more you print, the cheaper each one gets.',
+    best: 'Runs of 24+ with 1-6 colors. The more you print, the cheaper each one gets.',
   },
   {
     id: 'embroidery', n: '02', title: 'Embroidery', tag: 'Stitched, not printed',
@@ -23,15 +25,15 @@ const SERVICES = [
   },
   {
     id: 'dtf', n: '03', title: 'DTF transfers', tag: 'Full color, no screens',
-    copy: 'Direct-to-film prints the whole image — gradients, photos, forty colors — onto a transfer we heat press onto almost any fabric. No screen fees, so short runs and one-offs finally make sense.',
+    copy: 'Direct-to-film prints the whole image, gradients, photos, forty colors, onto a transfer we heat press onto almost any fabric. No screen fees, so short runs and one-offs finally make sense.',
     bullets: ['Any color count, no setup per color', 'Works on cotton, poly, blends, nylon, canvas', 'Mixed garments and sizes in one small order', 'Names, numbers, sponsor logos'],
-    best: 'Under 24 pieces, or complex full-color art on a budget.',
+    best: 'Under 24 pieces or complex full-color art on a budget.',
   },
   {
     id: 'design', n: '04', title: 'Art & design', tag: 'Gig-poster roots',
-    copy: 'We separate colors, trace low-res logos into clean vector, fix type, and build mockups. Or we draw the whole thing — event posters, festival marks, band merch, bar shirts.',
+    copy: 'We separate colors, trace low-res logos into clean vector, fix type and build mockups. Or we draw the whole thing. Event posters, festival marks, band merch, bar shirts.',
     bullets: ['Vector redraw and cleanup', 'Color separations and halftone prep', 'Original illustration and lettering', 'Print-ready files you keep'],
-    best: 'When the art is a screenshot, a sketch, or an idea.',
+    best: 'When the art is a screenshot, a sketch or an idea.',
   },
   {
     id: 'festival', n: '05', title: 'Festival merch program', tag: 'Our specialty',
@@ -45,8 +47,8 @@ const SERVICES = [
 export default function Services() {
   return (
     <>
-      <SEO title="Services" description="Screen printing, embroidery, DTF transfers, art and design, and a festival merch program — all under one roof in Ridgway, Colorado." path="/services" />
-      <PageHero eyebrow="Services" title="Five ways to put a mark on a thing." lead="One shop, one crew, forty years of knowing which method your job actually needs. If you’re not sure, call — we’ll tell you straight, even when the answer is the cheaper one." size="lg" />
+      <SEO title="Services" description="Screen printing, embroidery, DTF transfers, art and design and a festival merch program. All under one roof in Ridgway, Colorado." path="/services/" />
+      <PageHero eyebrow="Services" title="Five ways to put a mark on a thing." lead="One shop, one crew, forty years of knowing which method your job actually needs. If you’re not sure, call. We’ll tell you straight, even when the answer is the cheaper one." size="lg" />
 
       <Section py={{ base: 10, md: 16 }}>
         <HStack as="nav" aria-label="Services" spacing={2} flexWrap="wrap" rowGap={2} mb={{ base: 10, md: 16 }}>
@@ -70,7 +72,7 @@ export default function Services() {
                       <Text variant="eyebrow" mb={3} color="bone.500">Good for</Text>
                       <List spacing={2}>
                         {s.bullets.map((b) => (
-                          <ListItem key={b} display="flex" gap={3} alignItems="flex-start" fontSize="sm" color="bone.100"><RegMark size="12px" color={i % 2 ? '#2BB3A3' : '#FF6A13'} mt="4px" />{b}</ListItem>
+                          <ListItem key={b} display="flex" gap={3} alignItems="flex-start" fontSize="sm" color="bone.100"><RegMark size="12px" color={i % 2 ? palette.river : palette.ember} mt="4px" />{b}</ListItem>
                         ))}
                       </List>
                     </Box>
@@ -88,11 +90,11 @@ export default function Services() {
       </Section>
 
       <Section bg="ink.500" borderTop="1px solid" borderColor="ink.300">
-        <Halftone fade="left" color="rgba(255,106,19,0.10)" size={14} dot={1.6} left="50%" />
+        <Halftone fade="left" color={alpha(palette.ember, 0.10)} size={14} dot={1.6} left="50%" />
         <SectionHeader eyebrow="Pricing, plainly" title="How the number gets made." lead="No secret menu. Three things move the price: how many, how many colors, how many places on the shirt." />
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
           {[
-            ['Quantity', 'Every product page shows price breaks. The unit price drops at 24, 48, 72, 144 — because screens and setup are the same whether we print 12 or 120.'],
+            ['Quantity', 'Every product page shows price breaks. The unit price drops at 24, 48, 72, 144. Because screens and setup are the same whether we print 12 or 120.'],
             ['Setup', 'A one-time fee per decoration method covers burning screens or digitizing your logo. It’s charged once per order, not once per shirt. Reorders with the same art skip it.'],
             ['Locations', 'Front only is the baseline. A back print, sleeve or nape adds a small setup fee for the extra screen. The proof lists every line so nothing surprises you.'],
           ].map(([t, c]) => (
@@ -103,8 +105,8 @@ export default function Services() {
           ))}
         </SimpleGrid>
         <Stack direction={{ base: 'column', sm: 'row' }} spacing={3} mt={10}>
-          <Button as={RouterLink} to="/shop" rightIcon={<FiArrowRight />}>Shop blanks &amp; see pricing</Button>
-          <Button as={RouterLink} to="/quote" variant="outline">Ask for a custom quote</Button>
+          <Button as={RouterLink} to="/shop/" rightIcon={<FiArrowRight />}>Shop blanks &amp; see pricing</Button>
+          <Button as={RouterLink} to="/quote/" variant="outline">Ask for a custom quote</Button>
         </Stack>
       </Section>
     </>

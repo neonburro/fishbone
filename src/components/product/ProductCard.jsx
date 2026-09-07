@@ -1,3 +1,4 @@
+// src/components/product/ProductCard.jsx
 import { Box, Text, HStack, Badge, LinkBox, LinkOverlay, Stack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import ProductImage from '../common/ProductImage'
@@ -38,7 +39,7 @@ export default function ProductCard({ product }) {
           </Text>
           {product.categories?.name && <Text fontSize="xs" color="bone.600" noOfLines={1}>{product.categories.name}</Text>}
         </HStack>
-        <LinkOverlay as={RouterLink} to={`/product/${product.slug}`}>
+        <LinkOverlay as={RouterLink} to={`/product/${product.slug}/`}>
           <Text fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize={{ base: 'md', md: 'lg' }} lineHeight={1.1} letterSpacing="0.01em" color="bone.100">
             {product.name}
           </Text>

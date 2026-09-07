@@ -1,3 +1,5 @@
+// src/pages/Checkout/index.jsx
+import { palette } from '../../theme'
 import { useEffect, useMemo, useState } from 'react'
 import {
   Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input,
@@ -54,7 +56,7 @@ export default function Checkout() {
 
   const contactErrors = {
     name: contact.name.trim().length < 2 ? 'We need a name for the ticket.' : null,
-    email: !emailOk(contact.email) ? 'Enter a working email — proofs and invoices go there.' : null,
+    email: !emailOk(contact.email) ? 'Enter a working email. Proofs and invoices go there.' : null,
     phone: !phoneOk(contact.phone) ? 'Enter a phone number with area code.' : null,
   }
   const contactValid = !Object.values(contactErrors).some(Boolean)
@@ -72,7 +74,7 @@ export default function Checkout() {
     return d.toISOString().slice(0, 10)
   }, [])
 
-  if (lines.length === 0 && !placing) return <Navigate to="/cart" replace />
+  if (lines.length === 0 && !placing) return <Navigate to="/cart/" replace />
 
   const next = () => {
     setTouched(true)
@@ -119,7 +121,7 @@ export default function Checkout() {
         return
       }
       clear()
-      navigate(`/order/confirmed/${encodeURIComponent(result.order_number)}`, { replace: true })
+      navigate(`/order/confirmed/${encodeURIComponent(result.order_number)}/`, { replace: true })
     } catch (e) {
       setError(e)
       setPlacing(false)
@@ -129,9 +131,9 @@ export default function Checkout() {
 
   return (
     <Container size="page" py={{ base: 8, md: 14 }}>
-      <SEO title="Checkout" noIndex path="/checkout" />
+      <SEO title="Checkout" noIndex path="/checkout/" />
       <FadeIn>
-        <HStack spacing={3} mb={3}><RegMark size="14px" color="#FF6A13" /><Text variant="eyebrow">Checkout</Text></HStack>
+        <HStack spacing={3} mb={3}><RegMark size="14px" color={palette.ember} /><Text variant="eyebrow">Checkout</Text></HStack>
         <Heading as="h1" size="2xl">Write up the ticket.</Heading>
         <PulledRule mt={4} mb={{ base: 8, md: 10 }} />
       </FadeIn>
@@ -145,7 +147,7 @@ export default function Checkout() {
               <AlertIcon />
               <Box>
                 <AlertTitle>Order didn’t go through.</AlertTitle>
-                <AlertDescription fontSize="sm">{error.message} Nothing was charged. Try again, or call (970) 626-4437 and we’ll write it up by hand.</AlertDescription>
+                <AlertDescription fontSize="sm">{error.message} Nothing was charged. Try again or call (970) 626-4437 and we’ll write it up by hand.</AlertDescription>
               </Box>
             </Alert>
           )}
@@ -197,7 +199,7 @@ export default function Checkout() {
                       <Box>
                         <Text fontWeight={600}>Ship it</Text>
                         <Text fontSize="sm" color="bone.300">
-                          {shipEnabled ? (Number(settings?.shipping?.flat_rate) > 0 ? `Flat ${money(settings.shipping.flat_rate)} within the US. ` : 'Shipping quoted on your proof. ') + 'UPS Ground from Ridgway; festival drops to a venue are fine.' : 'Shipping is paused right now — pickup only.'}
+                          {shipEnabled ? (Number(settings?.shipping?.flat_rate) > 0 ? `Flat ${money(settings.shipping.flat_rate)} within the US. ` : 'Shipping quoted on your proof. ') + 'UPS Ground from Ridgway; festival drops to a venue are fine.' : 'Shipping is paused right now. Pickup only.'}
                         </Text>
                       </Box>
                     </Box>
@@ -287,7 +289,7 @@ export default function Checkout() {
                 <Box>
                   <HStack justify="space-between" mb={3}>
                     <Text variant="eyebrow">Items</Text>
-                    <Button as={RouterLink} to="/cart" variant="link" size="sm">Edit items</Button>
+                    <Button as={RouterLink} to="/cart/" variant="link" size="sm">Edit items</Button>
                   </HStack>
                   <Stack spacing={3}>
                     {lines.map((l) => {
@@ -326,7 +328,7 @@ export default function Checkout() {
               <Stack spacing={6}>
                 <Heading as="h2" size="lg">Payment</Heading>
                 <Box border="1px solid" borderColor="ember.500" bg="ink.400" borderRadius="base" p={5}>
-                  <HStack spacing={3} mb={2}><RegMark size="16px" color="#FF6A13" /><Text fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.06em">{provider.label}</Text></HStack>
+                  <HStack spacing={3} mb={2}><RegMark size="16px" color={palette.ember} /><Text fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.06em">{provider.label}</Text></HStack>
                   <Text color="bone.300" fontSize="sm">{provider.description}</Text>
                 </Box>
                 <Text fontSize="sm" color="bone.300">

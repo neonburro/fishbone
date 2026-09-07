@@ -1,3 +1,4 @@
+// src/components/checkout/NextSteps.jsx
 import { Box, Heading, Stack, Text } from '@chakra-ui/react'
 
 const STEPS = [

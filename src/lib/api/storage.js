@@ -1,3 +1,4 @@
+// src/lib/api/storage.js
 import { supabase, toError } from '../supabase'
 
 export const ARTWORK_BUCKET = 'artwork'
@@ -60,7 +61,7 @@ export async function uploadArtwork(file, onProgress) {
 }
 
 export async function removeArtwork(path) {
-  // Anon may not be able to delete; ignore failures — the file is orphaned but harmless.
+  // Anon may not be able to delete; ignore failures. The file is orphaned but harmless.
   try {
     await supabase.storage.from(ARTWORK_BUCKET).remove([path])
   } catch {

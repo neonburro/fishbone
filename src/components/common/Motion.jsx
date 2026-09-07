@@ -1,3 +1,4 @@
+// src/components/common/Motion.jsx
 import { motion, useReducedMotion } from 'framer-motion'
 import { Box } from '@chakra-ui/react'
 

@@ -1,3 +1,5 @@
+// src/components/home/Marquee.jsx
+import { palette } from '../../theme'
 import { Box, HStack, Text } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
 import RegMark from '../brand/RegMark'
@@ -34,7 +36,7 @@ export default function Marquee({ items = [], speed = 40 }) {
             <Text fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.1em" fontSize={{ base: 'md', md: 'lg' }} color="bone.300" whiteSpace="nowrap">
               {item}
             </Text>
-            <RegMark size="12px" color="#FF6A13" />
+            <RegMark size="12px" color={palette.ember} />
           </HStack>
         ))}
       </HStack>

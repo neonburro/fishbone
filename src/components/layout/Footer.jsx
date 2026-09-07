@@ -1,3 +1,5 @@
+// src/components/layout/Footer.jsx
+import { alpha, palette } from '../../theme'
 import { Box, Container, SimpleGrid, Stack, Text, Link as ChakraLink, HStack, Divider } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiInstagram, FiFacebook, FiPhone, FiMail, FiMapPin } from 'react-icons/fi'
@@ -21,7 +23,7 @@ export default function Footer() {
 
   return (
     <Box as="footer" bg="ink.500" borderTop="1px solid" borderColor="ink.300" position="relative" overflow="hidden" mt="auto">
-      <Halftone fade="top" color="rgba(242,237,228,0.05)" size={12} dot={1.4} h="120px" />
+      <Halftone fade="top" color={alpha(palette.bone, 0.05)} size={12} dot={1.4} h="120px" />
       <Container size="page" py={{ base: 12, md: 16 }} position="relative">
         <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={{ base: 10, lg: 8 }}>
           <Stack spacing={4}>
@@ -45,11 +47,11 @@ export default function Footer() {
 
           <Stack spacing={2.5}>
             <Text variant="eyebrow" mb={1}>Shop</Text>
-            <FootLink to="/shop">All products</FootLink>
-            <FootLink to="/services">Services</FootLink>
-            <FootLink to="/work">Our work</FootLink>
-            <FootLink to="/quote">Festival &amp; custom quotes</FootLink>
-            <FootLink to="/order/track">Track an order</FootLink>
+            <FootLink to="/shop/">All products</FootLink>
+            <FootLink to="/services/">Services</FootLink>
+            <FootLink to="/work/">Our work</FootLink>
+            <FootLink to="/quote/">Festival &amp; custom quotes</FootLink>
+            <FootLink to="/order/track/">Track an order</FootLink>
           </Stack>
 
           <Stack spacing={2.5}>
@@ -57,7 +59,7 @@ export default function Footer() {
             {hours.map((h, i) => (
               <HStack key={i} justify="space-between" maxW="260px" fontSize="sm">
                 <Text color="bone.300">{h.days}</Text>
-                <Text fontFamily="mono" color="bone.100" fontSize="xs">{h.close ? `${h.open} – ${h.close}` : h.open}</Text>
+                <Text fontFamily="mono" color="bone.100" fontSize="xs">{h.close ? `${h.open} to ${h.close}` : h.open}</Text>
               </HStack>
             ))}
             <Text fontSize="xs" color="bone.500" pt={1}>Festival season runs long. Call ahead for pickups after hours.</Text>

@@ -1,3 +1,5 @@
+// src/pages/Work/index.jsx
+import { palette } from '../../theme'
 import { Box, Button, Heading, SimpleGrid, Stack, Text, Image, Badge, HStack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import SEO from '../../components/common/SEO'
@@ -22,8 +24,8 @@ export default function Work() {
 
   return (
     <>
-      <SEO title="Our work" description="Festival merch, band shirts, crew hoodies, gig posters and embroidered caps printed by Fishbone Graphics in Ridgway, Colorado." path="/work" />
-      <PageHero eyebrow="Work" title="Ink that’s been places." lead="Forty seasons of festival tables, taproom shelves and trail crews. Photos are being pulled off the shop wall and scanned — the tiles below fill in as they land." />
+      <SEO title="Our work" description="Festival merch, band shirts, crew hoodies, gig posters and embroidered caps printed by Fishbone Graphics in Ridgway, Colorado." path="/work/" />
+      <PageHero eyebrow="Work" title="Ink that’s been places." lead="Forty seasons of festival tables, taproom shelves and trail crews. Photos are being pulled off the shop wall and scanned. The tiles below fill in as they land." />
       <Section py={{ base: 10, md: 16 }}>
         {media.loading ? (
           <CardSkeleton count={8} columns={{ base: 2, md: 3, lg: 4 }} />
@@ -39,12 +41,12 @@ export default function Work() {
           </SimpleGrid>
         ) : (
           <>
-            <HStack mb={6} spacing={3}><Badge variant="hivis">Photos incoming</Badge><Text fontSize="sm" color="bone.500">{media.error ? 'Gallery didn’t load — showing the placeholder wall.' : 'Placeholder wall until the shop photos are scanned.'}</Text></HStack>
+            <HStack mb={6} spacing={3}><Badge variant="hivis">Photos incoming</Badge><Text fontSize="sm" color="bone.500">{media.error ? 'Gallery didn’t load. Showing the placeholder wall.' : 'Placeholder wall until the shop photos are scanned.'}</Text></HStack>
             <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={{ base: 3, md: 5 }}>
               {PLACEHOLDERS.map(([title, sub, letter], i) => (
                 <Reveal key={title} delay={Math.min(i, 8) * 0.03}>
                   <Box>
-                    <Placeholder label={letter} tone={i % 3 === 0 ? 'ink.400' : i % 3 === 1 ? 'ink.500' : '#1A1D1C'} caption={sub} />
+                    <Placeholder label={letter} tone={i % 3 === 0 ? 'ink.400' : i % 3 === 1 ? 'ink.500' : palette.inkRaised} caption={sub} />
                     <Text mt={2} fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize="sm" letterSpacing="0.04em" color="bone.300">{title}</Text>
                   </Box>
                 </Reveal>
@@ -54,8 +56,8 @@ export default function Work() {
         )}
         <Stack direction={{ base: 'column', sm: 'row' }} spacing={3} mt={{ base: 10, md: 16 }} align="center" justify="center" textAlign="center">
           <Heading as="h2" size="lg" mr={{ sm: 6 }}>Want yours on this wall?</Heading>
-          <Button as={RouterLink} to="/quote">Start a quote</Button>
-          <Button as={RouterLink} to="/shop" variant="outline">Shop blanks</Button>
+          <Button as={RouterLink} to="/quote/">Start a quote</Button>
+          <Button as={RouterLink} to="/shop/" variant="outline">Shop blanks</Button>
         </Stack>
       </Section>
     </>

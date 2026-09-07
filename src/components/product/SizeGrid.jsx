@@ -1,3 +1,4 @@
+// src/components/product/SizeGrid.jsx
 import { Box, FormLabel, HStack, Input, SimpleGrid, Text, Button } from '@chakra-ui/react'
 
 /**
@@ -18,7 +19,7 @@ export default function SizeGrid({ sizes = [], value = {}, onChange, quantity = 
       <HStack justify="space-between" mb={2} align="baseline" flexWrap="wrap" rowGap={1}>
         <Text as="span" fontFamily="heading" fontWeight={600} textTransform="uppercase" letterSpacing="0.08em" fontSize="sm" color="bone.300">Size breakdown</Text>
         <Text fontFamily="mono" fontSize="sm" color={ok ? 'river.400' : remaining < 0 ? 'ember.400' : 'bone.300'} role="status" aria-live="polite">
-          {ok ? `${total} of ${quantity} assigned ✓` : remaining < 0 ? `${Math.abs(remaining)} over — remove some` : `${remaining} of ${quantity} left to assign`}
+          {ok ? `${total} of ${quantity} assigned ✓` : remaining < 0 ? `${Math.abs(remaining)} over, remove some` : `${remaining} of ${quantity} left to assign`}
         </Text>
       </HStack>
       <SimpleGrid columns={{ base: 4, sm: 6, md: Math.min(Math.max(sizes.length, 4), 8) }} spacing={2}>

@@ -1,5 +1,6 @@
+// src/lib/payments/stripe.js
 /**
- * Stripe provider — STUB.
+ * Stripe provider. STUB.
  *
  * TODO to wire:
  *  1. Set STRIPE_SECRET_KEY in Netlify env.
@@ -22,7 +23,7 @@ const stripe = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ provider: 'stripe', ...orderResult }),
     })
-    if (!res.ok) throw new Error('Card checkout is not enabled yet. Your order was saved — we will invoice you instead.')
+    if (!res.ok) throw new Error('Card checkout is not enabled yet. Your order was saved. We will invoice you instead.')
     const { url } = await res.json()
     return { type: 'redirect', url }
   },

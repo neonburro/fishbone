@@ -1,3 +1,4 @@
+// src/pages/Contact/index.jsx
 import { useState } from 'react'
 import { Alert, AlertDescription, AlertIcon, Box, Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input, SimpleGrid, Stack, Text, Textarea, Link as ChakraLink } from '@chakra-ui/react'
 import { FiPhone, FiMail, FiMapPin, FiInstagram, FiFacebook, FiSend, FiCheck, FiClock } from 'react-icons/fi'
@@ -36,9 +37,9 @@ export default function Contact() {
 
   return (
     <>
-      <SEO title="Contact" description="Call, email or stop by Fishbone Graphics in Ridgway, Colorado. Shop hours, address and a quick message form." path="/contact"
+      <SEO title="Contact" description="Call, email or stop by Fishbone Graphics in Ridgway, Colorado. Shop hours, address and a quick message form." path="/contact/"
         structuredData={{ '@context': 'https://schema.org', '@type': 'LocalBusiness', name: s.name, telephone: s.phone, email: s.email, address: { '@type': 'PostalAddress', addressLocality: 'Ridgway', addressRegion: 'CO', postalCode: '81432', addressCountry: 'US' } }} />
-      <PageHero eyebrow="Contact" title="Call, write, or swing by." lead="We’re a working shop — if the phone rings out we’re at the press. Leave a message and we call back the same day." />
+      <PageHero eyebrow="Contact" title="Call, write or swing by." lead="We’re a working shop. If the phone rings out we’re at the press. Leave a message and we call back the same day." />
       <Section py={{ base: 10, md: 16 }}>
         <Grid templateColumns={{ base: '1fr', lg: '2fr 3fr' }} gap={{ base: 10, lg: 16 }} alignItems="start">
           <GridItem>
@@ -52,7 +53,7 @@ export default function Contact() {
                 </Row>
                 <Row icon={<FiClock />} label="Hours">
                   <Stack spacing={0.5}>
-                    {hours.map((h, i) => <HStack key={i} justify="space-between" maxW="260px" fontSize="sm"><Text color="bone.300">{h.days}</Text><Text fontFamily="mono" fontSize="xs">{h.close ? `${h.open} – ${h.close}` : h.open}</Text></HStack>)}
+                    {hours.map((h, i) => <HStack key={i} justify="space-between" maxW="260px" fontSize="sm"><Text color="bone.300">{h.days}</Text><Text fontFamily="mono" fontSize="xs">{h.close ? `${h.open} to ${h.close}` : h.open}</Text></HStack>)}
                   </Stack>
                 </Row>
               </Stack>

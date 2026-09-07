@@ -1,3 +1,4 @@
+// src/components/product/ProductGrid.jsx
 import { SimpleGrid } from '@chakra-ui/react'
 import ProductCard from './ProductCard'
 import { Reveal } from '../common/Motion'

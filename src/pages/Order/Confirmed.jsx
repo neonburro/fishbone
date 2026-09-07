@@ -1,3 +1,5 @@
+// src/pages/Order/Confirmed.jsx
+import { palette } from '../../theme'
 import { useEffect, useMemo, useState } from 'react'
 import { Box, Button, Container, Grid, GridItem, Heading, HStack, Stack, Text, Input, FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import { Link as RouterLink, useParams, useSearchParams } from 'react-router-dom'
@@ -82,12 +84,12 @@ export default function OrderConfirmed() {
     <Container size="page" py={{ base: 8, md: 14 }}>
       <SEO title={`Order ${orderNumber}`} noIndex path={`/order/confirmed/${orderNumber}`} />
       <FadeIn>
-        <HStack spacing={3} mb={3}><RegMark size="14px" color="#C6F135" /><Text variant="eyebrow" color="hivis.500">Order received</Text></HStack>
+        <HStack spacing={3} mb={3}><RegMark size="14px" color={palette.hivis} /><Text variant="eyebrow" color="hivis.500">Order received</Text></HStack>
         <Heading as="h1" size="2xl">It’s on the board.</Heading>
         <PulledRule mt={4} mb={4} />
         <Text color="bone.300" fontSize="lg" maxW="640px">
           Ticket <Text as="span" fontFamily="mono" color="bone.100">{orderNumber}</Text> is in the queue. A confirmation went to{' '}
-          <Text as="span" color="bone.100">{email || 'your email'}</Text>. {paidFlag ? 'Payment received — thanks.' : 'A real person will look it over and send a proof before anything prints.'}
+          <Text as="span" color="bone.100">{email || 'your email'}</Text>. {paidFlag ? 'Payment received. Thanks.' : 'A real person will look it over and send a proof before anything prints.'}
         </Text>
       </FadeIn>
 
@@ -129,7 +131,7 @@ export default function OrderConfirmed() {
           )}
           <HStack mt={6} spacing={3} flexWrap="wrap">
             <Button variant="outline" size="sm" leftIcon={<FiPrinter />} onClick={() => window.print()}>Print ticket</Button>
-            <Button as={RouterLink} to="/shop" variant="ghost" size="sm" rightIcon={<FiArrowRight />}>Keep shopping</Button>
+            <Button as={RouterLink} to="/shop/" variant="ghost" size="sm" rightIcon={<FiArrowRight />}>Keep shopping</Button>
           </HStack>
         </GridItem>
         <GridItem>
@@ -137,7 +139,7 @@ export default function OrderConfirmed() {
             <NextSteps status={order?.status} fulfillment={order?.fulfillment} />
             <Box mt={8} p={5} bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base">
               <Text variant="eyebrow" mb={2}>Questions?</Text>
-              <Text fontSize="sm" color="bone.300">Call <Text as="a" href="tel:9706264437" fontFamily="mono" color="bone.100">(970) 626-4437</Text> with your ticket number, or reply to the confirmation email. You can also <Text as={RouterLink} to="/order/track" color="ember.500">track the order</Text> any time.</Text>
+              <Text fontSize="sm" color="bone.300">Call <Text as="a" href="tel:9706264437" fontFamily="mono" color="bone.100">(970) 626-4437</Text> with your ticket number or reply to the confirmation email. You can also <Text as={RouterLink} to="/order/track/" color="ember.500">track the order</Text> any time.</Text>
             </Box>
           </FadeIn>
         </GridItem>

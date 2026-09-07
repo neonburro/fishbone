@@ -1,3 +1,4 @@
+// src/hooks/useSettings.jsx
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { DEFAULT_SETTINGS, getPublicSettings } from '../lib/api/settings'
 import { getDecorationOptions } from '../lib/api/catalog'

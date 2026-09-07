@@ -1,3 +1,5 @@
+// src/pages/Quote/index.jsx
+import { palette } from '../../theme'
 import { useState } from 'react'
 import {
   Box, Button, Checkbox, CheckboxGroup, Container, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input,
@@ -52,7 +54,7 @@ export default function Quote() {
 
   return (
     <>
-      <SEO title="Festival & custom merch quote" description="Request a quote for festival merch, tour merch, band shirts, crew hoodies and large custom runs from Fishbone Graphics in Ridgway, Colorado." path="/quote" />
+      <SEO title="Festival & custom merch quote" description="Request a quote for festival merch, tour merch, band shirts, crew hoodies and large custom runs from Fishbone Graphics in Ridgway, Colorado." path="/quote/" />
       <PageHero eyebrow="Quote request" title="Big run? Odd job? Tell us." lead="Festival programs, multi-garment merch lines, poster runs, weird substrates. Give us the headcount and the date; we’ll come back with real numbers, usually within a business day." />
       <Container size="page" py={{ base: 10, md: 16 }}>
         {done ? (
@@ -60,8 +62,8 @@ export default function Quote() {
             <Box maxW="720px" bg="ink.500" border="1px solid" borderColor="river.500" borderRadius="base" p={{ base: 6, md: 10 }}>
               <HStack spacing={3} mb={4}><Box color="river.500"><FiCheck size={28} /></Box><Text variant="eyebrow" color="river.400">Sent</Text></HStack>
               <Heading size="xl" mb={3}>Got it. We’re on it.</Heading>
-              <Text color="bone.300" mb={6}>Your request is in the shop’s inbox. Expect a reply from a printer — not a form letter — within a business day. Rush timeline? Call <Text as="a" href="tel:9706264437" fontFamily="mono" color="bone.100">(970) 626-4437</Text> and say so.</Text>
-              <HStack spacing={3}><Button as={RouterLink} to="/shop">Browse blanks</Button><Button as={RouterLink} to="/work" variant="outline">See our work</Button></HStack>
+              <Text color="bone.300" mb={6}>Your request is in the shop’s inbox. Expect a reply from a printer, not a form letter, within a business day. Rush timeline? Call <Text as="a" href="tel:9706264437" fontFamily="mono" color="bone.100">(970) 626-4437</Text> and say so.</Text>
+              <HStack spacing={3}><Button as={RouterLink} to="/shop/">Browse blanks</Button><Button as={RouterLink} to="/work/" variant="outline">See our work</Button></HStack>
             </Box>
           </FadeIn>
         ) : (
@@ -111,7 +113,7 @@ export default function Quote() {
                   </Box>
                   <FormControl>
                     <FormLabel>Art (optional)</FormLabel>
-                    <ArtworkDropzone id="quote-art" value={form.artwork_files} onChange={(files) => setForm((f) => ({ ...f, artwork_files: files }))} helper="Logos, sketches, napkin drawings — anything helps. Vector is gold." />
+                    <ArtworkDropzone id="quote-art" value={form.artwork_files} onChange={(files) => setForm((f) => ({ ...f, artwork_files: files }))} helper="Logos, sketches, napkin drawings. Anything helps. Vector is gold." />
                   </FormControl>
                   <HStack justify="flex-end">
                     <Button type="submit" size="lg" isLoading={sending} loadingText="Sending…" rightIcon={<FiSend />}>Send the request</Button>
@@ -124,15 +126,15 @@ export default function Quote() {
                 <Box bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={6}>
                   <Text variant="eyebrow" mb={3}>Festival merch program</Text>
                   <Stack spacing={3} fontSize="sm" color="bone.300">
-                    {['Pre-event run plus on-call restocks during the weekend.', 'Mixed garments on one ticket — tees, hoodies, hats, posters.', 'Size curves from forty years of merch tables. We know what sells at altitude.', 'Delivery to the venue gate or the shop, your call.'].map((t) => (
-                      <HStack key={t} align="flex-start" spacing={3}><RegMark size="12px" color="#2BB3A3" mt="4px" /><Text>{t}</Text></HStack>
+                    {['Pre-event run plus on-call restocks during the weekend.', 'Mixed garments on one ticket. Tees, hoodies, hats, posters.', 'Size curves from forty years of merch tables. We know what sells at altitude.', 'Delivery to the venue gate or the shop, your call.'].map((t) => (
+                      <HStack key={t} align="flex-start" spacing={3}><RegMark size="12px" color={palette.river} mt="4px" /><Text>{t}</Text></HStack>
                     ))}
                   </Stack>
                 </Box>
                 <Box bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={6}>
                   <Text variant="eyebrow" mb={3}>Rather just order?</Text>
                   <Text fontSize="sm" color="bone.300" mb={4}>Single garment, known quantity, art in hand? Skip the quote and build it on the product page. You see price breaks live.</Text>
-                  <Button as={RouterLink} to="/shop" variant="outline" size="sm">Shop blanks</Button>
+                  <Button as={RouterLink} to="/shop/" variant="outline" size="sm">Shop blanks</Button>
                 </Box>
               </Stack>
             </GridItem>

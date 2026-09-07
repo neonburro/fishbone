@@ -1,11 +1,12 @@
+// src/components/product/OrderSummary.jsx
 import { Box, Button, Divider, HStack, Stack, Text } from '@chakra-ui/react'
 import { FiArrowRight, FiCheck } from 'react-icons/fi'
 import { money } from '../../lib/format'
 
 /**
  * Sticky order summary for the PDP.
- * variant="card"  — desktop: lives in the left column under the gallery (column is sticky).
- * variant="bar"   — mobile: fixed to the viewport bottom; the page adds matching bottom padding
+ * variant="card": desktop, lives in the left column under the gallery (column is sticky).
+ * variant="bar": mobile, fixed to the viewport bottom; the page adds matching bottom padding
  *                    so the bar never covers the last controls.
  */
 export default function OrderSummary({ variant = 'card', unit, qty, total, priceUnit = 'ea', setupText, extraLocText, canAdd, sizesOk, onAdd }) {

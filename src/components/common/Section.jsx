@@ -1,3 +1,4 @@
+// src/components/common/Section.jsx
 import { Box, Container, Heading, Text, Stack } from '@chakra-ui/react'
 import PulledRule from './PulledRule'
 

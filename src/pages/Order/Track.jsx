@@ -1,3 +1,4 @@
+// src/pages/Order/Track.jsx
 import { useState } from 'react'
 import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, HStack, Input, Stack, Text } from '@chakra-ui/react'
 import { FiSearch } from 'react-icons/fi'
@@ -39,7 +40,7 @@ export default function Track() {
 
   return (
     <>
-      <SEO title="Track an order" description="Look up a Fishbone Graphics order by ticket number and email." path="/order/track" noIndex />
+      <SEO title="Track an order" description="Look up a Fishbone Graphics order by ticket number and email." path="/order/track/" noIndex />
       <PageHero eyebrow="Track" title="Where’s my job?" lead="Enter the ticket number from your confirmation (looks like FB-26-01001) and the email you ordered with." />
       <Container size="page" py={{ base: 10, md: 16 }}>
         <Box as="form" onSubmit={submit} noValidate bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={{ base: 5, md: 7 }} maxW="760px">

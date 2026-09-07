@@ -1,3 +1,4 @@
+// src/pages/Shop/index.jsx
 import { Box, Heading, LinkBox, LinkOverlay, SimpleGrid, Text, Stack, HStack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
@@ -18,7 +19,7 @@ export function CategoryCard({ category }) {
       <Stack p={5} spacing={1.5}>
         <HStack justify="space-between">
           <Heading as="h3" size="md">
-            <LinkOverlay as={RouterLink} to={`/shop/${category.key}`}>{category.name}</LinkOverlay>
+            <LinkOverlay as={RouterLink} to={`/shop/${category.key}/`}>{category.name}</LinkOverlay>
           </Heading>
           <Box color="ember.500"><FiArrowRight /></Box>
         </HStack>
@@ -34,8 +35,8 @@ export default function Shop() {
 
   return (
     <>
-      <SEO title="Shop" description="Blank tees, hoodies, hats and more, decorated in Ridgway, Colorado. Pick a garment, choose print locations, upload art and order online." path="/shop" />
-      <PageHero eyebrow="Shop" title="Blanks worth printing on." lead="We stock what holds ink and survives a festival weekend. Every product page shows quantity price breaks up front — no login, no haggling." />
+      <SEO title="Shop" description="Blank tees, hoodies, hats and more, decorated in Ridgway, Colorado. Pick a garment, choose print locations, upload art and order online." path="/shop/" />
+      <PageHero eyebrow="Shop" title="Blanks worth printing on." lead="We stock what holds ink and survives a festival weekend. Every product page shows quantity price breaks up front. No login, no haggling." />
 
       <Section py={{ base: 10, md: 16 }}>
         <SectionHeader eyebrow="Browse by" title="Categories" mb={{ base: 6, md: 8 }} size="xl" />
@@ -50,7 +51,7 @@ export default function Shop() {
             ))}
           </SimpleGrid>
         ) : (
-          <EmptyState title="Categories are being set up." message="Check back shortly, or send a quote request and we’ll point you at the right blank." ctaLabel="Request a quote" ctaTo="/quote" />
+          <EmptyState title="Categories are being set up." message="Check back shortly or send a quote request and we’ll point you at the right blank." ctaLabel="Request a quote" ctaTo="/quote/" />
         )}
       </Section>
 

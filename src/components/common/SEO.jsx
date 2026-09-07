@@ -1,3 +1,4 @@
+// src/components/common/SEO.jsx
 import { Helmet } from 'react-helmet-async'
 
 const SITE = import.meta.env.VITE_SITE_URL || 'https://fishbonegraphics.com'

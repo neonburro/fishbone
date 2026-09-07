@@ -1,3 +1,4 @@
+// src/hooks/useEstimate.js
 import { estimateSetup, estimateTax, round2 } from '../lib/pricing'
 import { priceLine } from '../store/cartStore'
 import { useSettings } from './useSettings'

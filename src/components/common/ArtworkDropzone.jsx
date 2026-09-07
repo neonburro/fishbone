@@ -1,3 +1,5 @@
+// src/components/common/ArtworkDropzone.jsx
+import { alpha, palette } from '../../theme'
 import { useCallback, useRef, useState } from 'react'
 import { Box, Button, HStack, IconButton, Progress, Stack, Text, VisuallyHidden } from '@chakra-ui/react'
 import { FiUploadCloud, FiX, FiFile, FiCheck, FiAlertTriangle } from 'react-icons/fi'
@@ -67,7 +69,7 @@ export default function ArtworkDropzone({ value = [], onChange, id = 'artwork', 
         onDrop={onDrop}
         border="2px dashed"
         borderColor={drag ? 'ember.500' : 'ink.300'}
-        bg={drag ? 'rgba(255,106,19,0.06)' : 'ink.500'}
+        bg={drag ? alpha(palette.ember, 0.06) : 'ink.500'}
         borderRadius="base"
         p={{ base: 5, md: 7 }}
         textAlign="center"
@@ -112,7 +114,7 @@ export default function ArtworkDropzone({ value = [], onChange, id = 'artwork', 
         </Stack>
       )}
       {value?.length === 0 && pending.length === 0 && (
-        <Button variant="link" size="sm" alignSelf="flex-start" onClick={() => inputRef.current?.click()}>No art yet? Skip it — we can help after you order.</Button>
+        <Button variant="link" size="sm" alignSelf="flex-start" onClick={() => inputRef.current?.click()}>No art yet? Skip it. We can help after you order.</Button>
       )}
     </Stack>
   )

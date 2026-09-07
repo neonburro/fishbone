@@ -1,13 +1,15 @@
+// src/components/common/States.jsx
+import { palette } from '../../theme'
 import { Box, Button, Heading, Text, Stack, SimpleGrid, Skeleton, SkeletonText } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import RegMark from '../brand/RegMark'
 
 export function LoadError({ title = 'Couldn’t reach the shop.', message, onRetry, error }) {
-  const detail = message || 'The catalog didn’t load. Check your connection and try again — or call us at (970) 626-4437 and we’ll sort it out the old way.'
+  const detail = message || 'The catalog didn’t load. Check your connection and try again or call us at (970) 626-4437 and we’ll sort it out the old way.'
   return (
     <Box role="alert" bg="ink.500" border="1px solid" borderColor="ink.300" borderLeft="3px solid" borderLeftColor="ember.500" p={{ base: 5, md: 7 }} borderRadius="base">
       <Stack direction={{ base: 'column', md: 'row' }} spacing={5} align={{ md: 'center' }}>
-        <RegMark size="32px" color="#FF6A13" />
+        <RegMark size="32px" color={palette.ember} />
         <Box flex={1}>
           <Heading size="md" mb={1}>{title}</Heading>
           <Text color="bone.300">{detail}</Text>
@@ -24,7 +26,7 @@ export function LoadError({ title = 'Couldn’t reach the shop.', message, onRet
 export function EmptyState({ title = 'Nothing here yet.', message, ctaLabel, ctaTo, children }) {
   return (
     <Box textAlign="center" py={{ base: 12, md: 20 }} px={4} border="1px dashed" borderColor="ink.300" borderRadius="base">
-      <RegMark size="36px" color="#B8B0A2" mb={5} />
+      <RegMark size="36px" color={palette.boneSubtle} mb={5} />
       <Heading size="lg" mb={2}>{title}</Heading>
       {message && <Text color="bone.300" maxW="480px" mx="auto" mb={6}>{message}</Text>}
       {ctaLabel && ctaTo && (

@@ -1,3 +1,5 @@
+// src/components/checkout/JobTicket.jsx
+import { alpha, palette } from '../../theme'
 import { Box, Divider, Grid, GridItem, Heading, HStack, Stack, Text, Badge } from '@chakra-ui/react'
 import RegMark from '../brand/RegMark'
 import Halftone from '../brand/Halftone'
@@ -31,12 +33,12 @@ export default function JobTicket({ order }) {
 
   return (
     <Box bg="bone.100" color="ink.900" borderRadius="base" overflow="hidden" position="relative" boxShadow="raised" className="job-ticket">
-      <Halftone fade="bottom" color="rgba(11,11,12,0.08)" size={10} dot={1.3} h="80px" />
+      <Halftone fade="bottom" color={alpha(palette.ink, 0.08)} size={10} dot={1.3} h="80px" />
       {/* header */}
       <Box px={{ base: 5, md: 8 }} pt={{ base: 5, md: 7 }} pb={4} borderBottom="2px solid" borderColor="ink.900" position="relative">
         <HStack justify="space-between" align="flex-start" flexWrap="wrap" rowGap={3}>
           <Box>
-            <HStack spacing={2} mb={1}><RegMark size="14px" color="#0B0B0C" /><Text fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.14em" fontSize="xs" color="bone.800">Job ticket</Text></HStack>
+            <HStack spacing={2} mb={1}><RegMark size="14px" color={palette.ink} /><Text fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.14em" fontSize="xs" color="bone.800">Job ticket</Text></HStack>
             <Text fontFamily="mono" fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500} letterSpacing="0.02em" lineHeight={1}>{order.order_number}</Text>
           </Box>
           <Stack spacing={1} align={{ base: 'flex-start', sm: 'flex-end' }} fontSize="sm">
@@ -80,7 +82,7 @@ export default function JobTicket({ order }) {
               <GridItem>
                 <HStack spacing={2} align="baseline" flexWrap="wrap">
                   <Text fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize="lg" lineHeight={1}>{it.product_name || it.name}</Text>
-                  {it.variant_label && <Text color="bone.800" fontSize="sm">— {it.variant_label}</Text>}
+                  {it.variant_label && <Text color="bone.800" fontSize="sm">{it.variant_label}</Text>}
                   {it.sku && <Text fontFamily="mono" fontSize="xs" color="bone.700">{it.sku}</Text>}
                 </HStack>
                 <HStack spacing={3} mt={1.5} fontSize="xs" color="bone.800" flexWrap="wrap" rowGap={1}>

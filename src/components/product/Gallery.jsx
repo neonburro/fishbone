@@ -1,9 +1,10 @@
+// src/components/product/Gallery.jsx
 import { useEffect, useState } from 'react'
 import { Box, HStack, Image } from '@chakra-ui/react'
 import ProductImage from '../common/ProductImage'
 
 export default function Gallery({ images = [], variantImage, label, caption }) {
-  const list = [...(variantImage ? [{ url: variantImage, alt: `${label} — selected color` }] : []), ...images.filter((i) => i?.url)]
+  const list = [...(variantImage ? [{ url: variantImage, alt: `${label}, selected color` }] : []), ...images.filter((i) => i?.url)]
   const [idx, setIdx] = useState(0)
   useEffect(() => { setIdx(0) }, [variantImage])
   const current = list[idx] || list[0]

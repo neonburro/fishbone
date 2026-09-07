@@ -1,3 +1,4 @@
+// src/store/cartStore.js
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { unitPriceFor, round2 } from '../lib/pricing'

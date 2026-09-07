@@ -1,3 +1,4 @@
+// src/components/cart/CartLine.jsx
 import { useState } from 'react'
 import {
   Box, Button, HStack, IconButton, Stack, Text, Collapse, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper,
@@ -35,7 +36,7 @@ export default function CartLine({ line, onUpdate, onRemove }) {
           <HStack justify="space-between" align="flex-start" spacing={4}>
             <Box minW={0}>
               <Text fontFamily="mono" fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.06em">{[line.brand, line.styleNumber, line.sku].filter(Boolean).join(' · ')}</Text>
-              <Text as={RouterLink} to={`/product/${line.slug}`} fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize="xl" lineHeight={1.1} display="block" _hover={{ color: 'ember.500' }}>{line.name}</Text>
+              <Text as={RouterLink} to={`/product/${line.slug}/`} fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize="xl" lineHeight={1.1} display="block" _hover={{ color: 'ember.500' }}>{line.name}</Text>
               <HStack mt={2} spacing={2} flexWrap="wrap" rowGap={1}>
                 {line.variantLabel && (
                   <HStack spacing={1.5}>
@@ -55,7 +56,7 @@ export default function CartLine({ line, onUpdate, onRemove }) {
 
           <HStack mt={3} spacing={4} fontSize="sm" color="bone.300" flexWrap="wrap" rowGap={1}>
             <Text fontFamily="mono" fontSize="xs" color={mismatch ? 'ember.400' : 'bone.300'}>
-              Sizes: {sizeBreakdownText(line.sizeBreakdown) || 'none'}{mismatch ? ` (${sizeTotal}/${line.quantity} — fix below)` : ''}
+              Sizes: {sizeBreakdownText(line.sizeBreakdown) || 'none'}{mismatch ? ` (${sizeTotal}/${line.quantity}, fix below)` : ''}
             </Text>
             {line.artworkFiles?.length > 0 && <Text fontSize="xs" color="bone.500">{line.artworkFiles.length} art file{line.artworkFiles.length > 1 ? 's' : ''}</Text>}
             {line.notes && <Text fontSize="xs" color="bone.500" noOfLines={1}>“{line.notes}”</Text>}
@@ -93,7 +94,7 @@ export default function CartLine({ line, onUpdate, onRemove }) {
             <Textarea id={`notes-${line.lineId}`} value={line.notes || ''} onChange={(e) => onUpdate({ notes: e.target.value })} rows={2} />
           </FormControl>
           <Wrap>
-            <WrapItem><Button as={RouterLink} to={`/product/${line.slug}`} variant="link" size="sm">Change color or print options on the product page</Button></WrapItem>
+            <WrapItem><Button as={RouterLink} to={`/product/${line.slug}/`} variant="link" size="sm">Change color or print options on the product page</Button></WrapItem>
           </Wrap>
         </Stack>
       </Collapse>

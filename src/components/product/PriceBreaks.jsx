@@ -1,3 +1,5 @@
+// src/components/product/PriceBreaks.jsx
+import { alpha, palette } from '../../theme'
 import { Box, Table, Tbody, Td, Th, Thead, Tr, Text } from '@chakra-ui/react'
 import { money } from '../../lib/format'
 import { tierFor } from '../../lib/pricing'
@@ -24,9 +26,9 @@ export default function PriceBreaks({ tiers = [], basePrice, qty, priceAdjustmen
         <Tbody>
           {tiers.map((t) => {
             const isActive = active?.id === t.id
-            const range = t.max_qty == null ? `${t.min_qty}+` : `${t.min_qty} – ${t.max_qty}`
+            const range = t.max_qty == null ? `${t.min_qty}+` : `${t.min_qty}-${t.max_qty}`
             return (
-              <Tr key={t.id} bg={isActive ? 'rgba(255,106,19,0.10)' : undefined} aria-current={isActive ? 'true' : undefined}>
+              <Tr key={t.id} bg={isActive ? alpha(palette.ember, 0.10) : undefined} aria-current={isActive ? 'true' : undefined}>
                 <Td color={isActive ? 'ember.400' : 'bone.300'} fontWeight={isActive ? 500 : 400}>
                   {isActive && <Text as="span" mr={2} aria-hidden="true">▸</Text>}
                   {range}

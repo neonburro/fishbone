@@ -1,7 +1,9 @@
+// src/components/brand/Logo.jsx
+import { palette } from '../../theme'
 import { Box } from '@chakra-ui/react'
 
 /**
- * Fishbone Graphics logo — placeholder wordmark until the client's art arrives.
+ * Fishbone Graphics logo. Placeholder wordmark until the client's art arrives.
  * Swap this one file to replace the logo site-wide.
  *
  * props:
@@ -10,7 +12,7 @@ import { Box } from '@chakra-ui/react'
  *  accent:  eye/dot color (default ember)
  *  height:  CSS height (width scales)
  */
-export default function Logo({ variant = 'full', color = '#F2EDE4', accent = '#FF6A13', height = '36px', ...rest }) {
+export default function Logo({ variant = 'full', color = palette.bone, accent = palette.ember, height = '36px', ...rest }) {
   if (variant === 'mark') {
     return (
       <Box as="span" display="inline-flex" h={height} {...rest}>
@@ -50,7 +52,7 @@ export default function Logo({ variant = 'full', color = '#F2EDE4', accent = '#F
   )
 }
 
-export function FishMark({ color = '#F2EDE4', accent = '#FF6A13' }) {
+export function FishMark({ color = palette.bone, accent = palette.ember }) {
   return (
     <svg viewBox="0 0 96 64" height="100%" aria-hidden="true" focusable="false" style={{ display: 'block' }}>
       <g fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">

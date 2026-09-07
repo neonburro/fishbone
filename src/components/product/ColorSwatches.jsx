@@ -1,3 +1,5 @@
+// src/components/product/ColorSwatches.jsx
+import { palette } from '../../theme'
 import { Box, HStack, Text, Tooltip, Wrap, WrapItem } from '@chakra-ui/react'
 
 function isLight(hex = '') {
@@ -21,7 +23,7 @@ export default function ColorSwatches({ variants = [], value, onChange, labelId 
           const light = isLight(v.color_hex)
           return (
             <WrapItem key={v.id}>
-              <Tooltip label={`${v.color_name}${v.in_stock === false ? ' — out of stock' : ''}`} hasArrow openDelay={200}>
+              <Tooltip label={`${v.color_name}${v.in_stock === false ? ', out of stock' : ''}`} hasArrow openDelay={200}>
                 <Box
                   as="button"
                   type="button"
@@ -47,7 +49,7 @@ export default function ColorSwatches({ variants = [], value, onChange, labelId 
                   _focusVisible={{ boxShadow: 'outline' }}
                 >
                   {active && (
-                    <Box position="absolute" inset={0} display="flex" alignItems="center" justifyContent="center" color={light ? '#0B0B0C' : '#F2EDE4'} fontSize="14px" aria-hidden="true">✓</Box>
+                    <Box position="absolute" inset={0} display="flex" alignItems="center" justifyContent="center" color={light ? palette.ink : palette.bone} fontSize="14px" aria-hidden="true">✓</Box>
                   )}
                   {v.in_stock === false && (
                     <Box position="absolute" left="-4px" right="-4px" top="50%" h="2px" bg="ember.500" transform="rotate(-45deg)" aria-hidden="true" />

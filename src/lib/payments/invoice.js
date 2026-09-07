@@ -1,3 +1,4 @@
+// src/lib/payments/invoice.js
 /**
  * Invoice provider (default). Order is placed as pending_review; the shop reviews art,
  * sends a proof, then emails an invoice. No card is collected on the site.

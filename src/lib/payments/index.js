@@ -1,3 +1,4 @@
+// src/lib/payments/index.js
 import invoice from './invoice'
 import stripe from './stripe'
 import square from './square'
