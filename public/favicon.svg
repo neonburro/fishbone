@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="8" fill="#0B0B0C"/>
+  <g fill="none" stroke="#F2EDE4" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- skull -->
+    <path d="M9 32c0-7 5-12 12-12 3 0 5 1 6 2l-3 10 3 10c-1 1-3 2-6 2-7 0-12-5-12-12z"/>
+    <!-- spine -->
+    <path d="M27 32h22"/>
+    <!-- ribs -->
+    <path d="M31 32l-2-7M31 32l-2 7M36 32l-2-8M36 32l-2 8M41 32l-2-7M41 32l-2 7M46 32l-1.5-5M46 32l-1.5 5"/>
+    <!-- tail -->
+    <path d="M49 32l8-8M49 32l8 8M57 24v16"/>
+  </g>
+  <circle cx="16" cy="29" r="2.2" fill="#FF6A13"/>
+</svg>
