@@ -189,7 +189,7 @@ export default function Checkout() {
                       <Radio value="pickup" mt="3px" />
                       <Box>
                         <Text fontWeight={600}>Pick up in Ridgway</Text>
-                        <Text fontSize="sm" color="bone.300">Free. We’ll text or call when the job is boxed. {settings?.store?.address1 || 'Ridgway, CO 81432'}.</Text>
+                        <Text fontSize="sm" color="bone.300">Free. We’ll text or call when the job is boxed. {[settings?.store?.address1, settings?.store?.city || 'Ridgway'].filter(Boolean).join(', ')}.</Text>
                       </Box>
                     </Box>
                     <Box as="label" display="flex" gap={3} p={4} bg={fulfillment === 'ship' ? 'ink.400' : 'ink.900'} border="1px solid" borderColor={fulfillment === 'ship' ? 'ember.500' : 'ink.300'} borderRadius="base" cursor={shipEnabled ? 'pointer' : 'not-allowed'} opacity={shipEnabled ? 1 : 0.5}>

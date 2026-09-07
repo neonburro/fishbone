@@ -35,7 +35,7 @@ export function EmptyState({ title = 'Nothing here yet.', message, ctaLabel, cta
   )
 }
 
-export function CardSkeleton({ count = 4, columns = { base: 1, sm: 2, lg: 4 } }) {
+export function CardSkeleton({ count = 4, columns = { base: 2, md: 3, lg: 4 } }) {
   return (
     <SimpleGrid columns={columns} spacing={{ base: 4, md: 6 }}>
       {Array.from({ length: count }).map((_, i) => (

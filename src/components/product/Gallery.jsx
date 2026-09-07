@@ -9,7 +9,7 @@ export default function Gallery({ images = [], variantImage, label, caption }) {
   const current = list[idx] || list[0]
 
   return (
-    <Box position={{ lg: 'sticky' }} top={{ lg: '100px' }}>
+    <Box>
       <ProductImage src={current?.url} alt={current?.alt || label} label={label} caption={caption} ratio={1} border="1px solid" borderColor="ink.300" />
       {list.length > 1 && (
         <HStack mt={3} spacing={2} overflowX="auto" py={1} role="list" aria-label="Product images">

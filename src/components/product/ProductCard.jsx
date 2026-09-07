@@ -31,7 +31,7 @@ export default function ProductCard({ product }) {
           </HStack>
         )}
       </Box>
-      <Stack p={4} spacing={1.5} flex={1}>
+      <Stack p={{ base: 3, md: 4 }} spacing={1.5} flex={1}>
         <HStack justify="space-between" align="baseline">
           <Text fontFamily="mono" fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.06em" noOfLines={1}>
             {[product.brand, product.style_number].filter(Boolean).join(' · ')}
@@ -39,13 +39,13 @@ export default function ProductCard({ product }) {
           {product.categories?.name && <Text fontSize="xs" color="bone.600" noOfLines={1}>{product.categories.name}</Text>}
         </HStack>
         <LinkOverlay as={RouterLink} to={`/product/${product.slug}`}>
-          <Text fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize="lg" lineHeight={1.1} letterSpacing="0.01em" color="bone.100">
+          <Text fontFamily="heading" fontWeight={700} textTransform="uppercase" fontSize={{ base: 'md', md: 'lg' }} lineHeight={1.1} letterSpacing="0.01em" color="bone.100">
             {product.name}
           </Text>
         </LinkOverlay>
-        {product.short_description && <Text fontSize="sm" color="bone.300" noOfLines={2}>{product.short_description}</Text>}
+        {product.short_description && <Text fontSize="sm" color="bone.300" noOfLines={2} display={{ base: 'none', md: 'block' }}>{product.short_description}</Text>}
         <HStack justify="space-between" pt={2} mt="auto" align="baseline">
-          <Text fontFamily="mono" color="bone.100" fontSize="md">
+          <Text fontFamily="mono" color="bone.100" fontSize={{ base: 'sm', md: 'md' }}>
             <Text as="span" color="bone.500" fontSize="xs" mr={1}>from</Text>
             {money(product.base_price)}
             <Text as="span" color="bone.500" fontSize="xs">/{product.price_unit || 'ea'}</Text>

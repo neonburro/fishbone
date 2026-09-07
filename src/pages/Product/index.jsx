@@ -5,7 +5,6 @@ import {
   NumberInputStepper, Radio, RadioGroup, Stack, Text, Textarea, Badge, useToast, Wrap, WrapItem, Skeleton, SkeletonText, SimpleGrid,
 } from '@chakra-ui/react'
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'
-import { FiCheck, FiArrowRight } from 'react-icons/fi'
 import SEO from '../../components/common/SEO'
 import { LoadError } from '../../components/common/States'
 import { FadeIn } from '../../components/common/Motion'
@@ -16,6 +15,7 @@ import Gallery from '../../components/product/Gallery'
 import ColorSwatches from '../../components/product/ColorSwatches'
 import PriceBreaks from '../../components/product/PriceBreaks'
 import SizeGrid from '../../components/product/SizeGrid'
+import OrderSummary from '../../components/product/OrderSummary'
 import useAsync from '../../hooks/useAsync'
 import { useSettings } from '../../hooks/useSettings'
 import { getProductBySlug } from '../../lib/api/catalog'
@@ -147,6 +147,9 @@ export default function Product() {
   if (!product) return <NotFound title="That product walked off." />
 
   const images = (product.images || []).map((i) => ({ ...i, url: resolveImg(i.url) }))
+  const setupText = methodOpt && Number(methodOpt.setup_fee) > 0 ? `+${money(methodOpt.setup_fee)} once per order` : method === 'none' ? 'none' : 'quoted on proof'
+  const extraLocText = needsLocation && locs.length > 1 && methodOpt && Number(methodOpt.per_location_fee) > 0 ? `+${money(Number(methodOpt.per_location_fee) * (locs.length - 1))}` : null
+  const summaryProps = { unit, qty, total, priceUnit: product.price_unit || 'ea', setupText, extraLocText, canAdd, sizesOk, onAdd }
   const seoDesc = product.short_description || `${product.name} decorated by Fishbone Graphics in Ridgway, Colorado. Quantity pricing, custom colors and print locations.`
 
   return (
@@ -158,8 +161,8 @@ export default function Product() {
           offers: { '@type': 'AggregateOffer', priceCurrency: 'USD', lowPrice: Math.min(...[Number(product.base_price), ...tiers.map((t) => Number(t.unit_price))].filter(Number.isFinite)), highPrice: Math.max(...[Number(product.base_price), ...tiers.map((t) => Number(t.unit_price))].filter(Number.isFinite)), availability: 'https://schema.org/InStock' },
         }}
       />
-      <Container size="page" pt={{ base: 5, md: 8 }} pb={{ base: 14, md: 24 }}>
-        <Breadcrumb separator="/" fontSize="sm" color="bone.500" mb={{ base: 5, md: 8 }} fontFamily="heading" textTransform="uppercase" letterSpacing="0.08em" fontWeight={600}>
+      <Container size="page" pt={{ base: 5, md: 8 }} pb={{ base: '120px', lg: 24 }}>
+        <Breadcrumb separator="/" fontSize="sm" color="bone.500" mb={{ base: 5, md: 8 }} fontFamily="heading" textTransform="uppercase" letterSpacing="0.08em" fontWeight={600} sx={{ ol: { flexWrap: 'wrap' }, li: { whiteSpace: 'nowrap' } }}>
           <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop" color="bone.300">Shop</BreadcrumbLink></BreadcrumbItem>
           {product.categories?.key && (
             <BreadcrumbItem><BreadcrumbLink as={RouterLink} to={`/shop/${product.categories.key}`} color="bone.300">{product.categories.name}</BreadcrumbLink></BreadcrumbItem>
@@ -169,9 +172,12 @@ export default function Product() {
 
         <Grid templateColumns={{ base: '1fr', lg: '5fr 7fr' }} gap={{ base: 8, lg: 14 }} alignItems="start">
           {/* GALLERY */}
-          <GridItem>
+          <GridItem position={{ lg: 'sticky' }} top={{ lg: '96px' }}>
             <FadeIn>
-              <Gallery images={images} variantImage={resolveImg(variant?.image_url)} label={product.brand || product.name} caption={product.style_number} />
+              <Stack spacing={5}>
+                <Gallery images={images} variantImage={resolveImg(variant?.image_url)} label={product.brand || product.name} caption={product.style_number} />
+                <OrderSummary variant="card" {...summaryProps} />
+              </Stack>
             </FadeIn>
           </GridItem>
 
@@ -205,15 +211,15 @@ export default function Product() {
                             <Box key={m} as="label" display="flex" alignItems="flex-start" gap={3} bg={active ? 'ink.400' : 'ink.500'} border="1px solid" borderColor={active ? 'ember.500' : 'ink.300'} borderRadius="base" px={4} py={3} cursor="pointer" transition="border-color .15s">
                               <Radio value={m} mt="3px" />
                               <Box flex={1}>
-                                <HStack justify="space-between" align="baseline">
-                                  <Text fontWeight={600}>{methodLabel(m, decorationOptions)}</Text>
+                                <Stack direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ sm: 'baseline' }} spacing={{ base: 0.5, sm: 3 }}>
+                                  <Text fontWeight={600} whiteSpace="nowrap">{methodLabel(m, decorationOptions)}</Text>
                                   {opt && (
                                     <Text fontFamily="mono" fontSize="xs" color="bone.500">
                                       {Number(opt.setup_fee) > 0 ? `${money(opt.setup_fee)} setup` : 'no setup fee'}
                                       {Number(opt.per_location_fee) > 0 ? ` · +${money(opt.per_location_fee)}/extra location` : ''}
                                     </Text>
                                   )}
-                                </HStack>
+                                </Stack>
                                 {opt?.description && <Text fontSize="sm" color="bone.300" mt={0.5}>{opt.description}</Text>}
                               </Box>
                             </Box>
@@ -313,37 +319,8 @@ export default function Product() {
         </Grid>
       </Container>
 
-      {/* STICKY SUMMARY */}
-      <Box position="sticky" bottom={0} zIndex={50} bg="rgba(20,20,22,0.96)" backdropFilter="blur(8px)" borderTop="1px solid" borderColor="ink.300">
-        <Container size="page" py={3}>
-          <Stack direction={{ base: 'column', md: 'row' }} align={{ md: 'center' }} justify="space-between" spacing={{ base: 2, md: 6 }}>
-            <HStack spacing={{ base: 4, md: 8 }} flexWrap="wrap" rowGap={1}>
-              <Box>
-                <Text fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.1em">Unit</Text>
-                <Text fontFamily="mono" fontSize={{ base: 'md', md: 'lg' }}>{money(unit)}<Text as="span" fontSize="xs" color="bone.500">/{product.price_unit || 'ea'}</Text></Text>
-              </Box>
-              <Box>
-                <Text fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.1em">× {qty}</Text>
-                <Text fontFamily="mono" fontSize={{ base: 'md', md: 'lg' }} color="bone.100" fontWeight={500}>{money(total)}</Text>
-              </Box>
-              <Box display={{ base: 'none', sm: 'block' }}>
-                <Text fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.1em">Setup</Text>
-                <Text fontSize="sm" color="bone.300">
-                  {methodOpt && Number(methodOpt.setup_fee) > 0 ? `+${money(methodOpt.setup_fee)} once per order` : method === 'none' ? 'none' : 'quoted on proof'}
-                  {needsLocation && locs.length > 1 && methodOpt ? ` · +${money(Number(methodOpt.per_location_fee) * (locs.length - 1))} extra locations` : ''}
-                </Text>
-              </Box>
-              <Text fontSize="xs" color="bone.600" display={{ base: 'none', lg: 'block' }} maxW="240px">Estimate. Tax and shipping added at review. Final price confirmed on your proof.</Text>
-            </HStack>
-            <HStack spacing={3}>
-              {!sizesOk && <Text fontSize="xs" color="bone.500" display={{ base: 'none', md: 'block' }}>Assign sizes to continue</Text>}
-              <Button size="lg" onClick={onAdd} rightIcon={canAdd ? <FiCheck /> : <FiArrowRight />} opacity={canAdd ? 1 : 0.7} w={{ base: '100%', md: 'auto' }}>
-                Add to order
-              </Button>
-            </HStack>
-          </Stack>
-        </Container>
-      </Box>
+      {/* MOBILE FIXED BAR */}
+      <OrderSummary variant="bar" {...summaryProps} />
     </>
   )
 }

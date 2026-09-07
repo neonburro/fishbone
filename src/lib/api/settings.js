@@ -5,7 +5,7 @@ export const DEFAULT_SETTINGS = {
     name: 'Fishbone Graphics & Screen Printing',
     phone: '(970) 626-4437',
     email: 'hello@fishbonegraphics.com',
-    address1: 'Ridgway, CO 81432',
+    address1: '250 S Lena St',
     city: 'Ridgway',
     state: 'CO',
     zip: '81432',

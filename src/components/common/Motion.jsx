@@ -3,15 +3,17 @@ import { Box } from '@chakra-ui/react'
 
 const MotionBox = motion(Box)
 
-/** Subtle entrance: fade + 12px slide, 0.35s. Respects reduced motion. */
-export function Reveal({ children, delay = 0, y = 12, once = true, ...rest }) {
+/**
+ * Subtle entrance: fade + 12px slide, 0.35s, triggered on mount (not on intersection),
+ * so content is never left invisible if an observer doesn't fire. Respects reduced motion.
+ */
+export function Reveal({ children, delay = 0, y = 12, ...rest }) {
   const reduce = useReducedMotion()
   return (
     <MotionBox
       initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: '-40px' }}
-      transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1], delay }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1], delay: Math.min(delay, 0.3) }}
       {...rest}
     >
       {children}
