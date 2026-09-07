@@ -1,7 +1,7 @@
 import { supabase, toError } from '../supabase'
 
 const PRODUCT_CARD_FIELDS =
-  'id, slug, name, brand, style_number, short_description, base_price, price_unit, min_quantity, badges, images, is_featured, featured_order, category_id, decoration_methods, categories:category_id(key, name)'
+  'id, slug, name, brand, style_number, short_description, base_price, price_unit, min_quantity, badges, images, is_featured, featured_order, category_id, decoration_methods, categories:category_id!inner(key, name)'
 
 export async function getCategories() {
   const { data, error } = await supabase
@@ -37,9 +37,7 @@ export async function getProducts({ categoryKey, featured, limit } = {}) {
   if (limit) q = q.limit(limit)
   const { data, error } = await q
   if (error) throw toError(error)
-  // PostgREST inner-join filter: when filtering on the joined table, rows without a match come back with categories=null.
-  const rows = (data || []).filter((p) => (categoryKey ? p.categories?.key === categoryKey : true))
-  return rows
+  return data || []
 }
 
 export async function getProductBySlug(slug) {
