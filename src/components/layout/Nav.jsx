@@ -56,6 +56,7 @@ export const NAV_LINKS = [
   { to: '/about/', label: 'About' },
   { to: '/contact/', label: 'Shop info' },
   { to: '/quote/', label: 'Send your art', accent: true },
+  { to: '/design/', label: 'Share your vision' },
 ]
 
 const INLINE = NAV_LINKS.filter((l) => ['Runs', 'Work', 'Printing', 'Shop info'].includes(l.label))

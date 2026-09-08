@@ -30,6 +30,7 @@ const Notes = lazy(() => import('./pages/Notes'))
 const NotePost = lazy(() => import('./pages/Notes/Post'))
 const About = lazy(() => import('./pages/About'))
 const Contact = lazy(() => import('./pages/Contact'))
+const Design = lazy(() => import('./pages/Design'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function PageFallback() {
@@ -77,6 +78,7 @@ export default function App() {
               <Route path="notes/:slug/" element={<NotePost />} />
               <Route path="about/" element={<About />} />
               <Route path="contact/" element={<Contact />} />
+              <Route path="design/" element={<Design />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

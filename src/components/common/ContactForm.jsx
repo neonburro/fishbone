@@ -2,7 +2,8 @@
 //
 // The one form. It sits on the home page and on Shop info and it is the same
 // component in both places: name, email, phone, a line of text and a file
-// drop. It writes a quote_requests row with request_type 'contact' so it
+// drop. It writes a quote_requests row with request_type 'contact' (or
+// whatever requestType the page passes, the design page passes 'design') so it
 // lands in Pulse beside every other request, puts the files in the private
 // artwork bucket, and then pings the shop through the notify-admin Netlify
 // function so an email lands at the admin address with a link into Pulse.
@@ -39,7 +40,7 @@ const dropzoneOnPaper = {
   '& button[aria-label]:hover': { borderColor: 'paper.300' },
 }
 
-export default function ContactForm({ kicker = 'Send us something', title = 'A file, a sketch, a question.', lead = 'Drop art if you have it. A napkin drawing counts. We will come back with a proof or a straight answer.', phone = '(970) 626-4350', source = 'contact', ...rest }) {
+export default function ContactForm({ kicker = 'Send us something', title = 'A file, a sketch, a question.', lead = 'Drop art if you have it. A napkin drawing counts. We will come back with a proof or a straight answer.', phone = '(970) 626-4350', source = 'contact', requestType = 'contact', kind = 'contact', notePlaceholder = 'Forty shirts for a show in June. Here is the art.', ...rest }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', description: '', artwork_files: [] })
   const [touched, setTouched] = useState(false)
   const [sending, setSending] = useState(false)
@@ -58,8 +59,8 @@ export default function ContactForm({ kicker = 'Send us something', title = 'A f
     if (!valid) return
     setSending(true); setError(null)
     try {
-      await submitQuote({ ...form, request_type: 'contact', product_interest: ['contact'], source_page: source })
-      notifyAdmin({ kind: 'contact', ...form, files: form.artwork_files.map((f) => f.name) })
+      await submitQuote({ ...form, request_type: requestType, product_interest: [requestType], source_page: source })
+      notifyAdmin({ kind, ...form, files: form.artwork_files.map((f) => f.name) })
       setDone(true)
     } catch (err) { setError(err) } finally { setSending(false) }
   }
@@ -97,7 +98,7 @@ export default function ContactForm({ kicker = 'Send us something', title = 'A f
             </FormControl>
             <FormControl isInvalid={touched && !!errors.description}>
               <FormLabel htmlFor={`${source}-msg`} color="paper.500">What is it</FormLabel>
-              <Textarea id={`${source}-msg`} rows={4} value={form.description} onChange={set('description')} placeholder="Forty shirts for a show in June. Here is the art." {...paperField} />
+              <Textarea id={`${source}-msg`} rows={4} value={form.description} onChange={set('description')} placeholder={notePlaceholder} {...paperField} />
               <FormErrorMessage>{errors.description}</FormErrorMessage>
             </FormControl>
             <Box sx={dropzoneOnPaper}>

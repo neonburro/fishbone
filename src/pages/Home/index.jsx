@@ -22,11 +22,14 @@ import ContactForm from '../../components/common/ContactForm'
 import { useSettings } from '../../hooks/useSettings'
 import { BAND_Y, EASE } from '../../theme/layout'
 
+// Five doors. Each one is a different person walking in. One line each, in
+// the shop's voice, no more.
 const ACTIONS = [
-  { to: '/shop/', title: 'Start a run', copy: 'Custom printed garments, 24 pieces and up. Your art or ours.' },
-  { to: '/prints/', title: 'Available prints', copy: 'Screens we already have, and the randoms off the pile. Priced to sell.', soon: true },
-  { to: '/work/', title: 'See the work', copy: 'Forty seasons of festival tables, taprooms and crews.' },
-  { to: '/quote/', title: 'Send your art', copy: 'Drop a file or an idea and get a proof back.' },
+  { to: '/shop/', title: 'Start a run', copy: 'Pick the blank, the color and the count. A printer sends the number back.' },
+  { to: '/quote/', title: 'Send your art', copy: 'You have the file. Drop it here and get a proof, not a form letter.' },
+  { to: '/design/', title: 'Share your vision', copy: 'You have the idea and no art yet. The shop draws it. It has since 1985.' },
+  { to: '/work/', title: 'See the work', copy: 'Forty seasons of festival tables, taprooms and crews. Still going.' },
+  { to: '/prints/', title: 'Available prints', copy: 'Screens we already have, and the randoms off the pile. Priced to move.', soon: true },
 ]
 
 const SERVICES = ['Screen printing', 'Art and design', 'Festival merch']
@@ -114,7 +117,7 @@ export default function Home() {
                 color="bone.100"
                 maxW="22ch"
               >
-                Screen printing and merch for{' '}
+                Screen printing, merch and the art to go on it, for{' '}
                 <Box as="strong" fontWeight={700}>festivals, bands, breweries, crews and schools.</Box>{' '}
                 Ridgway, Colorado, since 1985.
               </Text>
