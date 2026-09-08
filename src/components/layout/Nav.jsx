@@ -29,7 +29,7 @@ import Logo from '../brand/Logo'
 import MenuSheet from './MenuSheet'
 import useCartStore, { selectLineCount } from '../../store/cartStore'
 import { useSettings } from '../../hooks/useSettings'
-import { palette, paletteLight, alpha } from '../../theme'
+import { palette, paletteLight, alpha, ON_RED } from '../../theme'
 import { RAIL, RAIL_CSS, NAV_H, NAV_HIDE_AFTER, NAV_VAR, EASE, Z } from '../../theme/layout'
 
 // The ribs. The one button on the bar is the middle of the fishbone mark:
@@ -133,7 +133,7 @@ export default function Nav() {
         w="1px"
         zIndex={Z.plumb}
         pointerEvents="none"
-        bg={`linear-gradient(to bottom, ${plumb}, transparent)`}
+        bg={`linear-gradient(to bottom, var(--fb-red-500), ${plumb} 40%, transparent)`}
       />
 
       <Box
@@ -149,9 +149,10 @@ export default function Nav() {
         transition={`transform 460ms ${EASE}, opacity 380ms ${EASE}`}
         pointerEvents={away ? 'none' : 'auto'}
       >
+        {/* The stripe. Wears the accent, so it follows the ink picked in the footer. */}
         {showAnn && !menuOpen && (
-          <Box bg="ink.500" borderBottom="1px solid" borderColor="ink.300" px={RAIL} py="6px">
-            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" color="bone.300" noOfLines={1}>
+          <Box bg="red.500" px={RAIL} py="6px" transition={`background 300ms ${EASE}`}>
+            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" color={ON_RED} noOfLines={1}>
               {ann.text}
             </Text>
           </Box>
