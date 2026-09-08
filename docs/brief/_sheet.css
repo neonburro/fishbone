@@ -33,3 +33,10 @@ ul.dots { margin:0; padding:0; list-style:none; display:grid; gap:5pt } ul.dots 
 .q span { display:block; font-size:9.5pt; line-height:1.4; color:var(--mute); margin-top:3pt }
 .q .lines { margin-top:auto; height:76pt; background:repeating-linear-gradient(to bottom, transparent 0, transparent 18pt, var(--line) 18pt, var(--line) 19pt) }
 .icon { width:26px; height:26px; color:var(--red) } .icon svg { width:26px; height:26px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round }
+.cover { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0.9in 0.9in 1in }
+.cover .oval { width:3.4in; margin:0 auto 26pt } .cover .oval svg { width:100%; height:auto; display:block }
+.cover .funny { font-family:'Barlow Condensed',sans-serif; font-weight:600; text-transform:uppercase; font-size:22pt; line-height:1; max-width:18ch; margin:0 auto }
+.cover .est { font-family:'JetBrains Mono',monospace; font-size:8.5pt; letter-spacing:.24em; text-transform:uppercase; color:var(--mute); margin-top:16pt }
+.cover .rule { margin:22pt auto 18pt }
+.cover .doc { font-family:'Karla',sans-serif; font-size:12pt; color:var(--mute) }
+.cover .prep { position:absolute; left:0; right:0; bottom:0.6in; text-align:center; font-family:'JetBrains Mono',monospace; font-size:8pt; letter-spacing:.14em; color:var(--dim) } .cover .prep b { color:var(--type); font-weight:500 }
