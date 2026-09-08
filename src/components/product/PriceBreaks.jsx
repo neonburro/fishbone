@@ -2,11 +2,20 @@
 import { alpha, palette } from '../../theme'
 import { Box, Table, Tbody, Td, Th, Thead, Tr, Text } from '@chakra-ui/react'
 import { money } from '../../lib/format'
+import Price, { usePricesShown } from '../common/Price'
 import { tierFor } from '../../lib/pricing'
 
 export default function PriceBreaks({ tiers = [], basePrice, qty, priceAdjustment = 0, unit = 'ea' }) {
   const active = tierFor(tiers, qty)
   const adj = Number(priceAdjustment) || 0
+  const shown = usePricesShown()
+  if (!shown) {
+    return (
+      <Text fontFamily="mono" fontSize="sm" color="bone.300">
+        Quantity breaks at {tiers.length ? tiers.map((t) => t.min_qty).join(', ') : '24, 48, 72 and 144'}.
+      </Text>
+    )
+  }
   if (!tiers.length) {
     return (
       <Text fontFamily="mono" fontSize="sm" color="bone.300">
@@ -34,7 +43,7 @@ export default function PriceBreaks({ tiers = [], basePrice, qty, priceAdjustmen
                   {range}
                 </Td>
                 <Td isNumeric color={isActive ? 'bone.100' : 'bone.300'} fontWeight={isActive ? 500 : 400}>
-                  {money(Number(t.unit_price) + adj)}
+                  <Price value={Number(t.unit_price) + adj} short />
                 </Td>
               </Tr>
             )

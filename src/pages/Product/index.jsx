@@ -22,8 +22,8 @@ import useAsync from '../../hooks/useAsync'
 import { useSettings } from '../../hooks/useSettings'
 import { getProductBySlug } from '../../lib/api/catalog'
 import { publicImageUrl } from '../../lib/api/storage'
-import { unitPriceFor, round2 } from '../../lib/pricing'
-import { money, locationLabel, methodLabel } from '../../lib/format'
+import { unitPriceFor, round2, sizeUpcharge } from '../../lib/pricing'
+import { locationLabel } from '../../lib/format'
 import useCartStore from '../../store/cartStore'
 import NotFound from '../NotFound'
 
@@ -38,7 +38,7 @@ export default function Product() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
-  const { decorationOptions } = useSettings()
+  const { settings } = useSettings()
   const addLine = useCartStore((s) => s.addLine)
   const { data: product, loading, error, reload } = useAsync(() => getProductBySlug(slug), [slug])
 
@@ -78,11 +78,11 @@ export default function Product() {
 
   const variant = variants.find((v) => v.id === variantId) || null
   const unit = product ? unitPriceFor(product, qty, variant) : 0
-  const total = round2(unit * qty)
+  const sizeUp = sizeUpcharge(sizeBreakdown, settings?.pricing)
+  const total = round2(unit * qty + sizeUp)
   const sizeTotal = sizes.reduce((n, s) => n + (Number(sizeBreakdown[s]) || 0), 0)
   const sizesOk = sizeTotal === qty && qty > 0
   const qtyOk = qty >= minQty
-  const methodOpt = decorationOptions.find((o) => o.key === method)
   const needsLocation = method && method !== 'none' && locations.length > 0
   const locsOk = !needsLocation || locs.length > 0
   const variantOk = variants.length === 0 || !!variant
@@ -149,9 +149,7 @@ export default function Product() {
   if (!product) return <NotFound title="That product walked off." />
 
   const images = (product.images || []).map((i) => ({ ...i, url: resolveImg(i.url) }))
-  const setupText = methodOpt && Number(methodOpt.setup_fee) > 0 ? `+${money(methodOpt.setup_fee)} once per order` : method === 'none' ? 'none' : 'quoted on proof'
-  const extraLocText = needsLocation && locs.length > 1 && methodOpt && Number(methodOpt.per_location_fee) > 0 ? `+${money(Number(methodOpt.per_location_fee) * (locs.length - 1))}` : null
-  const summaryProps = { unit, qty, total, priceUnit: product.price_unit || 'ea', setupText, extraLocText, canAdd, sizesOk, onAdd }
+  const summaryProps = { unit, qty, total, priceUnit: product.price_unit || 'ea', canAdd, sizesOk, onAdd }
   const seoDesc = product.short_description || `${product.name} decorated by Fishbone Graphics in Ridgway, Colorado. Quantity pricing, custom colors and print locations.`
 
   return (
@@ -201,48 +199,17 @@ export default function Product() {
                   <ColorSwatches variants={variants} value={variantId} onChange={setVariantId} />
                 )}
 
-                {methods.length > 0 && (
-                  <FormControl as="fieldset">
-                    <FormLabel as="legend">Decoration method</FormLabel>
-                    <RadioGroup value={method} onChange={setMethod}>
-                      <Stack spacing={2}>
-                        {methods.map((m) => {
-                          const opt = decorationOptions.find((o) => o.key === m)
-                          const active = method === m
-                          return (
-                            <Box key={m} as="label" display="flex" alignItems="flex-start" gap={3} bg={active ? 'ink.400' : 'ink.500'} border="1px solid" borderColor={active ? 'ember.500' : 'ink.300'} borderRadius="base" px={4} py={3} cursor="pointer" transition="border-color .15s">
-                              <Radio value={m} mt="3px" />
-                              <Box flex={1}>
-                                <Stack direction={{ base: 'column', sm: 'row' }} justify="space-between" align={{ sm: 'baseline' }} spacing={{ base: 0.5, sm: 3 }}>
-                                  <Text fontWeight={600} whiteSpace="nowrap">{methodLabel(m, decorationOptions)}</Text>
-                                  {opt && (
-                                    <Text fontFamily="mono" fontSize="xs" color="bone.500">
-                                      {Number(opt.setup_fee) > 0 ? `${money(opt.setup_fee)} setup` : 'no setup fee'}
-                                      {Number(opt.per_location_fee) > 0 ? ` · +${money(opt.per_location_fee)}/extra location` : ''}
-                                    </Text>
-                                  )}
-                                </Stack>
-                                {opt?.description && <Text fontSize="sm" color="bone.300" mt={0.5}>{opt.description}</Text>}
-                              </Box>
-                            </Box>
-                          )
-                        })}
-                      </Stack>
-                    </RadioGroup>
-                  </FormControl>
-                )}
-
                 {needsLocation && (
                   <FormControl as="fieldset" isInvalid={touched && !locsOk}>
-                    <FormLabel as="legend">Print locations</FormLabel>
+                    <FormLabel as="legend">Where the ink goes</FormLabel>
                     <CheckboxGroup value={locs} onChange={(v) => setLocs(v)}>
                       <Wrap spacing={2}>
                         {locations.map((l) => {
                           const on = locs.includes(l)
                           return (
                             <WrapItem key={l}>
-                              <Box as="label" display="flex" alignItems="center" gap={2} bg={on ? 'ink.400' : 'ink.500'} border="1px solid" borderColor={on ? 'river.500' : 'ink.300'} borderRadius="base" px={3} py={2} cursor="pointer" transition="border-color .15s">
-                                <Checkbox value={l} colorScheme="river" />
+                              <Box as="label" display="flex" alignItems="center" gap={2} bg={on ? 'ink.400' : 'ink.500'} border="1px solid" borderColor={on ? 'red.500' : 'ink.300'} borderRadius="sm" px={3} py={2} cursor="pointer" transition="border-color .15s">
+                                <Checkbox value={l} colorScheme="red" />
                                 <Text fontSize="sm">{locationLabel(l)}</Text>
                               </Box>
                             </WrapItem>
@@ -250,9 +217,6 @@ export default function Product() {
                         })}
                       </Wrap>
                     </CheckboxGroup>
-                    <Text fontSize="xs" color="bone.500" mt={2}>
-                      First location is included in setup. Each additional location adds {methodOpt ? money(methodOpt.per_location_fee) : 'a small'} setup fee, charged once per order.
-                    </Text>
                   </FormControl>
                 )}
 

@@ -2,7 +2,7 @@
 import { Box, Text, HStack, Badge, LinkBox, LinkOverlay, Stack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import ProductImage from '../common/ProductImage'
-import { money } from '../../lib/format'
+import Price from '../common/Price'
 
 export default function ProductCard({ product }) {
   const img = product.images?.[0]
@@ -48,8 +48,7 @@ export default function ProductCard({ product }) {
         <HStack justify="space-between" pt={2} mt="auto" align="baseline">
           <Text fontFamily="mono" color="bone.100" fontSize={{ base: 'sm', md: 'md' }}>
             <Text as="span" color="bone.500" fontSize="xs" mr={1}>from</Text>
-            {money(product.base_price)}
-            <Text as="span" color="bone.500" fontSize="xs">/{product.price_unit || 'ea'}</Text>
+            <Price value={product.base_price} suffix={`/${product.price_unit || 'ea'}`} />
           </Text>
           {product.min_quantity > 1 && <Text fontSize="xs" color="bone.500" fontFamily="mono">min {product.min_quantity}</Text>}
         </HStack>

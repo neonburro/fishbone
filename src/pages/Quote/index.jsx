@@ -1,25 +1,35 @@
 // src/pages/Quote/index.jsx
-import { palette } from '../../theme'
+//
+// Send your art. The bigger form, for a run that needs a proof before it
+// needs a price: who you are, what the job is, when, how many, what we are
+// making, and the art. On paper, like every ask on the site. Writes a
+// quote_requests row with request_type 'quote' and pings the shop.
+//
+// No oxford commas, no em dashes.
+
 import { useState } from 'react'
-import {
-  Box, Button, Checkbox, CheckboxGroup, Container, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input,
-  SimpleGrid, Stack, Text, Textarea, Wrap, WrapItem, Alert, AlertIcon, AlertDescription,
-} from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, Box, Button, Checkbox, CheckboxGroup, Container, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input, Stack, Text, Textarea, Wrap, WrapItem } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import { FiSend, FiCheck } from 'react-icons/fi'
+import { FiArrowRight } from 'react-icons/fi'
 import SEO from '../../components/common/SEO'
-import PageHero from '../../components/layout/PageHero'
 import ArtworkDropzone from '../../components/common/ArtworkDropzone'
-import RegMark from '../../components/brand/RegMark'
+import { paperField } from '../../components/common/ContactForm'
 import { FadeIn } from '../../components/common/Motion'
 import { submitQuote } from '../../lib/api/quotes'
+import { notifyAdmin } from '../../lib/api/notify'
+import { BAND_Y, MEASURE } from '../../theme/layout'
 
 const INTERESTS = [
-  ['tees', 'T-shirts'], ['hoodies', 'Hoodies / crewnecks'], ['hats', 'Hats'], ['posters', 'Posters / prints'], ['embroidery', 'Embroidery'],
-  ['dtf', 'Full-color / DTF'], ['tote', 'Totes & bags'], ['stickers', 'Stickers'], ['festival_program', 'Full festival merch program'], ['other', 'Something else'],
+  ['tees', 'Tees'], ['longsleeves', 'Long sleeves'], ['hoodies', 'Hoodies and crews'], ['tanks', 'Tanks'], ['totes', 'Totes and bandanas'],
+  ['posters', 'Posters'], ['festival_program', 'A whole merch line'], ['design', 'Design help'], ['other', 'Something else'],
 ]
 
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(v || '').trim())
+
+const dropzoneOnPaper = {
+  '& [role=button], & button[aria-label], & div[aria-label]': { bg: '#FFFFFF', borderColor: 'paper.200', color: 'paper.900' },
+  '& button[aria-label]:hover': { borderColor: 'paper.300' },
+}
 
 export default function Quote() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', event_name: '', event_date: '', quantity_estimate: '', product_interest: [], description: '', artwork_files: [] })
@@ -32,114 +42,105 @@ export default function Quote() {
   const errors = {
     name: form.name.trim().length < 2 ? 'Tell us who to talk to.' : null,
     email: !emailOk(form.email) ? 'We need a working email.' : null,
-    description: form.description.trim().length < 10 ? 'Give us a sentence or two about the job.' : null,
+    description: form.description.trim().length < 10 && form.artwork_files.length === 0 ? 'A sentence about the job, or the art. Either one.' : null,
   }
   const valid = !Object.values(errors).some(Boolean)
 
   const submit = async (e) => {
-    e.preventDefault()
-    setTouched(true)
+    e.preventDefault(); setTouched(true)
     if (!valid) return
     setSending(true); setError(null)
     try {
-      await submitQuote(form)
+      await submitQuote({ ...form, request_type: 'quote' })
+      notifyAdmin({ kind: 'quote', name: form.name, email: form.email, phone: form.phone, description: form.description, files: form.artwork_files.map((f) => f.name), extra: { Org: form.company, Event: form.event_name, 'In hand by': form.event_date, Quantity: form.quantity_estimate, Making: form.product_interest.join(', ') } })
       setDone(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    } catch (err) {
-      setError(err)
-    } finally {
-      setSending(false)
-    }
+    } catch (err) { setError(err) } finally { setSending(false) }
   }
 
   return (
     <>
-      <SEO title="Festival & custom merch quote" description="Request a quote for festival merch, tour merch, band shirts, crew hoodies and large custom runs from Fishbone Graphics in Ridgway, Colorado." path="/quote/" />
-      <PageHero eyebrow="Quote request" title="Big run? Odd job? Tell us." lead="Festival programs, multi-garment merch lines, poster runs, weird substrates. Give us the headcount and the date; we’ll come back with real numbers, usually within a business day." />
-      <Container size="page" py={{ base: 10, md: 16 }}>
-        {done ? (
-          <FadeIn>
-            <Box maxW="720px" bg="ink.500" border="1px solid" borderColor="river.500" borderRadius="base" p={{ base: 6, md: 10 }}>
-              <HStack spacing={3} mb={4}><Box color="river.500"><FiCheck size={28} /></Box><Text variant="eyebrow" color="river.400">Sent</Text></HStack>
-              <Heading size="xl" mb={3}>Got it. We’re on it.</Heading>
-              <Text color="bone.300" mb={6}>Your request is in the shop’s inbox. Expect a reply from a printer, not a form letter, within a business day. Rush timeline? Call <Text as="a" href="tel:9706264437" fontFamily="mono" color="bone.100">(970) 626-4437</Text> and say so.</Text>
-              <HStack spacing={3}><Button as={RouterLink} to="/shop/">Browse blanks</Button><Button as={RouterLink} to="/work/" variant="outline">See our work</Button></HStack>
-            </Box>
-          </FadeIn>
-        ) : (
-          <Grid templateColumns={{ base: '1fr', lg: '7fr 4fr' }} gap={{ base: 10, lg: 14 }} alignItems="start">
-            <GridItem>
-              <Box as="form" onSubmit={submit} noValidate bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={{ base: 5, md: 8 }}>
-                <Stack spacing={7}>
-                  {error && <Alert status="error" colorScheme="ember"><AlertIcon /><AlertDescription fontSize="sm">{error.message}</AlertDescription></Alert>}
-                  <Box>
-                    <Heading as="h2" size="md" mb={4}>You</Heading>
-                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
-                      <FormControl isRequired isInvalid={touched && !!errors.name}><FormLabel htmlFor="q-name">Name</FormLabel><Input id="q-name" autoComplete="name" value={form.name} onChange={set('name')} /><FormErrorMessage>{errors.name}</FormErrorMessage></FormControl>
-                      <FormControl><FormLabel htmlFor="q-company">Band / org / business</FormLabel><Input id="q-company" autoComplete="organization" value={form.company} onChange={set('company')} /></FormControl>
-                      <FormControl isRequired isInvalid={touched && !!errors.email}><FormLabel htmlFor="q-email">Email</FormLabel><Input id="q-email" type="email" autoComplete="email" value={form.email} onChange={set('email')} /><FormErrorMessage>{errors.email}</FormErrorMessage></FormControl>
-                      <FormControl><FormLabel htmlFor="q-phone">Phone</FormLabel><Input id="q-phone" type="tel" autoComplete="tel" value={form.phone} onChange={set('phone')} /></FormControl>
-                    </SimpleGrid>
+      <SEO title="Send your art" description="Send Fishbone Graphics your art or your idea and get a proof and a price back. Festival merch, band shirts, brewery tees and crew runs. Ridgway, Colorado." path="/quote/" />
+      <Container size="page" pt={{ base: 6, md: 12 }} pb={BAND_Y}>
+        <Grid templateColumns={{ base: '1fr', lg: '0.8fr 1.2fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">
+          <GridItem>
+            <FadeIn>
+              <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} maxW="16ch">
+                Send the art. <Box as="strong" fontWeight={700}>Get a proof and a number back.</Box>
+              </Text>
+              <Text mt={5} color="bone.300" maxW={MEASURE}>Festival lines, tour merch, staff tees, a weird idea on a napkin. Give us the headcount and the date and a printer replies, usually within a business day.</Text>
+              <Stack spacing={2} mt={8} maxW="420px">
+                {[['Have a known quantity and art in hand?', 'Build it on a product page and see price breaks live.', '/shop/', 'Start a run'], ['Just a question?', 'The short form on Shop info is faster.', '/contact/', 'Shop info']].map(([h, c, to, label]) => (
+                  <Box key={to} p={4} borderRadius="md" border="1px solid" borderColor="ink.300">
+                    <Text fontSize="sm" color="bone.100">{h}</Text>
+                    <Text fontSize="sm" color="bone.300" mt={0.5}>{c}</Text>
+                    <Button as={RouterLink} to={to} variant="link" size="sm" mt={2} rightIcon={<FiArrowRight />}>{label}</Button>
                   </Box>
-                  <Box>
-                    <Heading as="h2" size="md" mb={4}>The job</Heading>
-                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
-                      <FormControl><FormLabel htmlFor="q-event">Event / project</FormLabel><Input id="q-event" value={form.event_name} onChange={set('event_name')} placeholder="Summer fest, tour, staff shirts…" /></FormControl>
-                      <FormControl><FormLabel htmlFor="q-date">In hand by</FormLabel><Input id="q-date" type="date" value={form.event_date} onChange={set('event_date')} fontFamily="mono" /></FormControl>
-                      <FormControl><FormLabel htmlFor="q-qty">Rough quantity</FormLabel><Input id="q-qty" type="number" inputMode="numeric" min={1} value={form.quantity_estimate} onChange={set('quantity_estimate')} placeholder="250" fontFamily="mono" /></FormControl>
-                    </SimpleGrid>
-                    <FormControl mt={5}>
-                      <FormLabel as="legend">What are we making?</FormLabel>
-                      <CheckboxGroup value={form.product_interest} onChange={(v) => setForm((f) => ({ ...f, product_interest: v }))}>
-                        <Wrap spacing={2}>
-                          {INTERESTS.map(([k, label]) => {
-                            const on = form.product_interest.includes(k)
-                            return (
-                              <WrapItem key={k}>
-                                <Box as="label" display="flex" alignItems="center" gap={2} bg={on ? 'ink.400' : 'ink.900'} border="1px solid" borderColor={on ? 'river.500' : 'ink.300'} borderRadius="base" px={3} py={2} cursor="pointer">
-                                  <Checkbox value={k} colorScheme="river" /><Text fontSize="sm">{label}</Text>
-                                </Box>
-                              </WrapItem>
-                            )
-                          })}
-                        </Wrap>
-                      </CheckboxGroup>
-                    </FormControl>
-                    <FormControl mt={5} isRequired isInvalid={touched && !!errors.description}>
-                      <FormLabel htmlFor="q-desc">Details</FormLabel>
-                      <Textarea id="q-desc" rows={5} value={form.description} onChange={set('description')} placeholder="Garments, colors, how many print locations, ink colors, sizes if you know them, where it’s going. The more you give us the tighter the number." />
-                      <FormErrorMessage>{errors.description}</FormErrorMessage>
-                    </FormControl>
-                  </Box>
-                  <FormControl>
-                    <FormLabel>Art (optional)</FormLabel>
-                    <ArtworkDropzone id="quote-art" value={form.artwork_files} onChange={(files) => setForm((f) => ({ ...f, artwork_files: files }))} helper="Logos, sketches, napkin drawings. Anything helps. Vector is gold." />
-                  </FormControl>
-                  <HStack justify="flex-end">
-                    <Button type="submit" size="lg" isLoading={sending} loadingText="Sending…" rightIcon={<FiSend />}>Send the request</Button>
-                  </HStack>
-                </Stack>
-              </Box>
-            </GridItem>
-            <GridItem>
-              <Stack spacing={6} position={{ lg: 'sticky' }} top={{ lg: '100px' }}>
-                <Box bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={6}>
-                  <Text variant="eyebrow" mb={3}>Festival merch program</Text>
-                  <Stack spacing={3} fontSize="sm" color="bone.300">
-                    {['Pre-event run plus on-call restocks during the weekend.', 'Mixed garments on one ticket. Tees, hoodies, hats, posters.', 'Size curves from forty years of merch tables. We know what sells at altitude.', 'Delivery to the venue gate or the shop, your call.'].map((t) => (
-                      <HStack key={t} align="flex-start" spacing={3}><RegMark size="12px" color={palette.river} mt="4px" /><Text>{t}</Text></HStack>
-                    ))}
-                  </Stack>
-                </Box>
-                <Box bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={6}>
-                  <Text variant="eyebrow" mb={3}>Rather just order?</Text>
-                  <Text fontSize="sm" color="bone.300" mb={4}>Single garment, known quantity, art in hand? Skip the quote and build it on the product page. You see price breaks live.</Text>
-                  <Button as={RouterLink} to="/shop/" variant="outline" size="sm">Shop blanks</Button>
-                </Box>
+                ))}
               </Stack>
-            </GridItem>
-          </Grid>
-        )}
+            </FadeIn>
+          </GridItem>
+
+          <GridItem>
+            <FadeIn delay={0.08}>
+              <Box bg="paper.50" color="paper.900" borderRadius="lg" p={{ base: 5, md: 8 }} boxShadow="paper">
+                {done ? (
+                  <Stack spacing={3}>
+                    <Text variant="kicker" color="red.500">Sent</Text>
+                    <Heading as="h2" size="xl" color="paper.900">Got it. We are on it.</Heading>
+                    <Text color="paper.500" maxW={MEASURE}>Your request is in the shop. Expect a reply from a printer, not a form letter. On a rush timeline, call (970) 626-4350 and say so.</Text>
+                    <HStack spacing={3} pt={2}><Button as={RouterLink} to="/work/" size="sm">See the work</Button></HStack>
+                  </Stack>
+                ) : (
+                  <Box as="form" onSubmit={submit} noValidate>
+                    <Text variant="kicker" color="paper.500">Send your art</Text>
+                    <Heading as="h2" size="xl" mt={3} mb={6} color="paper.900">The job.</Heading>
+                    <Stack spacing={6}>
+                      {error && <Alert status="error" colorScheme="red" bg="paper.100" color="paper.900" borderRadius="md"><AlertIcon /><AlertDescription fontSize="sm">{error.message}</AlertDescription></Alert>}
+                      <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={5}>
+                        <FormControl isRequired isInvalid={touched && !!errors.name}><FormLabel htmlFor="q-name" color="paper.500">Name</FormLabel><Input id="q-name" autoComplete="name" value={form.name} onChange={set('name')} {...paperField} /><FormErrorMessage>{errors.name}</FormErrorMessage></FormControl>
+                        <FormControl><FormLabel htmlFor="q-company" color="paper.500">Band, org or business</FormLabel><Input id="q-company" autoComplete="organization" value={form.company} onChange={set('company')} {...paperField} /></FormControl>
+                        <FormControl isRequired isInvalid={touched && !!errors.email}><FormLabel htmlFor="q-email" color="paper.500">Email</FormLabel><Input id="q-email" type="email" autoComplete="email" value={form.email} onChange={set('email')} {...paperField} /><FormErrorMessage>{errors.email}</FormErrorMessage></FormControl>
+                        <FormControl><FormLabel htmlFor="q-phone" color="paper.500">Phone</FormLabel><Input id="q-phone" type="tel" autoComplete="tel" value={form.phone} onChange={set('phone')} {...paperField} /></FormControl>
+                      </Grid>
+                      <Grid templateColumns={{ base: '1fr', md: '1.4fr 1fr 1fr' }} gap={5}>
+                        <FormControl><FormLabel htmlFor="q-event" color="paper.500">Event or project</FormLabel><Input id="q-event" value={form.event_name} onChange={set('event_name')} placeholder="Summer fest, tour, staff shirts" {...paperField} /></FormControl>
+                        <FormControl><FormLabel htmlFor="q-date" color="paper.500">In hand by</FormLabel><Input id="q-date" type="date" value={form.event_date} onChange={set('event_date')} fontFamily="mono" {...paperField} /></FormControl>
+                        <FormControl><FormLabel htmlFor="q-qty" color="paper.500">Rough quantity</FormLabel><Input id="q-qty" type="number" inputMode="numeric" min={1} value={form.quantity_estimate} onChange={set('quantity_estimate')} placeholder="250" fontFamily="mono" {...paperField} /></FormControl>
+                      </Grid>
+                      <FormControl>
+                        <FormLabel as="legend" color="paper.500">What are we making</FormLabel>
+                        <CheckboxGroup value={form.product_interest} onChange={(v) => setForm((f) => ({ ...f, product_interest: v }))}>
+                          <Wrap spacing={2}>
+                            {INTERESTS.map(([k, label]) => {
+                              const on = form.product_interest.includes(k)
+                              return (
+                                <WrapItem key={k}>
+                                  <Box as="label" display="flex" alignItems="center" gap={2} bg={on ? 'paper.900' : '#FFFFFF'} color={on ? '#FBF8F2' : 'paper.900'} border="1px solid" borderColor={on ? 'paper.900' : 'paper.200'} borderRadius="full" px={3.5} py={1.5} cursor="pointer" fontSize="sm" transition="all 200ms">
+                                    <Checkbox value={k} display="none" />{label}
+                                  </Box>
+                                </WrapItem>
+                              )
+                            })}
+                          </Wrap>
+                        </CheckboxGroup>
+                      </FormControl>
+                      <FormControl isInvalid={touched && !!errors.description}>
+                        <FormLabel htmlFor="q-desc" color="paper.500">Details</FormLabel>
+                        <Textarea id="q-desc" rows={5} value={form.description} onChange={set('description')} placeholder="Garments, colors, print locations, ink colors, sizes if you know them, where it is going. The more you give us the tighter the number." {...paperField} />
+                        <FormErrorMessage>{errors.description}</FormErrorMessage>
+                      </FormControl>
+                      <Box sx={dropzoneOnPaper}>
+                        <ArtworkDropzone id="quote-art" value={form.artwork_files} onChange={(files) => setForm((f) => ({ ...f, artwork_files: files }))} label="Art" helper="Logos, sketches, napkin drawings. Anything helps. Vector is gold." />
+                      </Box>
+                      <HStack justify="flex-end"><Button type="submit" size="md" isLoading={sending}>Send it</Button></HStack>
+                    </Stack>
+                  </Box>
+                )}
+              </Box>
+            </FadeIn>
+          </GridItem>
+        </Grid>
       </Container>
     </>
   )

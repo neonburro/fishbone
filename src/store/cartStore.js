@@ -1,7 +1,7 @@
 // src/store/cartStore.js
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { unitPriceFor, round2 } from '../lib/pricing'
+import { unitPriceFor, round2, sizeUpcharge } from '../lib/pricing'
 
 /**
  * Cart line shape:
@@ -13,10 +13,11 @@ import { unitPriceFor, round2 } from '../lib/pricing'
 
 const newId = () => (crypto?.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`)
 
-export function priceLine(line) {
+export function priceLine(line, pricing = null) {
   const snap = line.snapshot
   const unit = snap ? unitPriceFor(snap, line.quantity) : Number(line.unitPriceSnapshot) || 0
-  return { unit, total: round2(unit * (Number(line.quantity) || 0)) }
+  const sizes = sizeUpcharge(line.sizeBreakdown || line.size_breakdown, pricing)
+  return { unit, sizes, total: round2(unit * (Number(line.quantity) || 0) + sizes) }
 }
 
 const useCartStore = create(

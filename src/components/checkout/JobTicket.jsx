@@ -1,8 +1,7 @@
 // src/components/checkout/JobTicket.jsx
-import { alpha, palette } from '../../theme'
+import { palette } from '../../theme'
 import { Box, Divider, Grid, GridItem, Heading, HStack, Stack, Text, Badge } from '@chakra-ui/react'
 import RegMark from '../brand/RegMark'
-import Halftone from '../brand/Halftone'
 import { money, locationLabel, methodLabel, formatDate } from '../../lib/format'
 import { useSettings } from '../../hooks/useSettings'
 
@@ -33,7 +32,6 @@ export default function JobTicket({ order }) {
 
   return (
     <Box bg="bone.100" color="ink.900" borderRadius="base" overflow="hidden" position="relative" boxShadow="raised" className="job-ticket">
-      <Halftone fade="bottom" color={alpha(palette.ink, 0.08)} size={10} dot={1.3} h="80px" />
       {/* header */}
       <Box px={{ base: 5, md: 8 }} pt={{ base: 5, md: 7 }} pb={4} borderBottom="2px solid" borderColor="ink.900" position="relative">
         <HStack justify="space-between" align="flex-start" flexWrap="wrap" rowGap={3}>

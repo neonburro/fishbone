@@ -1,115 +1,156 @@
 // src/theme/index.js
 //
-// "Ink & Bone". The Chakra theme for the Fishbone Graphics storefront.
+// "Ink & Paper". The Chakra theme for the Fishbone Graphics storefront.
 //
-// ── THE PALETTE IS PROVISIONAL ──────────────────────────────────────────────
-// The client's logo has not arrived. Every color the site uses is defined
-// HERE and nowhere else: ink (page and surfaces), bone (type), ember (hot ink,
-// the primary accent), river (Uncompahgre teal), hivis (fluorescent, tiny
-// doses). Components reach for these through Chakra tokens ('ember.500') or
-// through the exported `palette` and `alpha()` helpers when they need a raw
-// value for an SVG or an rgba. Nobody hardcodes a hex outside this file, so
-// when the real palette lands it is retuned in one place and the whole site
-// follows.
+// ── THREE COLORS ────────────────────────────────────────────────────────────
+// Vintage black, off white and one red. That is the whole palette. The black
+// is not pure, it is #161618 with a hair of navy in it because the fish on the
+// real logo is drawn in #00001C. The off white is bone on ink and paper on
+// its own. The red is #EC1D3B, sampled from the disc behind the oval logo on
+// the shop's Instagram avatar. Nothing else on the site carries a hue.
+//
+// ── INK AND PAPER ───────────────────────────────────────────────────────────
+// Dark and light are not a toggle, they are what you are doing. Looking at
+// work happens on ink. Building an order happens on paper, because what you
+// are building is a job ticket and a job ticket is a piece of paper on the
+// press. Components that render the ordering surfaces reach for the paper
+// tokens. Everything else sits on ink.
+//
+// ── TWO MODES, INK AND PAPER ────────────────────────────────────────────────
+// The site has a light mode and it is not an inversion, it is the paper the
+// ordering surfaces already use, promoted to the whole page. Every `ink.*`
+// and `bone.*` token below is a SEMANTIC token with a dark value and a light
+// value, so the eighty files that say bg="ink.500" or color="bone.100" flip
+// on their own when the mode changes. In light mode ink becomes paper and
+// bone becomes the near black type. Red stays red in both. The toggle lives
+// in the footer (components/common/InkPaperToggle.jsx) and Chakra remembers
+// the choice in localStorage. `paper.*` does not flip, it is always paper,
+// so a paper card on a paper page still reads as a card through its shadow.
+//
+// Raw hex for alpha() and SVG comes from `palette` (dark) and `paletteLight`.
+// Components that paint with alpha() pick between the two with
+// useColorModeValue. There are only a handful, the nav tile and the pill.
+//
+// ── TOKEN NAMES ─────────────────────────────────────────────────────────────
+// `ember` is the accent's historical name and eighty files read it, so the
+// key stays and its values are the red. `red` is the same scale under the
+// name it deserves, use it in new work. `river` and `hivis` were a teal and
+// a fluorescent green in the first pass. They are repainted to neutrals so
+// any component still reading them goes quiet instead of loud, and they can
+// be deleted once nothing reads them.
+//
+// ── STORED, NOT USED ────────────────────────────────────────────────────────
+// VINTAGE is a set of faded blanks colors kept for the day the site wants a
+// second hue. Nothing imports it. They are sampled toward the shirts on the
+// wall, not toward pastels.
 //
 // ── TYPE ────────────────────────────────────────────────────────────────────
-// Display is Big Shoulders Display, an industrial condensed face with poster
-// energy. H1 and H2 are uppercase with tight tracking. Body is Instrument
-// Sans. Mono is JetBrains Mono and it does the small precise work: order
-// numbers, SKUs, prices in tables and the kickers, the small uppercase labels
-// that replace badges everywhere on the site.
+// Barlow Condensed for headings and buttons, Barlow for reading, JetBrains
+// Mono for the small precise work: order numbers, SKUs, prices in tables and
+// the kickers. The shop's own site and Pulse already speak Barlow.
 //
 // No oxford commas, no em dashes.
 
 import { extendTheme } from '@chakra-ui/react'
 
+const red = {
+  50: '#FDE8EB',
+  100: '#FAC5CD',
+  200: '#F5919F',
+  300: '#F16278',
+  400: '#F13A55', // hover
+  500: '#EC1D3B', // the accent
+  600: '#D1152F', // pressed
+  700: '#A81026',
+  800: '#7A0B1B',
+  900: '#4A0710',
+}
+
+// Dark values. The `colors` block below carries only what does not flip.
+const inkDark = {
+  50: '#4B4F58', 100: '#3F434B', 200: '#34373E', 300: '#2C2F35', 400: '#26262A',
+  500: '#1D1D20', 600: '#1A1A1D', 700: '#181819', 800: '#171718', 900: '#161618',
+}
+const boneDark = {
+  50: '#FBF8F2', 100: '#EFEAE0', 200: '#E2DCD0', 300: '#CFC9BE', 400: '#B5B0A6',
+  500: '#9AA1AA', 600: '#6B727C', 700: '#4F545C', 800: '#3B4048', 900: '#2A2D33',
+}
+// Light values. ink becomes paper, bone becomes the type. Contrast is kept
+// deliberately hard: near black on paper, not grey on cream.
+const inkLight = {
+  50: '#B9B2A4', 100: '#C6BFB1', 200: '#D3CCBE', 300: '#DDD6C8', 400: '#E6DFD2',
+  500: '#EFE9DE', 600: '#F1ECE2', 700: '#F3EEE5', 800: '#F5F0E8', 900: '#F6F2EA',
+}
+const boneLight = {
+  50: '#0E0E10', 100: '#161618', 200: '#232326', 300: '#3A3A3E', 400: '#4F4F54',
+  500: '#5F6168', 600: '#7D7F86', 700: '#A2A49F', 800: '#C4BFB3', 900: '#D9D2C4',
+}
+const flip = (dark, light) => Object.fromEntries(Object.keys(dark).map((k) => [k, { default: dark[k], _light: light[k] }]))
+
 const colors = {
-  ink: {
-    50: '#3A3A41',
-    100: '#33333A',
-    200: '#2D2D33',
-    300: '#26262B', // border
-    400: '#1C1C1F', // raised
-    500: '#141416', // surface
-    600: '#101012',
-    700: '#0E0E10',
-    800: '#0C0C0D',
-    900: '#0B0B0C', // page bg
-  },
-  bone: {
-    50: '#FFFDF9',
-    100: '#F2EDE4', // primary text
-    200: '#E6DFD3',
-    300: '#D9D2C5', // muted
-    400: '#C8C0B3',
-    500: '#B8B0A2', // subtle
-    600: '#948D80',
-    700: '#6F695F',
-    800: '#4A4741',
-    900: '#2B2925',
-  },
-  ember: {
-    50: '#FFF1E8',
-    100: '#FFD9C2',
-    200: '#FFB48A',
-    300: '#FF9A62',
-    400: '#FF8140', // hover
-    500: '#FF6A13', // primary accent
-    600: '#E55A0C', // pressed
-    700: '#BF4A08',
-    800: '#8F3705',
-    900: '#5A2303',
-  },
-  river: {
-    50: '#E6F8F6',
-    100: '#BFEDE8',
-    200: '#8FDFD6',
-    300: '#62D2C6',
-    400: '#45C7B8', // hover
-    500: '#2BB3A3', // secondary accent
-    600: '#23958A',
-    700: '#1B756C',
-    800: '#13544E',
-    900: '#0B332F',
-  },
-  hivis: {
-    50: '#F8FDE1',
-    100: '#EEFAB6',
-    200: '#E2F786',
-    300: '#D5F45D',
-    400: '#CDF347',
-    500: '#C6F135', // fluorescent highlight
-    600: '#A8D023',
-    700: '#86A81A',
-    800: '#637D12',
-    900: '#3F510A',
-  },
   paper: {
-    50: '#FAF7F2',
-    100: '#F1ECE3',
+    50: '#F6F2EA', // the sheet
+    100: '#ECE6DA', // second surface
+    200: '#D9D2C4', // rules on paper
+    300: '#B9B2A4',
+    500: '#6B6760', // muted type on paper
+    900: '#1B1B1E', // type on paper
   },
+  red,
+  ember: red,
+  // Repainted to neutrals. See the header.
 }
 
 // Raw values for SVG fills, canvas, rgba() and anything Chakra tokens cannot
 // reach. Same numbers as above, named the way the brief names them.
 export const palette = {
-  ink: colors.ink[900],
-  inkSurface: colors.ink[500],
-  inkRaised: colors.ink[400],
-  inkBorder: colors.ink[300],
-  bone: colors.bone[100],
-  boneMuted: colors.bone[300],
-  boneSubtle: colors.bone[500],
-  ember: colors.ember[500],
-  emberHover: colors.ember[400],
-  emberPressed: colors.ember[600],
-  river: colors.river[500],
-  riverHover: colors.river[400],
-  hivis: colors.hivis[500],
+  ink: inkDark[900],
+  inkSurface: inkDark[500],
+  inkRaised: inkDark[400],
+  inkBorder: inkDark[300],
+  bone: boneDark[100],
+  boneMuted: boneDark[300],
+  boneSubtle: boneDark[500],
+  slate: boneDark[800],
+  red: red[500],
+  redHover: red[400],
+  redPressed: red[600],
+  ember: red[500],
+  emberHover: red[400],
+  emberPressed: red[600],
+  river: boneDark[500],
+  riverHover: boneDark[300],
+  hivis: boneDark[100],
   paper: colors.paper[50],
+  paperInk: colors.paper[900],
 }
 
-// alpha('#FF6A13', 0.2) -> 'rgba(255,106,19,0.2)'
+// The same names in light mode, for the few places that paint with alpha().
+export const paletteLight = {
+  ...palette,
+  ink: inkLight[900],
+  inkSurface: inkLight[500],
+  inkRaised: inkLight[400],
+  inkBorder: inkLight[300],
+  bone: boneLight[100],
+  boneMuted: boneLight[300],
+  boneSubtle: boneLight[500],
+  slate: boneLight[800],
+}
+
+// Faded blanks colors. Stored, not wired. See the header.
+export const VINTAGE = {
+  brick: '#A0463D',
+  mustard: '#C39A3B',
+  denim: '#4E6479',
+  moss: '#66735A',
+  sage: '#8C9C8E',
+  mauve: '#8A5A66',
+  rust: '#9C5A3C',
+  pepper: '#4E4C4A',
+}
+
+// alpha('#EC1D3B', 0.2) -> 'rgba(236,29,59,0.2)'
 export function alpha(hex, a = 1) {
   const h = String(hex).replace('#', '')
   const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16)
@@ -119,9 +160,12 @@ export function alpha(hex, a = 1) {
 // One easing everywhere. Heavy ease out: leaves fast, lands almost still.
 export const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
+// Body is Archivo. It shares Barlow Condensed's American sign-shop bones but
+// the letterforms have more character at reading size. Karla is loaded as
+// the alternate, warmer and a touch more vintage, swap the name to try it.
 const fonts = {
-  heading: `'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif`,
-  body: `'Instrument Sans', 'Helvetica Neue', Arial, sans-serif`,
+  heading: `'Barlow Condensed', 'Arial Narrow', sans-serif`,
+  body: `'Karla', 'Helvetica Neue', Arial, sans-serif`,
   mono: `'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace`,
 }
 
@@ -131,13 +175,18 @@ const kicker = {
   fontFamily: 'mono',
   fontWeight: 500,
   textTransform: 'uppercase',
-  letterSpacing: '0.18em',
+  letterSpacing: '0.16em',
   fontSize: '11px',
   lineHeight: 1.4,
 }
 
-const focusRing = { borderColor: 'ember.500', boxShadow: `0 0 0 1px ${palette.ember}` }
-const invalidRing = { borderColor: 'ember.600', boxShadow: `0 0 0 1px ${palette.emberPressed}` }
+// Type on red is this literal in both modes. A token would flip to near
+// black on paper and red with black type is the one pairing the site does
+// not do.
+export const ON_RED = '#FBF8F2'
+
+const focusRing = { borderColor: 'red.500', boxShadow: `0 0 0 1px ${red[500]}` }
+const invalidRing = { borderColor: 'red.600', boxShadow: `0 0 0 1px ${red[600]}` }
 
 const theme = extendTheme({
   config: {
@@ -148,19 +197,25 @@ const theme = extendTheme({
   fonts,
   radii: {
     none: '0',
-    sm: '2px',
-    base: '4px',
-    md: '4px',
-    lg: '6px',
-    xl: '8px',
+    sm: '8px',
+    base: '10px',
+    md: '12px',
+    lg: '18px',
+    xl: '24px',
     full: '9999px',
   },
   shadows: {
-    outline: `0 0 0 3px ${alpha(palette.ember, 0.55)}`,
+    outline: `0 0 0 3px ${alpha(red[500], 0.45)}`,
     raised: `0 1px 0 ${alpha('#FFFFFF', 0.03)} inset, 0 10px 30px ${alpha('#000000', 0.45)}`,
+    paper: `0 20px 60px ${alpha('#000000', 0.35)}`,
   },
   semanticTokens: {
     colors: {
+      ink: flip(inkDark, inkLight),
+      bone: flip(boneDark, boneLight),
+      // Repainted to neutrals and flipping with them. See the header.
+      river: { 400: { default: boneDark[300], _light: boneLight[300] }, 500: { default: boneDark[500], _light: boneLight[500] }, 600: { default: boneDark[600], _light: boneLight[600] } },
+      hivis: { 500: { default: boneDark[100], _light: boneLight[100] } },
       'bg.page': 'ink.900',
       'bg.surface': 'ink.500',
       'bg.raised': 'ink.400',
@@ -177,19 +232,27 @@ const theme = extendTheme({
         bg: 'ink.900',
         color: 'bone.100',
         fontFamily: 'body',
-        lineHeight: 1.55,
+        lineHeight: 1.5,
         WebkitFontSmoothing: 'antialiased',
         overflowX: 'hidden',
       },
-      '::selection': { bg: 'ember.500', color: 'ink.900' },
+      '::selection': { bg: 'red.500', color: '#FBF8F2' },
       '*:focus-visible': {
         outline: '2px solid',
-        outlineColor: 'ember.500',
+        outlineColor: 'red.500',
         outlineOffset: '2px',
       },
       'input, textarea, select': { fontFamily: 'body' },
+      // Chrome paints autofilled fields yellow or blue. Paint them back to
+      // the field's own surface in both modes, type included.
+      'input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill': {
+        WebkitBoxShadow: '0 0 0 1000px var(--fb-field-bg, #1D1D20) inset',
+        WebkitTextFillColor: 'var(--fb-field-fg, #EFEAE0)',
+        caretColor: 'var(--fb-field-fg, #EFEAE0)',
+        transition: 'background-color 9999s ease-out 0s',
+      },
       '::-webkit-scrollbar': { width: '10px', height: '10px' },
-      '::-webkit-scrollbar-thumb': { bg: 'ink.300', borderRadius: '4px' },
+      '::-webkit-scrollbar-thumb': { bg: 'ink.300', borderRadius: '6px' },
       '::-webkit-scrollbar-track': { bg: 'ink.900' },
       '@media (prefers-reduced-motion: reduce)': {
         html: { scrollBehavior: 'auto' },
@@ -201,33 +264,28 @@ const theme = extendTheme({
     Heading: {
       baseStyle: {
         fontFamily: 'heading',
-        fontWeight: 800,
+        fontWeight: 600,
         textTransform: 'uppercase',
-        letterSpacing: '-0.015em',
-        lineHeight: 0.92,
+        letterSpacing: '0',
+        lineHeight: 1,
         color: 'bone.100',
       },
       sizes: {
-        '4xl': { fontSize: { base: '4rem', md: '7rem', lg: '9.5rem' }, fontWeight: 900, letterSpacing: '-0.02em' },
-        '3xl': { fontSize: { base: '3.25rem', md: '5rem', lg: '6.5rem' }, fontWeight: 900 },
-        '2xl': { fontSize: { base: '2.6rem', md: '4rem' } },
-        xl: { fontSize: { base: '2.1rem', md: '2.8rem' } },
-        lg: { fontSize: { base: '1.6rem', md: '2rem' } },
-        md: { fontSize: '1.35rem' },
+        '4xl': { fontSize: { base: '3.2rem', md: '5rem', lg: '6.4rem' }, fontWeight: 700 },
+        '3xl': { fontSize: { base: '2.6rem', md: '3.8rem', lg: '4.6rem' }, fontWeight: 700 },
+        '2xl': { fontSize: { base: '2rem', md: '2.9rem' } },
+        xl: { fontSize: { base: '1.7rem', md: '2.2rem' } },
+        lg: { fontSize: { base: '1.45rem', md: '1.7rem' } },
+        md: { fontSize: '1.3rem' },
         sm: { fontSize: '1.1rem' },
-        xs: { fontSize: '0.95rem' },
+        xs: { fontSize: '0.95rem', letterSpacing: '0.04em' },
       },
     },
     Text: {
       variants: {
-        kicker: { ...kicker, color: 'ember.500' },
-        // Older name for the same object. Kept so nothing breaks.
-        eyebrow: { ...kicker, color: 'ember.500' },
-        mono: {
-          fontFamily: 'mono',
-          fontSize: 'sm',
-          color: 'bone.300',
-        },
+        kicker: { ...kicker, color: 'bone.500' },
+        eyebrow: { ...kicker, color: 'bone.500' },
+        mono: { fontFamily: 'mono', fontSize: 'sm', color: 'bone.300' },
         muted: { color: 'bone.300' },
         subtle: { color: 'bone.500', fontSize: 'sm' },
       },
@@ -235,7 +293,7 @@ const theme = extendTheme({
     Button: {
       baseStyle: {
         fontFamily: 'heading',
-        fontWeight: 700,
+        fontWeight: 600,
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
         borderRadius: 'base',
@@ -244,22 +302,28 @@ const theme = extendTheme({
       },
       sizes: {
         lg: { h: '52px', px: 7, fontSize: 'xl' },
-        md: { h: '44px', px: 5, fontSize: 'lg' },
-        sm: { h: '36px', px: 4, fontSize: 'md' },
-        xs: { h: '28px', px: 3, fontSize: 'sm' },
+        md: { h: '46px', px: 5, fontSize: 'lg' },
+        sm: { h: '38px', px: 4, fontSize: 'md' },
+        xs: { h: '30px', px: 3, fontSize: 'sm' },
       },
       variants: {
         ember: {
-          bg: 'ember.500',
-          color: 'ink.900',
-          _hover: { bg: 'ember.400', _disabled: { bg: 'ember.500' } },
-          _active: { bg: 'ember.600' },
+          bg: 'red.500',
+          color: ON_RED,
+          _hover: { bg: 'red.400', _disabled: { bg: 'red.500' } },
+          _active: { bg: 'red.600' },
+        },
+        red: {
+          bg: 'red.500',
+          color: ON_RED,
+          _hover: { bg: 'red.400', _disabled: { bg: 'red.500' } },
+          _active: { bg: 'red.600' },
         },
         river: {
-          bg: 'river.500',
+          bg: 'bone.100',
           color: 'ink.900',
-          _hover: { bg: 'river.400', _disabled: { bg: 'river.500' } },
-          _active: { bg: 'river.600' },
+          _hover: { bg: 'bone.50' },
+          _active: { bg: 'bone.300' },
         },
         bone: {
           bg: 'bone.100',
@@ -268,12 +332,12 @@ const theme = extendTheme({
           _active: { bg: 'bone.300' },
         },
         outline: {
-          border: '2px solid',
-          borderColor: 'bone.100',
+          border: '1px solid',
+          borderColor: 'ink.100',
           color: 'bone.100',
           bg: 'transparent',
-          _hover: { bg: 'bone.100', color: 'ink.900' },
-          _active: { bg: 'bone.300', color: 'ink.900' },
+          _hover: { borderColor: 'bone.500' },
+          _active: { bg: 'ink.400' },
         },
         ghost: {
           color: 'bone.300',
@@ -281,20 +345,20 @@ const theme = extendTheme({
           _active: { bg: 'ink.300' },
         },
         link: {
-          color: 'ember.500',
+          color: 'bone.100',
           textTransform: 'none',
           fontFamily: 'body',
           fontWeight: 600,
           letterSpacing: 0,
-          _hover: { color: 'ember.400', textDecoration: 'underline' },
+          _hover: { color: 'red.500', textDecoration: 'underline' },
         },
       },
-      defaultProps: { variant: 'ember' },
+      defaultProps: { variant: 'red' },
     },
     Link: {
       baseStyle: {
-        color: 'ember.500',
-        _hover: { color: 'ember.400', textDecoration: 'underline' },
+        color: 'bone.100',
+        _hover: { color: 'red.500', textDecoration: 'underline' },
         _focusVisible: { boxShadow: 'outline' },
       },
     },
@@ -305,7 +369,7 @@ const theme = extendTheme({
             bg: 'ink.500',
             borderColor: 'ink.300',
             color: 'bone.100',
-            borderRadius: 'base',
+            borderRadius: 'sm',
             _placeholder: { color: 'bone.600' },
             _hover: { borderColor: 'ink.100' },
             _focusVisible: focusRing,
@@ -313,7 +377,7 @@ const theme = extendTheme({
           },
         },
       },
-      defaultProps: { variant: 'outline', focusBorderColor: 'ember.500' },
+      defaultProps: { variant: 'outline', focusBorderColor: 'red.500' },
     },
     NumberInput: {
       variants: {
@@ -323,6 +387,7 @@ const theme = extendTheme({
             borderColor: 'ink.300',
             color: 'bone.100',
             fontFamily: 'mono',
+            borderRadius: 'sm',
             _hover: { borderColor: 'ink.100' },
             _focusVisible: focusRing,
           },
@@ -336,7 +401,7 @@ const theme = extendTheme({
           bg: 'ink.500',
           borderColor: 'ink.300',
           color: 'bone.100',
-          borderRadius: 'base',
+          borderRadius: 'sm',
           _placeholder: { color: 'bone.600' },
           _hover: { borderColor: 'ink.100' },
           _focusVisible: focusRing,
@@ -351,6 +416,7 @@ const theme = extendTheme({
             bg: 'ink.500',
             borderColor: 'ink.300',
             color: 'bone.100',
+            borderRadius: 'sm',
             _hover: { borderColor: 'ink.100' },
             _focusVisible: focusRing,
             '> option': { bg: 'ink.500', color: 'bone.100' },
@@ -360,26 +426,17 @@ const theme = extendTheme({
       },
     },
     FormLabel: {
-      baseStyle: {
-        ...kicker,
-        color: 'bone.300',
-        mb: 2,
-      },
+      baseStyle: { ...kicker, color: 'bone.500', mb: 2 },
     },
     FormError: {
-      baseStyle: { text: { color: 'ember.400', fontSize: 'sm' } },
+      baseStyle: { text: { color: 'red.400', fontSize: 'sm' } },
     },
     Checkbox: {
       baseStyle: {
         control: {
           borderColor: 'bone.600',
-          borderRadius: 'sm',
-          _checked: {
-            bg: 'ember.500',
-            borderColor: 'ember.500',
-            color: 'ink.900',
-            _hover: { bg: 'ember.400', borderColor: 'ember.400' },
-          },
+          borderRadius: '4px',
+          _checked: { bg: 'red.500', borderColor: 'red.500', color: ON_RED, _hover: { bg: 'red.400', borderColor: 'red.400' } },
           _focusVisible: { boxShadow: 'outline' },
         },
         label: { color: 'bone.100' },
@@ -389,32 +446,20 @@ const theme = extendTheme({
       baseStyle: {
         control: {
           borderColor: 'bone.600',
-          _checked: {
-            bg: 'ember.500',
-            borderColor: 'ember.500',
-            color: 'ink.900',
-            _hover: { bg: 'ember.400', borderColor: 'ember.400' },
-          },
+          _checked: { bg: 'red.500', borderColor: 'red.500', color: ON_RED, _hover: { bg: 'red.400', borderColor: 'red.400' } },
           _focusVisible: { boxShadow: 'outline' },
         },
         label: { color: 'bone.100' },
       },
     },
-    // Badges are kickers. No filled pills anywhere on the site. The variant
-    // only changes the ink color.
+    // Badges are kickers. No filled pills anywhere on the site.
     Badge: {
-      baseStyle: {
-        ...kicker,
-        fontSize: '10px',
-        borderRadius: 0,
-        px: 0,
-        py: 0,
-        bg: 'transparent',
-      },
+      baseStyle: { ...kicker, fontSize: '10px', borderRadius: 0, px: 0, py: 0, bg: 'transparent' },
       variants: {
-        hivis: { color: 'hivis.500' },
-        ember: { color: 'ember.500' },
-        river: { color: 'river.500' },
+        hivis: { color: 'bone.100' },
+        ember: { color: 'red.500' },
+        red: { color: 'red.500' },
+        river: { color: 'bone.300' },
         outline: { color: 'bone.300', borderBottom: '1px solid', borderColor: 'ink.200', pb: '1px' },
         ink: { color: 'bone.500' },
       },
@@ -424,51 +469,37 @@ const theme = extendTheme({
       variants: {
         ticket: {
           table: { fontFamily: 'mono', fontSize: 'sm' },
-          th: {
-            ...kicker,
-            fontSize: '10px',
-            color: 'bone.500',
-            borderBottom: '1px solid',
-            borderColor: 'ink.300',
-            px: 3,
-            py: 2,
-          },
+          th: { ...kicker, fontSize: '10px', color: 'bone.500', borderBottom: '1px solid', borderColor: 'ink.300', px: 3, py: 2 },
           td: { borderBottom: '1px solid', borderColor: 'ink.300', px: 3, py: 2, color: 'bone.100' },
         },
       },
     },
-    Divider: {
-      baseStyle: { borderColor: 'ink.300', opacity: 1 },
-    },
+    Divider: { baseStyle: { borderColor: 'ink.300', opacity: 1 } },
     Drawer: {
       baseStyle: {
         dialog: { bg: 'ink.500', color: 'bone.100' },
-        overlay: { bg: alpha(palette.ink, 0.8) },
+        overlay: { bg: alpha('#0E0E10', 0.78) },
         closeButton: { color: 'bone.300' },
       },
     },
     Modal: {
       baseStyle: {
-        dialog: { bg: 'ink.500', color: 'bone.100', borderRadius: 'base', border: '1px solid', borderColor: 'ink.300' },
-        overlay: { bg: alpha(palette.ink, 0.8) },
+        dialog: { bg: 'ink.500', color: 'bone.100', borderRadius: 'lg', border: '1px solid', borderColor: 'ink.300' },
+        overlay: { bg: alpha('#0E0E10', 0.78) },
       },
     },
     Skeleton: {
-      baseStyle: {
-        borderRadius: 'base',
-        '--skeleton-start-color': 'colors.ink.400',
-        '--skeleton-end-color': 'colors.ink.300',
-      },
+      baseStyle: { borderRadius: 'md', '--skeleton-start-color': 'colors.ink.400', '--skeleton-end-color': 'colors.ink.300' },
     },
     Tooltip: {
-      baseStyle: { bg: 'bone.100', color: 'ink.900', fontFamily: 'body', borderRadius: 'base', px: 3, py: 1.5 },
+      baseStyle: { bg: 'bone.100', color: 'ink.900', fontFamily: 'body', borderRadius: 'sm', px: 3, py: 1.5 },
     },
     Alert: {
       variants: {
         ink: (props) => {
-          const c = props.colorScheme || 'ember'
+          const c = props.colorScheme || 'red'
           return {
-            container: { bg: 'ink.400', border: '1px solid', borderColor: `${c}.500`, borderRadius: 'base', color: 'bone.100' },
+            container: { bg: 'ink.400', border: '1px solid', borderColor: `${c}.500`, borderRadius: 'md', color: 'bone.100' },
             icon: { color: `${c}.500` },
             title: { fontFamily: 'heading', textTransform: 'uppercase', letterSpacing: '0.06em' },
           }
@@ -477,15 +508,12 @@ const theme = extendTheme({
       defaultProps: { variant: 'ink' },
     },
     Progress: {
-      baseStyle: {
-        track: { bg: 'ink.300' },
-        filledTrack: { bg: 'river.500' },
-      },
+      baseStyle: { track: { bg: 'ink.300' }, filledTrack: { bg: 'red.500' } },
     },
-    // The sheet. Left aligned, capped at 1680, rail 20 / 40. See theme/layout.js.
+    // The sheet. Full width, 97 percent on a desktop. See theme/layout.js.
     Container: {
-      baseStyle: { px: { base: 5, md: 10 }, mx: 0, w: '100%' },
-      sizes: { page: { maxW: '1680px' }, narrow: { maxW: '900px' } },
+      baseStyle: { px: { base: '16px', md: '1.5vw' }, mx: 0, w: '100%', maxW: 'none' },
+      sizes: { page: { maxW: 'none' }, narrow: { maxW: '960px' } },
     },
   },
 })

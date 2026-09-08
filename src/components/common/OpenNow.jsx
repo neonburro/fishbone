@@ -6,12 +6,12 @@
 
 import { Box, HStack, Text } from '@chakra-ui/react'
 import useOpenStatus from '../../hooks/useOpenStatus'
-import { palette, alpha } from '../../theme'
 
 export default function OpenNow({ size = 'sm', ...rest }) {
   const status = useOpenStatus()
-  const color = status.isOpen ? 'hivis.500' : status.appointment ? 'river.500' : 'ember.500'
-  const glow = status.isOpen ? alpha(palette.hivis, 0.35) : alpha(palette.ember, 0.25)
+  // Open is the red dot, the one live thing on the page. Closed is quiet.
+  const color = status.isOpen ? 'red.500' : 'bone.500'
+  const glow = 'rgba(236,29,59,0.35)'
   return (
     <HStack spacing={3} align="center" {...rest} role="status" aria-live="polite">
       <Box position="relative" w="10px" h="10px" flexShrink={0}>

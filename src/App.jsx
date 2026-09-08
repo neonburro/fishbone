@@ -23,6 +23,8 @@ const OrderTrack = lazy(() => import('./pages/Order/Track'))
 const Quote = lazy(() => import('./pages/Quote'))
 const Services = lazy(() => import('./pages/Services'))
 const Work = lazy(() => import('./pages/Work'))
+const Prints = lazy(() => import('./pages/Prints'))
+const Proof = lazy(() => import('./pages/Proof'))
 const Notes = lazy(() => import('./pages/Notes'))
 const NotePost = lazy(() => import('./pages/Notes/Post'))
 const About = lazy(() => import('./pages/About'))
@@ -67,6 +69,8 @@ export default function App() {
               <Route path="quote/" element={<Quote />} />
               <Route path="services/" element={<Services />} />
               <Route path="work/" element={<Work />} />
+              <Route path="prints/" element={<Prints />} />
+              <Route path="proof/:token/" element={<Proof />} />
               <Route path="notes/" element={<Notes />} />
               <Route path="notes/:slug/" element={<NotePost />} />
               <Route path="about/" element={<About />} />

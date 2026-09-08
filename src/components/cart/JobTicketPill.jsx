@@ -10,13 +10,13 @@
 // always-there echo of this for when the sheet is empty.
 
 import { useEffect, useState } from 'react'
-import { Box, HStack, Text } from '@chakra-ui/react'
+import { Box, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import useCartStore, { selectLineCount } from '../../store/cartStore'
 import useEstimate from '../../hooks/useEstimate'
 import { money } from '../../lib/format'
-import { palette, alpha } from '../../theme'
+import { palette, paletteLight, alpha } from '../../theme'
 import { RAIL_PX, EASE, EASE_ARR, Z } from '../../theme/layout'
 
 const MotionBox = motion(Box)
@@ -32,6 +32,7 @@ export default function JobTicketPill() {
   const lastAdded = useCartStore((s) => s.lastAdded)
   const est = useEstimate(lines)
   const [flash, setFlash] = useState(null)
+  const p = useColorModeValue(paletteLight, palette)
 
   useEffect(() => {
     if (!lastAdded) return undefined
@@ -79,7 +80,7 @@ export default function JobTicketPill() {
                 maxW="min(80vw, 360px)"
               >
                 <Text fontFamily="mono" fontSize="10px" letterSpacing="0.14em" textTransform="uppercase" color="bone.300" noOfLines={1}>
-                  <Box as="span" color="hivis.500">Added</Box>
+                  <Box as="span" color="red.500">Added</Box>
                   {'  '}{flash.quantity} x {flash.name}{flash.variantLabel ? `, ${flash.variantLabel}` : ''}
                 </Text>
               </MotionBox>
@@ -94,8 +95,8 @@ export default function JobTicketPill() {
               aria-label={`Open your job ticket, ${count} ${count === 1 ? 'line' : 'lines'}, estimated ${money(est.total)}`}
               spacing={0}
               h={{ base: '48px', md: '52px' }}
-              borderRadius="base"
-              bg={alpha(palette.ink, 0.82)}
+              borderRadius="full"
+              bg={alpha(p.inkSurface, 0.84)}
               border="1px solid"
               borderColor="ink.200"
               boxShadow={`0 12px 30px ${alpha('#000000', 0.45)}`}
@@ -107,14 +108,14 @@ export default function JobTicketPill() {
               _focusVisible={{ borderColor: 'ember.500', outline: 'none' }}
             >
               {/* The stub. Perforated edge. */}
-              <Box h="100%" px={3} display="flex" alignItems="center" bg="ember.500" color="ink.900" position="relative" _after={{ content: '""', position: 'absolute', right: '-1px', top: 0, bottom: 0, w: '2px', bg: `repeating-linear-gradient(to bottom, ${palette.ink} 0 3px, transparent 3px 6px)` }}>
+              <Box h="100%" px={3} display="flex" alignItems="center" bg="red.500" color="#FBF8F2" position="relative" _after={{ content: '""', position: 'absolute', right: '-1px', top: 0, bottom: 0, w: '2px', bg: `repeating-linear-gradient(to bottom, ${p.inkSurface} 0 3px, transparent 3px 6px)` }}>
                 <Text fontFamily="heading" fontWeight={800} fontSize="13px" letterSpacing="0.08em" textTransform="uppercase" lineHeight={1}>Ticket</Text>
               </Box>
               <HStack spacing={4} px={4} align="baseline">
                 <Text fontFamily="mono" fontSize="12px" letterSpacing="0.1em" color="bone.100">
                   {String(count).padStart(2, '0')} <Text as="span" color="bone.500">{count === 1 ? 'line' : 'lines'}</Text>
                 </Text>
-                <Text fontFamily="mono" fontSize="12px" letterSpacing="0.06em" color="hivis.500">
+                <Text fontFamily="mono" fontSize="12px" letterSpacing="0.06em" color="bone.100">
                   {money(est.total)} <Text as="span" color="bone.500">est</Text>
                 </Text>
               </HStack>

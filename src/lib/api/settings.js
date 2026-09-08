@@ -2,13 +2,14 @@
 import { supabase, toError } from '../supabase'
 
 export const DEFAULT_SETTINGS = {
+  pricing: { show_prices: true, size_upcharges_enabled: false, size_upcharges: {} },
   store: {
     name: 'Fishbone Graphics',
     legal_name: 'Fishbone Graphics & Screen Printing',
     tagline: 'Ridgway, Colorado. Printing since 1985.',
     founded: 1985,
-    phone: '(970) 626-4437',
-    email: 'hello@fishbonegraphics.com',
+    phone: '(970) 626-4350',
+    email: 'sales@fishbonegraphics.com',
     address1: '250 S Lena St',
     address2: '',
     city: 'Ridgway',

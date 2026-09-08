@@ -1,16 +1,14 @@
 // src/pages/NotFound/index.jsx
-import { alpha, palette } from '../../theme'
+import { palette } from '../../theme'
 import { Box, Button, Container, Heading, Stack, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import SEO from '../../components/common/SEO'
-import Halftone from '../../components/brand/Halftone'
 import RegMark from '../../components/brand/RegMark'
 
 export default function NotFound({ title = 'Off the registration.' }) {
   return (
     <Box position="relative" overflow="hidden" minH="60vh" display="flex" alignItems="center">
       <SEO title="Page not found" noIndex path="/404" />
-      <Halftone fade="radial" color={alpha(palette.ember, 0.12)} size={14} dot={1.8} />
       <Container size="narrow" position="relative" textAlign="center" py={{ base: 16, md: 24 }}>
         <RegMark size="48px" color={palette.ember} mb={6} />
         <Text fontFamily="mono" color="bone.500" mb={2}>404</Text>

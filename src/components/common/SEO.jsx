@@ -5,7 +5,7 @@ const SITE = import.meta.env.VITE_SITE_URL || 'https://fishbonegraphics.com'
 const BRAND = 'Fishbone Graphics'
 
 export default function SEO({ title, description, path = '/', image, type = 'website', structuredData = null, noIndex = false }) {
-  const fullTitle = title ? `${title} | ${BRAND}` : `${BRAND} | Screen Printing & Festival Merch | Ridgway, CO`
+  const fullTitle = title ? `${title} | ${BRAND}` : `${BRAND} | Screen printing and design for music and festival merch`
   const url = `${SITE}${path.startsWith('/') ? path : `/${path}`}`
   const img = image ? (image.startsWith('http') ? image : `${SITE}${image}`) : `${SITE}/og.png`
   return (

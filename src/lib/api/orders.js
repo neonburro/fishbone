@@ -25,3 +25,20 @@ export async function lookupOrder(orderNumber, email) {
   const result = Array.isArray(data) ? data[0] : data
   return result || null
 }
+
+// ── the quote page ──────────────────────────────────────────────────────────
+// /proof/<token>/ reads the run by its quote token through a security definer
+// RPC that returns only what the customer should see, and accepts through
+// another. No row access from the browser.
+
+export async function getQuoteByToken(token) {
+  const { data, error } = await supabase.rpc('get_quote_by_token', { p_token: token })
+  if (error) throw toError(error, 'We could not open that quote.')
+  return data
+}
+
+export async function acceptQuote(token, name) {
+  const { data, error } = await supabase.rpc('accept_quote', { p_token: token, p_name: name || null })
+  if (error) throw toError(error, 'We could not record that. Call the shop and we will take it by phone.')
+  return data
+}

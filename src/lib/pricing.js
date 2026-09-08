@@ -72,6 +72,24 @@ export function estimateSetup(items = [], decorationOptions = []) {
   return { total: round2(total), byMethod }
 }
 
+/**
+ * sizeUpcharge(sizeBreakdown, pricing)
+ * Mirrors place_order: when settings.pricing.size_upcharges_enabled, each
+ * piece of a size adds that size's upcharge. {S: 5, '2XL': 3} with 2XL at
+ * 1.50 adds 4.50. Off, or no breakdown, adds nothing.
+ */
+export function sizeUpcharge(sizeBreakdown = {}, pricing = null) {
+  if (!pricing || !pricing.size_upcharges_enabled) return 0
+  const table = pricing.size_upcharges || {}
+  let total = 0
+  for (const [size, count] of Object.entries(sizeBreakdown || {})) {
+    const up = num(table[size])
+    const n = num(count)
+    if (up > 0 && n > 0) total += up * n
+  }
+  return round2(total)
+}
+
 export function lineTotal(line) {
   return round2(num(line.unitPriceSnapshot) * num(line.quantity))
 }

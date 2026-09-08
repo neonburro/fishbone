@@ -1,84 +1,101 @@
 // src/components/layout/Nav.jsx
 //
-// Full width bar. It never hides. A cart that is one scroll position away
-// from unreachable is a cart people abandon, so past NAV_CONDENSE_AFTER the
-// bar loses about twenty pixels of height and the ink surface arrives across
-// the band. Same information, less shouting.
+// The bar. Three things on it and nothing else: the logo tile on the left,
+// the links in the middle on a desktop, and one round button on the right.
 //
-// ── THE ALIGNMENT ───────────────────────────────────────────────────────────
-// The wordmark's first glyph lands on the rail, the same x as the first
-// character of every heading. The lockup carries LOCKUP_PAD of padding so it
-// is pulled back by that much to put the LETTERFORM on the line, not the box.
-// The plumb line under it (desktop only) is the visible proof: if a heading
-// ever drifts you see it against that hairline.
+// ── THE TILE ────────────────────────────────────────────────────────────────
+// The lockup sits on a piece of smoked glass, translucent ink over a blur with
+// a hairline border, so it reads as sitting ON the page rather than as a
+// hole cut through it. The tile's left edge is the rail. A plumb line drops
+// from under it on a desktop and every heading on the page starts on that
+// line. If a heading ever looks off, the line is how you catch it.
+//
+// ── LEAVES AND COMES BACK ───────────────────────────────────────────────────
+// Past NAV_HIDE_AFTER, scrolling down hides the bar and scrolling up brings
+// it straight back. Direction, not position. The job ticket pill covers the
+// order while the bar is away. The menu button and the ticket count live in
+// the round button, which is the single entry point on a phone.
 //
 // ── IT OWNS --fb-nav-h ──────────────────────────────────────────────────────
-// The bar is fixed, so the page needs to know how tall it is, and the answer
-// changes with the announcement strip, the breakpoint and the condensed
-// state. The height is MEASURED off the real element and published on the
-// document as --fb-nav-h. Layout pads main by it. Anything sticky reads it.
-// Do not add a second measurement.
+// The bar is fixed, so main pads by its measured height, published on the
+// document as --fb-nav-h. Do not add a second measurement.
 //
 // No oxford commas, no em dashes.
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Box, Flex, HStack, IconButton, Text, Link as ChakraLink } from '@chakra-ui/react'
+import { Box, Flex, HStack, Text, Link as ChakraLink, useColorModeValue } from '@chakra-ui/react'
 import { Link as RouterLink, NavLink, useLocation } from 'react-router-dom'
 import Logo from '../brand/Logo'
-import MenuOverlay from './MenuOverlay'
+import MenuSheet from './MenuSheet'
 import useCartStore, { selectLineCount } from '../../store/cartStore'
 import { useSettings } from '../../hooks/useSettings'
-import { palette, alpha } from '../../theme'
-import { RAIL, RAIL_PX, LOCKUP_PAD, NAV_H, NAV_H_TIGHT, NAV_CONDENSE_AFTER, NAV_VAR, EASE, Z } from '../../theme/layout'
+import { palette, paletteLight, alpha } from '../../theme'
+import { RAIL, RAIL_CSS, NAV_H, NAV_HIDE_AFTER, NAV_VAR, EASE, Z } from '../../theme/layout'
 
-export const NAV_LINKS = [
-  { to: '/shop/', label: 'Shop' },
-  { to: '/work/', label: 'Work' },
-  { to: '/notes/', label: 'Notes' },
-  { to: '/services/', label: 'Services' },
-  { to: '/about/', label: 'About' },
-  { to: '/contact/', label: 'Contact' },
-  { to: '/quote/', label: 'Get a quote', accent: true },
-]
-
-const INLINE = NAV_LINKS.filter((l) => ['Shop', 'Work', 'Notes', 'Get a quote'].includes(l.label))
-
-function TicketGlyph({ size = 18 }) {
+// The ribs. The one button on the bar is the middle of the fishbone mark:
+// a spine with three ribs. It reads as a menu because three lines always
+// do, and it is ours because nothing else draws its menu as a fish. It is
+// drawn with the same stroke as the mark beside it.
+function RibsGlyph({ size = 22 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
-      <path d="M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4V7z" />
-      <path d="M9 7v13" strokeDasharray="2 2" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 12h18" />
+      <path d="M8 12l-2-6M8 12l-2 6M13 12l-2-7M13 12l-2 7M18 12l-2-6M18 12l-2 6" />
     </svg>
   )
 }
+
+// The words. A bulk order is a run. Premade stock is the rack (not built yet,
+// it arrives with Pulse inventory). A quote is a proof. The cart is the ticket.
+export const NAV_LINKS = [
+  { to: '/shop/', label: 'Runs' },
+  { to: '/prints/', label: 'Prints' },
+  { to: '/work/', label: 'Work' },
+  { to: '/services/', label: 'Printing' },
+  { to: '/notes/', label: 'Notes' },
+  { to: '/about/', label: 'About' },
+  { to: '/contact/', label: 'Shop info' },
+  { to: '/quote/', label: 'Send your art', accent: true },
+]
+
+const INLINE = NAV_LINKS.filter((l) => ['Runs', 'Work', 'Printing', 'Shop info'].includes(l.label))
+
+// Smoked glass on ink, frosted glass on paper. Same blur, different tint.
+const glassFor = (p, shadow) => ({
+  bg: alpha(p.inkSurface, 0.74),
+  border: '1px solid',
+  borderColor: alpha(p.bone, 0.1),
+  boxShadow: `0 10px 30px ${alpha('#000000', shadow)}`,
+  sx: { backdropFilter: 'blur(14px) saturate(140%)', WebkitBackdropFilter: 'blur(14px) saturate(140%)' },
+})
 
 export default function Nav() {
   const { pathname } = useLocation()
   const { settings } = useSettings()
   const count = useCartStore(selectLineCount)
-  const openDrawer = useCartStore((s) => s.openDrawer)
-  const [condensed, setCondensed] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const headerRef = useRef(null)
-  const stateRef = useRef(false)
+  const lastY = useRef(0)
+  const hiddenRef = useRef(false)
 
-  // Condense flag flips only when the boolean changes, so a scroll does not
-  // re-render the tree sixty times a second.
   useEffect(() => {
     const onScroll = () => {
-      const next = window.scrollY > NAV_CONDENSE_AFTER
-      if (next !== stateRef.current) {
-        stateRef.current = next
-        setCondensed(next)
+      const y = window.scrollY
+      const dy = y - lastY.current
+      if (Math.abs(dy) < 4) return
+      const next = y > NAV_HIDE_AFTER && dy > 0
+      if (next !== hiddenRef.current) {
+        hiddenRef.current = next
+        setHidden(next)
       }
+      lastY.current = y
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Publish the measured height. ResizeObserver catches the announcement strip
-  // arriving, the breakpoint changing and the condense transition settling.
   useLayoutEffect(() => {
     const el = headerRef.current
     if (!el) return undefined
@@ -94,23 +111,28 @@ export default function Nav() {
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
+  const glass = useColorModeValue(glassFor(paletteLight, 0.12), glassFor(palette, 0.34))
+  const hoverBorder = useColorModeValue(alpha(paletteLight.bone, 0.28), alpha(palette.bone, 0.18))
+  const wash = useColorModeValue(alpha(paletteLight.bone, 0.08), alpha(palette.bone, 0.08))
+  const plumb = useColorModeValue(alpha(paletteLight.bone, 0.28), alpha(palette.bone, 0.22))
   const ann = settings?.announcement
   const showAnn = ann?.enabled && ann?.text
+  const away = hidden && !menuOpen
 
   return (
     <>
-      {/* The plumb line. Desktop only. Sits on the rail, not on the lockup. */}
+      {/* The plumb line. Desktop only. Drops from under the tile down the rail. */}
       <Box
         display={{ base: 'none', md: 'block' }}
         position="fixed"
         aria-hidden="true"
-        left={`${RAIL_PX.md}px`}
-        top={`var(${NAV_VAR}, 84px)`}
-        bottom="0"
+        left={RAIL_CSS.md}
+        top={`var(${NAV_VAR}, 76px)`}
+        h="140px"
         w="1px"
         zIndex={Z.plumb}
         pointerEvents="none"
-        bg={`linear-gradient(to bottom, ${alpha(palette.bone, 0.16)}, transparent 70%)`}
+        bg={`linear-gradient(to bottom, ${plumb}, transparent)`}
       />
 
       <Box
@@ -121,113 +143,102 @@ export default function Nav() {
         left={0}
         right={0}
         zIndex={Z.nav}
-        bg={condensed || menuOpen ? alpha(palette.ink, 0.86) : 'transparent'}
-        borderBottom="1px solid"
-        borderColor={condensed && !menuOpen ? 'ink.300' : 'transparent'}
-        transition={`background-color 420ms ${EASE}, border-color 420ms ${EASE}`}
-        sx={{ backdropFilter: condensed && !menuOpen ? 'blur(14px) saturate(140%)' : 'none' }}
+        transform={away ? 'translate3d(0, -110%, 0)' : 'translate3d(0, 0, 0)'}
+        opacity={away ? 0 : 1}
+        transition={`transform 460ms ${EASE}, opacity 380ms ${EASE}`}
+        pointerEvents={away ? 'none' : 'auto'}
       >
         {showAnn && !menuOpen && (
-          <Box bg="ember.500" color="ink.900" px={RAIL} py="6px">
-            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" noOfLines={1}>
+          <Box bg="ink.500" borderBottom="1px solid" borderColor="ink.300" px={RAIL} py="6px">
+            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" color="bone.300" noOfLines={1}>
               {ann.text}
             </Text>
           </Box>
         )}
-        <Flex align="center" justify="space-between" px={RAIL} h={condensed ? NAV_H_TIGHT : NAV_H} transition={`height 420ms ${EASE}`}>
-          {/* The lockup, pulled back so the glyph lands on the rail. */}
+        <Flex align="center" justify="space-between" px={RAIL} h={NAV_H}>
+          {/* The tile. Its left edge is the rail. */}
           <ChakraLink
             as={RouterLink}
             to="/"
             aria-label="Fishbone Graphics. Home"
             display="inline-flex"
             alignItems="center"
-            ml={`-${LOCKUP_PAD}px`}
-            px={`${LOCKUP_PAD}px`}
-            py="6px"
-            borderRadius="base"
-            _hover={{ textDecoration: 'none', opacity: 0.88 }}
-            transition={`opacity 260ms ${EASE}`}
+            px="14px"
+            py="9px"
+            borderRadius="md"
+            {...glass}
+            _hover={{ textDecoration: 'none', borderColor: hoverBorder }}
+            transition={`border-color 260ms ${EASE}`}
             onClick={() => setMenuOpen(false)}
           >
-            <Box h={condensed ? { base: '26px', md: '30px' } : { base: '30px', md: '38px' }} transition={`height 420ms ${EASE}`}>
+            <Box h={{ base: '32px', md: '38px' }}>
               <Logo height="100%" />
             </Box>
           </ChakraLink>
 
-          <HStack spacing={{ base: 1, md: 2 }}>
-            <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} mr={3}>
-              {INLINE.map((l) => (
-                <NavLink key={l.to} to={l.to} style={{ textDecoration: 'none' }}>
-                  {({ isActive }) => (
-                    <Text
-                      as="span"
-                      display="block"
-                      px={3}
-                      py={2}
-                      fontFamily="mono"
-                      fontSize="11px"
-                      fontWeight={500}
-                      letterSpacing="0.18em"
-                      textTransform="uppercase"
-                      color={isActive ? 'ember.500' : l.accent ? 'hivis.500' : 'bone.300'}
-                      borderBottom="1px solid"
-                      borderColor={isActive ? 'ember.500' : 'transparent'}
-                      transition={`color 260ms ${EASE}, border-color 260ms ${EASE}`}
-                      _hover={{ color: 'bone.100' }}
-                    >
-                      {l.label}
-                    </Text>
-                  )}
-                </NavLink>
-              ))}
-            </HStack>
+          {/* The links. Desktop only. */}
+          <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} px="6px" py="6px" borderRadius="full" {...glass}>
+            {INLINE.map((l) => (
+              <NavLink key={l.to} to={l.to} style={{ textDecoration: 'none' }}>
+                {({ isActive }) => (
+                  <Text
+                    as="span"
+                    display="block"
+                    px={4}
+                    py={2}
+                    borderRadius="full"
+                    fontFamily="heading"
+                    fontSize="17px"
+                    fontWeight={600}
+                    letterSpacing="0.06em"
+                    textTransform="uppercase"
+                    color={isActive ? 'bone.100' : 'bone.300'}
+                    bg={isActive ? wash : 'transparent'}
+                    transition={`color 260ms ${EASE}, background-color 260ms ${EASE}`}
+                    _hover={{ color: 'bone.100', bg: wash }}
+                  >
+                    {l.label}
+                  </Text>
+                )}
+              </NavLink>
+            ))}
+          </HStack>
 
-            {/* The ticket. Always reachable. Opens the drawer. */}
-            <HStack
-              as="button"
-              type="button"
-              onClick={() => { setMenuOpen(false); openDrawer() }}
-              aria-label={count > 0 ? `Open your job ticket, ${count} ${count === 1 ? 'line' : 'lines'}` : 'Open your job ticket, empty'}
-              spacing={2}
-              px={3}
-              h="40px"
-              borderRadius="base"
-              border="1px solid transparent"
-              color="bone.100"
-              transition={`border-color 260ms ${EASE}, background-color 260ms ${EASE}`}
-              _hover={{ borderColor: 'ink.300', bg: alpha(palette.bone, 0.04) }}
-              _focusVisible={{ borderColor: 'ember.500', outline: 'none' }}
-            >
-              <TicketGlyph />
-              <Text as="span" fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.1em" color={count > 0 ? 'hivis.500' : 'bone.500'} transition={`color 260ms ${EASE}`}>
+          {/* The one button. The ribs. Opens the menu, carries the ticket count. */}
+          <HStack
+            as="button"
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? 'Close menu' : count > 0 ? `Open menu, ${count} on your ticket` : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="fb-menu"
+            spacing={2}
+            h={{ base: '44px', md: '48px' }}
+            minW={{ base: '44px', md: '48px' }}
+            px={count > 0 && !menuOpen ? 3.5 : 0}
+            justifyContent="center"
+            borderRadius="full"
+            bg="bone.100"
+            color="ink.900"
+            boxShadow={`0 10px 30px ${alpha('#000000', 0.34)}`}
+            transition={`transform 260ms ${EASE}, background-color 260ms ${EASE}`}
+            _hover={{ transform: 'translateY(-1px)' }}
+            _active={{ transform: 'translateY(0)' }}
+            _focusVisible={{ boxShadow: 'outline', outline: 'none' }}
+          >
+            <Box display="inline-flex" transform={menuOpen ? 'rotate(90deg)' : 'none'} transition={`transform 420ms ${EASE}`}>
+              <RibsGlyph />
+            </Box>
+            {count > 0 && !menuOpen && (
+              <Text as="span" fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.08em" lineHeight={1}>
                 {String(count).padStart(2, '0')}
               </Text>
-            </HStack>
-
-            {/* Menu. Two lines that become an X. */}
-            <IconButton
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              aria-controls="fb-menu"
-              onClick={() => setMenuOpen((v) => !v)}
-              variant="ghost"
-              color="bone.100"
-              h="40px"
-              w="48px"
-              _hover={{ bg: alpha(palette.bone, 0.06) }}
-              icon={
-                <Box position="relative" w="22px" h="14px" aria-hidden="true">
-                  <Box position="absolute" left={0} right={0} top={menuOpen ? '6px' : 0} h="2px" bg="currentColor" transform={menuOpen ? 'rotate(45deg)' : 'none'} transition={`transform 420ms ${EASE}, top 420ms ${EASE}`} />
-                  <Box position="absolute" left={0} right={0} bottom={menuOpen ? '6px' : 0} h="2px" bg="currentColor" transform={menuOpen ? 'rotate(-45deg)' : 'none'} transition={`transform 420ms ${EASE}, bottom 420ms ${EASE}`} />
-                </Box>
-              }
-            />
+            )}
           </HStack>
         </Flex>
       </Box>
 
-      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MenuSheet open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   )
 }

@@ -1,7 +1,6 @@
 // src/components/common/Placeholder.jsx
 import { alpha, palette } from '../../theme'
 import { Box, Text } from '@chakra-ui/react'
-import Halftone from '../brand/Halftone'
 import RegMark from '../brand/RegMark'
 
 /**
@@ -12,7 +11,6 @@ export default function Placeholder({ label = 'FB', caption, ratio = 1, tone = '
   const initial = String(label || 'FB').trim().charAt(0).toUpperCase() || 'F'
   return (
     <Box position="relative" w="100%" pt={`${100 / ratio}%`} bg={tone} overflow="hidden" borderRadius="base" {...rest}>
-      <Halftone fade="radial" color={alpha(palette.bone, 0.09)} size={12} dot={1.5} />
       <Box position="absolute" inset={0} display="flex" alignItems="center" justifyContent="center" flexDir="column">
         <Text
           fontFamily="heading"

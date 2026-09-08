@@ -6,7 +6,8 @@ import { useSettings } from './useSettings'
 /** Shared estimate breakdown for Cart + Checkout. Server computes the real totals. */
 export default function useEstimate(lines, fulfillment = 'pickup') {
   const { settings, decorationOptions } = useSettings()
-  const subtotal = round2(lines.reduce((s, l) => s + priceLine(l).total, 0))
+  const pricing = settings?.pricing || null
+  const subtotal = round2(lines.reduce((s, l) => s + priceLine(l, pricing).total, 0))
   const setup = estimateSetup(lines, decorationOptions)
   const taxRate = Number(settings?.tax?.rate) || 0
   const tax = estimateTax(subtotal, setup.total, taxRate)

@@ -1,114 +1,117 @@
 // src/pages/Services/index.jsx
-import { alpha, palette } from '../../theme'
-import { Box, Button, Grid, GridItem, Heading, HStack, List, ListItem, SimpleGrid, Stack, Text } from '@chakra-ui/react'
+//
+// Printing. One page that says how a run works, what moves the price, what
+// we print on and what we need from your art. It lives at /services/ and
+// the nav calls it Printing, because that is the service. No list of five
+// services, this shop does one thing well.
+//
+// No oxford commas, no em dashes.
+
+import { Box, Button, Container, Grid, GridItem, Heading, Stack, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
 import SEO from '../../components/common/SEO'
-import PageHero from '../../components/layout/PageHero'
-import { Section, SectionHeader } from '../../components/common/Section'
-import Halftone from '../../components/brand/Halftone'
-import RegMark from '../../components/brand/RegMark'
-import { Reveal } from '../../components/common/Motion'
+import { FadeIn } from '../../components/common/Motion'
+import { BAND_Y, MEASURE } from '../../theme/layout'
 
-const SERVICES = [
-  {
-    id: 'screen-printing', n: '01', title: 'Screen printing', tag: 'The core of the shop since 1985',
-    copy: 'Plastisol for punch and durability, water-based and discharge when you want it soft and vintage. Manual presses for the hand-pulled stuff, automatic for the big runs. We burn our own screens and mix our own Pantones.',
-    bullets: ['Up to 8 spot colors, tight registration', 'Simulated process and halftones for photographic art', 'Specialty inks: puff, metallic, glow, high-density', 'Tees, hoodies, totes, bandanas, koozies, posters'],
-    best: 'Runs of 24+ with 1-6 colors. The more you print, the cheaper each one gets.',
-  },
-  {
-    id: 'embroidery', n: '02', title: 'Embroidery', tag: 'Stitched, not printed',
-    copy: 'Hats, quarter-zips, work jackets, polos, beanies. Files are digitized in-house so the stitch count is honest and small text stays legible. 3D puff on caps if you want the logo to stand up.',
-    bullets: ['Left chest, cap front, sleeve, back yoke', 'Up to 12 thread colors', 'Structured and unstructured caps, visors, beanies', 'Names and numbers for crews and teams'],
-    best: 'Hats and outerwear. Anything a screen print would crack on.',
-  },
-  {
-    id: 'dtf', n: '03', title: 'DTF transfers', tag: 'Full color, no screens',
-    copy: 'Direct-to-film prints the whole image, gradients, photos, forty colors, onto a transfer we heat press onto almost any fabric. No screen fees, so short runs and one-offs finally make sense.',
-    bullets: ['Any color count, no setup per color', 'Works on cotton, poly, blends, nylon, canvas', 'Mixed garments and sizes in one small order', 'Names, numbers, sponsor logos'],
-    best: 'Under 24 pieces or complex full-color art on a budget.',
-  },
-  {
-    id: 'design', n: '04', title: 'Art & design', tag: 'Gig-poster roots',
-    copy: 'We separate colors, trace low-res logos into clean vector, fix type and build mockups. Or we draw the whole thing. Event posters, festival marks, band merch, bar shirts.',
-    bullets: ['Vector redraw and cleanup', 'Color separations and halftone prep', 'Original illustration and lettering', 'Print-ready files you keep'],
-    best: 'When the art is a screenshot, a sketch or an idea.',
-  },
-  {
-    id: 'festival', n: '05', title: 'Festival merch program', tag: 'Our specialty',
-    copy: 'We’ve stocked merch tables on the mountain circuit for decades. One ticket covers tees, hoodies, hats and posters in size curves that sell out evenly. Pre-event drop at the gate, on-call restocks over the weekend.',
-    bullets: ['Multi-garment lines on one order', 'Size curves tuned for festival crowds', 'Venue delivery and weekend restocks', 'Poster runs and limited editions'],
-    best: 'Festivals, tours, breweries, multi-day events. Ask for a quote.',
-    cta: { to: '/quote', label: 'Request a festival quote' },
-  },
+const STEPS = [
+  { n: '01', title: 'Garment and color', copy: 'Real blanks in real colors. We will tell you straight which one suits your art and your budget.' },
+  { n: '02', title: 'Print and placement', copy: 'Where the ink goes and how many colors. Front, back, sleeve, nape. One color or eight.' },
+  { n: '03', title: 'Sizes', copy: 'A grid that adds up. The price updates as it does, so you see the number before you send it.' },
+  { n: '04', title: 'Proof', copy: 'A person looks at every run before a screen is burned. You approve the proof, we pull the run.' },
+]
+
+const PRICE = [
+  ['Quantity', 'Screens cost the same whether we print 24 or 240, so the unit price drops at 24, 48, 72 and 144. Every product page shows the breaks.'],
+  ['Colors', 'Each color is a screen. One color is the cheapest shirt we make. Six colors is a poster on a shirt and priced like one.'],
+  ['Locations', 'Front is the baseline. A back, a sleeve or a nape is another screen and a small setup, charged once per run, not per shirt.'],
+  ['Reorders', 'Your screens and files stay on record. Year two of your event skips the setup and is one phone call.'],
+]
+
+const ART = [
+  'Vector is gold. AI, EPS, PDF or SVG with type outlined.',
+  'No vector? A PNG or PSD at 300 dpi at print size works.',
+  'A sketch or a screenshot is fine to start. We separate, redraw and clean up, and quote the art time up front.',
+  'Tell us the Pantone if you have one. We mix by eye and check with a swatch.',
 ]
 
 export default function Services() {
   return (
     <>
-      <SEO title="Services" description="Screen printing, embroidery, DTF transfers, art and design and a festival merch program. All under one roof in Ridgway, Colorado." path="/services/" />
-      <PageHero eyebrow="Services" title="Five ways to put a mark on a thing." lead="One shop, one crew, forty years of knowing which method your job actually needs. If you’re not sure, call. We’ll tell you straight, even when the answer is the cheaper one." size="lg" />
+      <SEO title="Printing" description="How a run works at Fishbone Graphics. Garment, print, sizes, proof. What moves the price and what we need from your art. Ridgway, Colorado." path="/services/" />
+      <Container size="page" pt={{ base: 6, md: 12 }} pb={BAND_Y}>
+        <FadeIn>
+          <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} maxW="22ch">
+            Screen printing, <Box as="strong" fontWeight={700}>24 pieces and up.</Box> Here is how a run works and what moves the price.
+          </Text>
+        </FadeIn>
 
-      <Section py={{ base: 10, md: 16 }}>
-        <HStack as="nav" aria-label="Services" spacing={2} flexWrap="wrap" rowGap={2} mb={{ base: 10, md: 16 }}>
-          {SERVICES.map((s) => (
-            <Button key={s.id} as="a" href={`#${s.id}`} size="sm" variant="outline">{s.title}</Button>
-          ))}
-        </HStack>
-        <Stack spacing={{ base: 12, md: 20 }}>
-          {SERVICES.map((s, i) => (
-            <Reveal key={s.id}>
-              <Grid id={s.id} templateColumns={{ base: '1fr', md: '2fr 3fr' }} gap={{ base: 6, md: 12 }} scrollMarginTop="100px" borderTop="1px solid" borderColor="ink.300" pt={{ base: 8, md: 12 }}>
-                <GridItem>
-                  <Text fontFamily="mono" color="ember.500" mb={2}>{s.n}</Text>
-                  <Heading as="h2" size="2xl">{s.title}</Heading>
-                  <Text color="river.400" fontFamily="heading" fontWeight={600} textTransform="uppercase" letterSpacing="0.1em" fontSize="sm" mt={3}>{s.tag}</Text>
-                </GridItem>
-                <GridItem>
-                  <Text color="bone.300" fontSize={{ base: 'md', md: 'lg' }} mb={6}>{s.copy}</Text>
-                  <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={6}>
-                    <Box>
-                      <Text variant="eyebrow" mb={3} color="bone.500">Good for</Text>
-                      <List spacing={2}>
-                        {s.bullets.map((b) => (
-                          <ListItem key={b} display="flex" gap={3} alignItems="flex-start" fontSize="sm" color="bone.100"><RegMark size="12px" color={i % 2 ? palette.river : palette.ember} mt="4px" />{b}</ListItem>
-                        ))}
-                      </List>
-                    </Box>
-                    <Box bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={5} alignSelf="start">
-                      <Text variant="eyebrow" mb={2} color="bone.500">Best when</Text>
-                      <Text fontSize="sm" color="bone.300">{s.best}</Text>
-                      {s.cta && <Button as={RouterLink} to={s.cta.to} size="sm" mt={4} rightIcon={<FiArrowRight />}>{s.cta.label}</Button>}
-                    </Box>
-                  </SimpleGrid>
-                </GridItem>
-              </Grid>
-            </Reveal>
-          ))}
-        </Stack>
-      </Section>
+        <Grid templateColumns={{ base: '1fr', lg: '1.2fr 0.8fr' }} gap={{ base: 6, lg: 8 }} mt={{ base: 8, md: 12 }} alignItems="start">
+          <GridItem>
+            <FadeIn delay={0.05}>
+              <Box bg="paper.50" color="paper.900" borderRadius="lg" p={{ base: 6, md: 8 }} boxShadow="paper">
+                <Text variant="kicker" color="paper.500">How a run works</Text>
+                <Heading as="h2" size="xl" mt={3} mb={6} color="paper.900">Four steps on paper.</Heading>
+                <Stack spacing={0} divider={<Box borderBottom="1px dashed" borderColor="paper.200" />}>
+                  {STEPS.map((s) => (
+                    <Grid key={s.n} templateColumns="auto 1fr" gap={4} py={3.5} alignItems="baseline">
+                      <Text fontFamily="mono" fontSize="12px" color="red.500">{s.n}</Text>
+                      <Box>
+                        <Heading as="h3" size="sm" color="paper.900" letterSpacing="0.02em">{s.title}</Heading>
+                        <Text fontSize="sm" color="paper.500" mt={1} maxW={MEASURE}>{s.copy}</Text>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Stack>
+                <Stack direction={{ base: 'column', sm: 'row' }} spacing={3} mt={7}>
+                  <Button as={RouterLink} to="/shop/" size="md" rightIcon={<FiArrowRight />}>Start a run</Button>
+                  <Button as={RouterLink} to="/quote/" size="md" variant="outline" borderColor="paper.200" color="paper.900" _hover={{ borderColor: 'paper.300', bg: 'paper.100' }}>Send your art</Button>
+                </Stack>
+              </Box>
+            </FadeIn>
+          </GridItem>
+          <GridItem>
+            <FadeIn delay={0.1}>
+              <Stack spacing={0} borderRadius="lg" border="1px solid" borderColor="ink.300" p={{ base: 5, md: 6 }}>
+                <Text variant="kicker" mb={3}>What moves the price</Text>
+                {PRICE.map(([k, v]) => (
+                  <Box key={k} py={3.5} borderTop="1px solid" borderColor="ink.300">
+                    <Heading as="h3" size="sm" letterSpacing="0.02em">{k}</Heading>
+                    <Text fontSize="sm" color="bone.300" mt={1}>{v}</Text>
+                  </Box>
+                ))}
+              </Stack>
+            </FadeIn>
+          </GridItem>
+        </Grid>
 
-      <Section bg="ink.500" borderTop="1px solid" borderColor="ink.300">
-        <Halftone fade="left" color={alpha(palette.ember, 0.10)} size={14} dot={1.6} left="50%" />
-        <SectionHeader eyebrow="Pricing, plainly" title="How the number gets made." lead="No secret menu. Three things move the price: how many, how many colors, how many places on the shirt." />
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-          {[
-            ['Quantity', 'Every product page shows price breaks. The unit price drops at 24, 48, 72, 144. Because screens and setup are the same whether we print 12 or 120.'],
-            ['Setup', 'A one-time fee per decoration method covers burning screens or digitizing your logo. It’s charged once per order, not once per shirt. Reorders with the same art skip it.'],
-            ['Locations', 'Front only is the baseline. A back print, sleeve or nape adds a small setup fee for the extra screen. The proof lists every line so nothing surprises you.'],
-          ].map(([t, c]) => (
-            <Box key={t} bg="ink.900" border="1px solid" borderColor="ink.300" borderRadius="base" p={6}>
-              <Heading as="h3" size="md" mb={2}>{t}</Heading>
-              <Text color="bone.300" fontSize="sm">{c}</Text>
-            </Box>
-          ))}
-        </SimpleGrid>
-        <Stack direction={{ base: 'column', sm: 'row' }} spacing={3} mt={10}>
-          <Button as={RouterLink} to="/shop/" rightIcon={<FiArrowRight />}>Shop blanks &amp; see pricing</Button>
-          <Button as={RouterLink} to="/quote/" variant="outline">Ask for a custom quote</Button>
-        </Stack>
-      </Section>
+        <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={{ base: 6, lg: 8 }} mt={{ base: 6, lg: 8 }}>
+          <GridItem>
+            <FadeIn>
+              <Stack spacing={3} p={{ base: 5, md: 6 }} borderRadius="lg" border="1px solid" borderColor="ink.300" h="100%">
+                <Text variant="kicker">What we print on</Text>
+                <Text color="bone.100">Tees, long sleeves, hoodies and crewnecks, tanks, totes and bandanas. Comfort Colors, Bella Canvas, Gildan and the rest of the catalog, in every color they make.</Text>
+                <Text color="bone.300" fontSize="sm" maxW={MEASURE}>Bring your own blanks and we will print them too. Ask first about nylon, waterproof shells and anything with a lot of seams where the art goes.</Text>
+              </Stack>
+            </FadeIn>
+          </GridItem>
+          <GridItem>
+            <FadeIn delay={0.05}>
+              <Stack spacing={3} p={{ base: 5, md: 6 }} borderRadius="lg" border="1px solid" borderColor="ink.300" h="100%">
+                <Text variant="kicker">What we need from your art</Text>
+                <Stack spacing={2}>
+                  {ART.map((a) => (
+                    <Grid key={a} templateColumns="auto 1fr" gap={3} alignItems="baseline">
+                      <Box w="6px" h="6px" borderRadius="full" bg="red.500" transform="translateY(-2px)" />
+                      <Text fontSize="sm" color="bone.100">{a}</Text>
+                    </Grid>
+                  ))}
+                </Stack>
+              </Stack>
+            </FadeIn>
+          </GridItem>
+        </Grid>
+      </Container>
     </>
   )
 }

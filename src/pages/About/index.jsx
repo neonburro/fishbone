@@ -1,102 +1,71 @@
 // src/pages/About/index.jsx
-import { alpha, palette } from '../../theme'
-import { Box, Grid, GridItem, Heading, SimpleGrid, Stack, Text, Button } from '@chakra-ui/react'
+//
+// About, in the shop's own words. Their Facebook bio says it in one line: a
+// small town local business producing t-shirts for big time festivals and
+// small town business for over thirty years. This page says that and not
+// much more. One statement, five short facts, the shop photo, one ask.
+//
+// No oxford commas, no em dashes.
+
+import { Box, Button, Container, Grid, GridItem, Image, Stack, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
+import { FiArrowRight } from 'react-icons/fi'
 import SEO from '../../components/common/SEO'
-import PageHero from '../../components/layout/PageHero'
-import { Section, SectionHeader } from '../../components/common/Section'
-import Halftone from '../../components/brand/Halftone'
-import RegMark from '../../components/brand/RegMark'
-import { FishMark } from '../../components/brand/Logo'
-import { Reveal } from '../../components/common/Motion'
+import { FadeIn } from '../../components/common/Motion'
+import { useSettings } from '../../hooks/useSettings'
+import { BAND_Y, MEASURE } from '../../theme/layout'
 
-const TIMELINE = [
-  ['1985', 'First press', 'A manual four-color press, a shop vac and a stack of blank tees in Ridgway. The first job was for a bar that’s still open.'],
-  ['1990s', 'Festival years', 'The mountain circuit found us. Bluegrass, film, jazz, brewfests. We learned size curves the hard way: by running out of mediums.'],
-  ['2000s', 'Embroidery in-house', 'Hats and jackets were going out the door to other shops. We bought the machines, learned to digitize, kept it here.'],
-  ['2010s', 'Automatic press', 'The big runs got big. An automatic press meant thousand-piece festival drops without losing the hand-pulled work we love.'],
-  ['Now', 'Same shop, more ways', 'DTF for the short runs, water-based for the soft stuff and an online storefront so you can order at midnight the week before your show.'],
-]
-
-const VALUES = [
-  ['A human proofs every job', 'Nothing prints from a form submission. A printer looks at your art, your sizes and your date before a screen gets burned.'],
-  ['We tell you the cheaper answer', 'If DTF beats screen print for your 15 shirts, we’ll say so. If your art needs work, we’ll say that too.'],
-  ['Reorders are easy', 'Your screens and files stay on record. Year two of your event is one phone call.'],
-  ['We show up', 'Festival restocks at 7am on a Sunday. Pickup after hours because you’re driving over from Ouray. That’s the job.'],
+const FACTS = [
+  ['Since', '1985'],
+  ['Where', 'Ridgway, Colorado. 250 S Lena St, at the foot of the San Juans.'],
+  ['What', 'Screen printing and graphic design, with a specialty in music and festival merch.'],
+  ['Who for', 'Festivals, bands, breweries, ski patrol, crews, schools, small businesses and beyond.'],
+  ['How', 'A person looks at every job before a screen is burned. High quality, on time, no surprises.'],
 ]
 
 export default function About() {
+  const { settings } = useSettings()
+  const s = settings?.store || {}
   return (
     <>
-      <SEO title="About" description="Fishbone Graphics has printed shirts, posters and festival merch in Ridgway, Colorado since 1985. Meet the shop." path="/about/" />
-      <PageHero eyebrow="About" title="Printing in Ridgway since 1985." lead="Fishbone Graphics is a screen print and embroidery shop at the foot of the San Juans. We’ve outlasted three presses, a few economies and more festival lineups than we can count." size="lg" />
-
-      <Section>
-        <Grid templateColumns={{ base: '1fr', lg: '3fr 2fr' }} gap={{ base: 10, lg: 16 }} alignItems="center">
+      <SEO title="About" description="A small town shop printing for big time festivals and small town business for over thirty years. Fishbone Graphics, Ridgway, Colorado, since 1985." path="/about/" />
+      <Container size="page" pt={{ base: 6, md: 12 }} pb={BAND_Y}>
+        <Grid templateColumns={{ base: '1fr', lg: '1.1fr 0.9fr' }} gap={{ base: 10, lg: 14 }} alignItems="start">
           <GridItem>
-            <Stack spacing={5} fontSize={{ base: 'md', md: 'lg' }} color="bone.300">
-              <Text>
-                Ridgway is a town of about a thousand people wedged between Ouray and Telluride and for forty years it’s had a print shop that punches above its weight. That’s us. We started with one manual press and a habit of saying yes to bands who needed shirts by Friday.
+            <FadeIn>
+              <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} maxW="20ch">
+                A small town shop printing for <Box as="strong" fontWeight={700}>festivals, schools, small businesses and beyond</Box> for forty years.
               </Text>
-              <Text>
-                The work grew with the valley. Festival crews, breweries, ski patrol, river outfitters, schools, fire departments, ranches. If you’ve been to a show in the San Juans, you’ve probably worn our ink or stood next to someone who was.
+              <Text mt={6} color="bone.300" fontSize={{ base: 'md', md: 'lg' }} maxW={MEASURE}>
+                Fishbone has printed the shirts on the merch table at Telluride Bluegrass, the staff tees at Ouray Brewery, the poster shirts for the Telluride Horror Show and the spirit wear for the schools up the valley. Same shop, same street, same owner pulling the squeegee. If you have been to a show in the San Juans you have probably worn our ink.
               </Text>
-              <Text>
-                We still hand-pull the short runs and the specialty stuff. We still mix ink to Pantone by eye and check it with a swatch. The automatic press and the embroidery heads let us do the big jobs too. But every ticket, big or small, gets looked at by a person who’s been pulling squeegees longer than most shops have existed.
+              <Text mt={4} color="bone.300" fontSize={{ base: 'md', md: 'lg' }} maxW={MEASURE}>
+                The work on the wall is the pitch. Eight color art on garment dyed blanks, registration that holds, ink that lasts as long as the shirt. High quality is not a line we say, it is what the prints look like after a hundred washes.
               </Text>
-            </Stack>
-            <Button as={RouterLink} to="/contact/" mt={8} variant="outline">Come see the shop</Button>
+              <Stack spacing={0} mt={{ base: 8, md: 10 }} maxW="640px">
+                {FACTS.map(([k, v]) => (
+                  <Grid key={k} templateColumns="96px 1fr" gap={4} py={3.5} borderBottom="1px solid" borderColor="ink.300" alignItems="baseline">
+                    <Text variant="kicker">{k}</Text>
+                    <Text color="bone.100">{v}</Text>
+                  </Grid>
+                ))}
+              </Stack>
+              <Stack direction={{ base: 'column', sm: 'row' }} spacing={3} mt={{ base: 8, md: 10 }}>
+                <Button as={RouterLink} to="/work/" rightIcon={<FiArrowRight />}>See the work</Button>
+                <Button as={RouterLink} to="/contact/" variant="outline">Shop info</Button>
+              </Stack>
+            </FadeIn>
           </GridItem>
           <GridItem>
-            <Reveal>
-              <Box position="relative" bg="ink.500" border="1px solid" borderColor="ink.300" borderRadius="base" p={{ base: 8, md: 12 }} overflow="hidden">
-                <Halftone fade="radial" color={alpha(palette.ember, 0.14)} size={12} dot={1.6} />
-                <Box position="relative" maxW="320px" mx="auto">
-                  <FishMark color={palette.bone} accent={palette.ember} />
-                </Box>
-                <Stack spacing={1} mt={8} textAlign="center" position="relative">
-                  <Text fontFamily="heading" fontWeight={800} fontSize="5xl" lineHeight={1} color="bone.100">40<Text as="span" color="ember.500">+</Text></Text>
-                  <Text fontSize="xs" color="bone.500" textTransform="uppercase" letterSpacing="0.14em">Years of ink in Ouray County</Text>
-                </Stack>
+            <FadeIn delay={0.08}>
+              <Box borderRadius="lg" overflow="hidden" bg="ink.400">
+                <Image src="/work/telluride-bluegrass-tent.webp" alt="Fishbone shirts stacked on the merch table at Telluride Bluegrass" w="100%" display="block" />
               </Box>
-            </Reveal>
+              <Text mt={3} fontFamily="mono" fontSize="11px" letterSpacing="0.12em" textTransform="uppercase" color="bone.500">Telluride Bluegrass · merch tent · {s.city || 'Ridgway'} to Telluride, one hour</Text>
+            </FadeIn>
           </GridItem>
         </Grid>
-      </Section>
-
-      <Section bg="ink.500" borderY="1px solid" borderColor="ink.300">
-        <SectionHeader eyebrow="Timeline" title="Four decades, five presses." />
-        <Stack spacing={0}>
-          {TIMELINE.map(([year, title, copy], i) => (
-            <Reveal key={year} delay={i * 0.03}>
-              <Grid templateColumns={{ base: '80px 1fr', md: '140px 1fr' }} gap={{ base: 4, md: 8 }} py={6} borderTop="1px solid" borderColor="ink.300">
-                <GridItem><Text fontFamily="mono" color="ember.500" fontSize={{ base: 'md', md: 'lg' }}>{year}</Text></GridItem>
-                <GridItem>
-                  <Heading as="h3" size="md" mb={1}>{title}</Heading>
-                  <Text color="bone.300" fontSize="sm" maxW="640px">{copy}</Text>
-                </GridItem>
-              </Grid>
-            </Reveal>
-          ))}
-        </Stack>
-      </Section>
-
-      <Section>
-        <SectionHeader eyebrow="How we work" title="The shop rules." />
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 5, md: 8 }}>
-          {VALUES.map(([t, c], i) => (
-            <Reveal key={t} delay={i * 0.04}>
-              <Box display="flex" gap={4}>
-                <RegMark size="20px" color={palette.river} mt="4px" />
-                <Box>
-                  <Heading as="h3" size="md" mb={1.5}>{t}</Heading>
-                  <Text color="bone.300" fontSize="sm">{c}</Text>
-                </Box>
-              </Box>
-            </Reveal>
-          ))}
-        </SimpleGrid>
-      </Section>
+      </Container>
     </>
   )
 }

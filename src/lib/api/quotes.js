@@ -56,6 +56,6 @@ export async function submitQuote(form) {
   const row = buildQuoteRow(form)
   if (!row.name || !row.email) throw new Error('We need a name and a working email to get back to you.')
   const { error } = await supabase.from('quote_requests').insert(row)
-  if (error) throw toError(error, 'We couldn’t send your request. Call (970) 626-4437 and we’ll take it by phone.')
+  if (error) throw toError(error, 'We couldn’t send your request. Call (970) 626-4350 and we’ll take it by phone.')
   return true
 }
