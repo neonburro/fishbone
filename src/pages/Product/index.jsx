@@ -31,7 +31,9 @@ const DEFAULT_SIZES = ['S', 'M', 'L', 'XL', '2XL']
 
 function resolveImg(u) {
   if (!u) return null
-  return /^https?:\/\//i.test(u) ? u : publicImageUrl('product-images', u)
+  // Absolute stays, a leading slash is the site's own public folder (the
+  // catalog blanks live in public/blanks), anything else is the storage bucket.
+  return /^https?:\/\//i.test(u) || u.startsWith('/') ? u : publicImageUrl('product-images', u)
 }
 
 export default function Product() {
