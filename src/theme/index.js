@@ -488,15 +488,17 @@ const theme = extendTheme({
     Tooltip: {
       baseStyle: { bg: 'bone.100', color: 'ink.900', fontFamily: 'body', borderRadius: 'sm', px: 3, py: 1.5 },
     },
+    // Toasts and inline alerts. A raised ink card with the accent as a rule
+    // down the left, every status. The site has three colors and a toast
+    // is not the place for a fourth. Flips with Ink and Bone. Toasts pick
+    // this up through toastOptions in main.jsx.
     Alert: {
       variants: {
-        ink: (props) => {
-          const c = props.colorScheme || 'red'
-          return {
-            container: { bg: 'ink.400', border: '1px solid', borderColor: `${c}.500`, borderRadius: 'md', color: 'bone.100' },
-            icon: { color: `${c}.500` },
-            title: { fontFamily: 'heading', textTransform: 'uppercase', letterSpacing: '0.06em' },
-          }
+        ink: {
+          container: { bg: 'ink.400', color: 'bone.100', border: '1px solid', borderColor: 'ink.200', borderLeft: '4px solid', borderLeftColor: 'red.500', borderRadius: 'md', boxShadow: 'raised', px: 4, py: 3, alignItems: 'flex-start' },
+          icon: { color: 'red.500' },
+          title: { fontFamily: 'heading', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 'sm', lineHeight: 1.2 },
+          description: { fontSize: 'sm', color: 'bone.300', mt: 0.5 },
         },
       },
       defaultProps: { variant: 'ink' },

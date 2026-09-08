@@ -11,7 +11,7 @@ import ErrorBoundary from './components/common/ErrorBoundary'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ColorModeScript initialColorMode="dark" />
-    <ChakraProvider theme={theme} toastOptions={{ defaultOptions: { position: 'bottom-right', isClosable: true, duration: 4000 } }}>
+    <ChakraProvider theme={theme} toastOptions={{ defaultOptions: { position: 'bottom-right', variant: 'ink', isClosable: true, duration: 3500 } }}>
       <HelmetProvider>
         <ErrorBoundary>
           <BrowserRouter>
