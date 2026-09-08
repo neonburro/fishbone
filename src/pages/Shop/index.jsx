@@ -35,8 +35,8 @@ export default function Shop() {
 
   return (
     <>
-      <SEO title="Shop" description="Blank tees, hoodies, hats and more, decorated in Ridgway, Colorado. Pick a garment, choose print locations, upload art and order online." path="/shop/" />
-      <PageHero eyebrow="Shop" title="Blanks worth printing on." lead="We stock what holds ink and survives a festival weekend. Every product page shows quantity price breaks up front. No login, no haggling." />
+      <SEO title="Runs" description="Create a run. Pick a blank, a color and where the ink goes, say how many, and a printer in Ridgway sends the proof and the number back." path="/shop/" />
+      <PageHero eyebrow="Runs" title="Create a run." lead="Pick a blank, a color and where the ink goes. Say how many. A printer sends the proof and the number back. No file yet, or just a thought? Share it anyway, the form takes pictures, sketches and opinions." />
 
       <Section py={{ base: 10, md: 16 }}>
         <SectionHeader eyebrow="Browse by" title="Categories" mb={{ base: 6, md: 8 }} size="xl" />
@@ -51,7 +51,7 @@ export default function Shop() {
             ))}
           </SimpleGrid>
         ) : (
-          <EmptyState title="Categories are being set up." message="Check back shortly or send a quote request and we’ll point you at the right blank." ctaLabel="Request a quote" ctaTo="/quote/" />
+          <EmptyState title="Categories are being set up." message="Check back shortly or send a quote request and we’ll point you at the right blank." ctaLabel="Send your art" ctaTo="/quote/" />
         )}
       </Section>
 

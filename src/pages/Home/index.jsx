@@ -32,7 +32,7 @@ const ACTIONS = [
   { to: '/prints/', title: 'Available prints', copy: 'Screens we already have, and the randoms off the pile. Priced to move.', soon: true },
 ]
 
-const SERVICES = ['Screen printing', 'Art and design', 'Festival merch']
+const SERVICES = ['Screen printing', 'Art and design', 'Merch']
 
 function ActionTile({ to, title, copy, soon }) {
   return (
@@ -103,24 +103,34 @@ export default function Home() {
         structuredData={jsonLd}
       />
 
-      {/* THE OPENER. One sentence, three things to do. */}
+      {/* THE OPENER. A place line, one sentence about what we do, one about who
+          for, and five doors. The who line stays open on purpose, the shop
+          prints for whoever needs a shirt by Friday. */}
       <Container size="page" pt={{ base: 6, md: 12 }} pb={{ base: 8, md: 12 }}>
-        <Grid templateColumns={{ base: '1fr', lg: '1.1fr 0.9fr' }} gap={{ base: 8, lg: 12 }} alignItems="end">
-          <GridItem>
+        <Grid templateColumns={{ base: '1fr', lg: '1.1fr 0.9fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">
+          <GridItem position={{ lg: 'sticky' }} top={{ lg: '108px' }}>
             <FadeIn>
+              <Text variant="kicker" color="red.500">Ridgway, Colorado, since 1985</Text>
               <Text
                 as="h1"
                 fontFamily="heading"
-                fontWeight={500}
-                fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }}
-                lineHeight={1.08}
+                fontWeight={700}
+                fontSize={{ base: '2.1rem', md: '3rem', lg: '3.6rem' }}
+                lineHeight={1.02}
                 color="bone.100"
-                maxW="22ch"
+                maxW="14ch"
+                mt={3}
               >
-                Screen printing, merch and the art to go on it, for{' '}
-                <Box as="strong" fontWeight={700}>festivals, bands, breweries, crews and schools.</Box>{' '}
-                Ridgway, Colorado, since 1985.
+                Screen printing, merch and the art to go on it.
               </Text>
+              <Text mt={5} fontSize={{ base: 'md', md: 'lg' }} color="bone.300" maxW="34ch" lineHeight={1.45}>
+                For festivals, bands, breweries, crews, schools and anyone who needs a shirt by Friday.
+              </Text>
+              <HStack spacing={2} mt={7} flexWrap="wrap">
+                {SERVICES.map((s) => (
+                  <Text key={s} fontFamily="mono" fontSize="11px" letterSpacing="0.14em" textTransform="uppercase" color="bone.300" border="1px solid" borderColor="ink.200" borderRadius="full" px={3} py={1.5}>{s}</Text>
+                ))}
+              </HStack>
             </FadeIn>
           </GridItem>
           <GridItem>
