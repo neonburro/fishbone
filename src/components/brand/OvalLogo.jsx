@@ -5,7 +5,7 @@
 // site) into public/brand-oval.svg. It is drawn here as a CSS mask over a
 // box painted in a token color, so it is off white on ink and near black on
 // paper with no second asset. The red eye is a separate dot laid over the
-// fish's eye, the same #EC1D3B as the nav mark, so both logos share it.
+// fish's eye, the same var(--fb-red-500) as the nav mark, so both logos share it.
 //
 // The mask is a plain <img> to the browser, so it stays out of the bundle.
 // Width drives everything, the oval's ratio is 213 to 100.

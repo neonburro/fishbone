@@ -41,6 +41,7 @@ export const DEFAULT_SETTINGS = {
   payments: { provider: 'invoice' },
   ordering: { turnaround_days: 10, rush_available: true, min_order_note: 'Most screen print jobs start at 12 pieces.' },
   announcement: { enabled: false, text: '' },
+  design: { accent: 'red', switcher: true },
 }
 
 /** getPublicSettings() -> { store: {...}, tax: {...}, ... } merged over defaults */

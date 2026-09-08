@@ -11,7 +11,7 @@ import { Box } from '@chakra-ui/react'
 
 // Colors are tokens, not hex, so the lockup flips with ink and paper. Pass a
 // raw color only when drawing onto something that does not flip.
-export default function Logo({ variant = 'full', color = 'currentColor', accent = '#EC1D3B', height = '36px', ...rest }) {
+export default function Logo({ variant = 'full', color = 'currentColor', accent = 'var(--fb-red-500)', height = '36px', ...rest }) {
   if (variant === 'mark') {
     return (
       <Box as="span" display="inline-flex" h={height} color="bone.100" {...rest}>
@@ -37,7 +37,7 @@ export default function Logo({ variant = 'full', color = 'currentColor', accent 
   )
 }
 
-export function FishMark({ color = 'currentColor', accent = '#EC1D3B' }) {
+export function FishMark({ color = 'currentColor', accent = 'var(--fb-red-500)' }) {
   return (
     <svg viewBox="0 0 96 64" height="100%" aria-hidden="true" focusable="false" style={{ display: 'block' }}>
       <g fill="none" stroke={color} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round">

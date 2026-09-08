@@ -11,6 +11,7 @@ import { Box, Spinner, Center } from '@chakra-ui/react'
 import Layout from './components/layout/Layout'
 import ScrollToTop from './components/common/ScrollToTop'
 import { SettingsProvider } from './hooks/useSettings'
+import { AccentProvider } from './hooks/useAccent'
 
 const Home = lazy(() => import('./pages/Home'))
 const Shop = lazy(() => import('./pages/Shop'))
@@ -50,6 +51,7 @@ function TrailingSlash({ children }) {
 export default function App() {
   return (
     <SettingsProvider>
+      <AccentProvider>
       <ScrollToTop />
       <Box as="a" href="#main" position="absolute" left="-999px" _focus={{ left: 4, top: 4, zIndex: 2000, bg: 'ember.500', color: 'ink.900', px: 4, py: 2, borderRadius: 'base' }}>
         Skip to content
@@ -80,6 +82,7 @@ export default function App() {
           </Routes>
         </Suspense>
       </TrailingSlash>
+      </AccentProvider>
     </SettingsProvider>
   )
 }

@@ -8,7 +8,7 @@
       <path d="M42 32l-3-11M42 32l-3 11M50 32l-3-13M50 32l-3 13M58 32l-3-11M58 32l-3 11M66 32l-2.5-8M66 32l-2.5 8"/>
       <path d="M75 32l14-13M75 32l14 13M89 19v26"/>
     </g>
-    <circle cx="17" cy="27" r="3.4" fill="#EC1D3B"/>
+    <circle cx="17" cy="27" r="3.4" fill="#E0293F"/>
   </g>
   <g transform="translate(112 0)">
     <text x="0" y="38" fill="#EFEAE0" font-family="'Barlow Condensed', 'Arial Narrow', sans-serif" font-weight="700" font-size="46" letter-spacing="0.5">FISHBONE</text>

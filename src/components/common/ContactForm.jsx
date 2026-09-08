@@ -30,7 +30,7 @@ export const paperField = {
   borderRadius: 'sm',
   _placeholder: { color: 'paper.300' },
   _hover: { borderColor: 'paper.300' },
-  _focusVisible: { borderColor: 'red.500', boxShadow: '0 0 0 1px #EC1D3B' },
+  _focusVisible: { borderColor: 'red.500', boxShadow: '0 0 0 1px var(--fb-red-500)' },
   sx: { '--fb-field-bg': '#FFFFFF', '--fb-field-fg': '#1B1B1E' },
 }
 

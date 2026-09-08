@@ -14,6 +14,7 @@ import { FiInstagram, FiFacebook } from 'react-icons/fi'
 import OvalLogo from '../brand/OvalLogo'
 import OpenNow from '../common/OpenNow'
 import InkPaperToggle from '../common/InkPaperToggle'
+import AccentPicker from '../common/AccentPicker'
 import { useSettings } from '../../hooks/useSettings'
 import { hoursDisplay } from '../../lib/hours'
 import { localBusiness, directionsUrl } from '../../lib/jsonld'
@@ -105,6 +106,7 @@ export default function Footer() {
         <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" align={{ md: 'center' }} spacing={3} mt={{ base: 10, md: 14 }} pt={6} borderTop="1px solid" borderColor="ink.300">
           <HStack spacing={5}>
             <InkPaperToggle />
+            <AccentPicker />
             <Text color="bone.500" fontSize="xs">© {year} {s.legal_name || s.name || 'Fishbone Graphics'}. {s.city || 'Ridgway'}, {s.state || 'CO'} {s.zip || '81432'}.</Text>
           </HStack>
           <HStack spacing={4}>

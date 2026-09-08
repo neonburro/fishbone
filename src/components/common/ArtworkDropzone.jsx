@@ -119,7 +119,7 @@ export default function ArtworkDropzone({ value = [], onChange, id = 'artwork', 
           <Tile key={p.tempId} label={p.name} borderColor={p.error ? 'red.500' : 'ink.200'}>
             {previews[p.key] && !p.error ? <Box as="img" src={previews[p.key]} alt="" w="100%" h="100%" objectFit="cover" opacity={0.5} /> : null}
             <Box position="absolute" inset={0} display="flex" flexDir="column" alignItems="center" justifyContent="center" px={2} textAlign="center">
-              {p.error ? <FiAlertTriangle size={16} color="#EC1D3B" /> : <Text fontFamily="mono" fontSize="11px">{p.progress}%</Text>}
+              {p.error ? <FiAlertTriangle size={16} color="var(--fb-red-500)" /> : <Text fontFamily="mono" fontSize="11px">{p.progress}%</Text>}
               {p.error && <Text fontFamily="mono" fontSize="8px" mt={1} noOfLines={3} color="red.500">{p.error}</Text>}
             </Box>
             {p.error && <IconButton aria-label="Dismiss" icon={<FiX size={12} />} size="xs" position="absolute" top={1} right={1} borderRadius="full" onClick={() => dismiss(p.tempId)} />}

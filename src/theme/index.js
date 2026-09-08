@@ -6,7 +6,7 @@
 // Vintage black, off white and one red. That is the whole palette. The black
 // is not pure, it is #161618 with a hair of navy in it because the fish on the
 // real logo is drawn in #00001C. The off white is bone on ink and paper on
-// its own. The red is #EC1D3B, sampled from the disc behind the oval logo on
+// its own. The red started as #EC1D3B, sampled from the disc behind the oval logo on
 // the shop's Instagram avatar. Nothing else on the site carries a hue.
 //
 // ── INK AND PAPER ───────────────────────────────────────────────────────────
@@ -52,19 +52,11 @@
 // No oxford commas, no em dashes.
 
 import { extendTheme } from '@chakra-ui/react'
+import { accentVars, DEFAULT_ACCENT } from './accents'
 
-const red = {
-  50: '#FDE8EB',
-  100: '#FAC5CD',
-  200: '#F5919F',
-  300: '#F16278',
-  400: '#F13A55', // hover
-  500: '#EC1D3B', // the accent
-  600: '#D1152F', // pressed
-  700: '#A81026',
-  800: '#7A0B1B',
-  900: '#4A0710',
-}
+// Read through CSS variables so the accent can change without rebuilding the
+// theme. Defaults are set in styles.global below and by theme/accents.js.
+const red = Object.fromEntries([50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((k) => [k, `var(--fb-red-${k})`]))
 
 // Dark values. The `colors` block below carries only what does not flip.
 const inkDark = {
@@ -150,7 +142,8 @@ export const VINTAGE = {
   pepper: '#4E4C4A',
 }
 
-// alpha('#EC1D3B', 0.2) -> 'rgba(236,29,59,0.2)'
+// alpha('#E0293F', 0.2) -> 'rgba(224,41,63,0.2)'. Not for the accent, that is a
+// CSS variable now, use color-mix() for that.
 export function alpha(hex, a = 1) {
   const h = String(hex).replace('#', '')
   const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16)
@@ -183,7 +176,7 @@ const kicker = {
 // Type on red is this literal in both modes. A token would flip to near
 // black on paper and red with black type is the one pairing the site does
 // not do.
-export const ON_RED = '#FBF8F2'
+export const ON_RED = 'var(--fb-on-red)'
 
 const focusRing = { borderColor: 'red.500', boxShadow: `0 0 0 1px ${red[500]}` }
 const invalidRing = { borderColor: 'red.600', boxShadow: `0 0 0 1px ${red[600]}` }
@@ -205,7 +198,7 @@ const theme = extendTheme({
     full: '9999px',
   },
   shadows: {
-    outline: `0 0 0 3px ${alpha(red[500], 0.45)}`,
+    outline: `0 0 0 3px color-mix(in srgb, ${red[500]} 45%, transparent)`,
     raised: `0 1px 0 ${alpha('#FFFFFF', 0.03)} inset, 0 10px 30px ${alpha('#000000', 0.45)}`,
     paper: `0 20px 60px ${alpha('#000000', 0.35)}`,
   },
@@ -227,6 +220,7 @@ const theme = extendTheme({
   },
   styles: {
     global: {
+      ':root': { ...accentVars(DEFAULT_ACCENT) },
       html: { scrollBehavior: 'smooth' },
       body: {
         bg: 'ink.900',
