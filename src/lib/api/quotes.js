@@ -55,7 +55,10 @@ export function buildQuoteRow(form = {}) {
 export async function submitQuote(form) {
   const row = buildQuoteRow(form)
   if (!row.name || !row.email) throw new Error('We need a name and a working email to get back to you.')
+  // Anonymous visitors can insert but not read back, so the id is minted here
+  // and sent along, and the shop notice can link straight to the request.
+  row.id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined
   const { error } = await supabase.from('quote_requests').insert(row)
   if (error) throw toError(error, 'We couldn’t send your request. Call (970) 626-4350 and we’ll take it by phone.')
-  return true
+  return row.id || true
 }

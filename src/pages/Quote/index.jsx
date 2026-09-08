@@ -51,8 +51,8 @@ export default function Quote() {
     if (!valid) return
     setSending(true); setError(null)
     try {
-      await submitQuote({ ...form, request_type: 'quote' })
-      notifyAdmin({ kind: 'quote', name: form.name, email: form.email, phone: form.phone, description: form.description, files: form.artwork_files.map((f) => f.name), extra: { Org: form.company, Event: form.event_name, 'In hand by': form.event_date, Quantity: form.quantity_estimate, Making: form.product_interest.join(', ') } })
+      const id = await submitQuote({ ...form, request_type: 'quote' })
+      notifyAdmin({ kind: 'quote', request_id: typeof id === 'string' ? id : null, name: form.name, email: form.email, phone: form.phone, description: form.description, files: form.artwork_files.map((f) => f.name), extra: { Org: form.company, Event: form.event_name, 'In hand by': form.event_date, Quantity: form.quantity_estimate, Making: form.product_interest.join(', ') } })
       setDone(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) { setError(err) } finally { setSending(false) }

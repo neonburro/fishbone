@@ -12,7 +12,7 @@
 // No oxford commas, no em dashes.
 
 import { useState } from 'react'
-import { Box, Image, SimpleGrid, Text } from '@chakra-ui/react'
+import { Box, Button, Image, SimpleGrid, Text } from '@chakra-ui/react'
 import { Reveal } from '../common/Motion'
 import Lightbox from '../common/Lightbox'
 import useAsync from '../../hooks/useAsync'
@@ -22,10 +22,15 @@ import { EASE, GUTTER } from '../../theme/layout'
 
 const FALLBACK = workAsShowcase()
 
-export default function WorkWall({ placement = ['home', 'work'], limit, columns = { base: 2, md: 3, lg: 4, xl: 6 } }) {
-  const live = useAsync(() => getShowcase({ placement, limit }), [String(placement), limit])
+// `limit` is the first cut. With `more`, a View more button under the grid
+// lets people keep opening the wall a dozen at a time, up to what was fetched.
+export default function WorkWall({ placement = ['home', 'work'], limit, more = false, columns = { base: 2, md: 3, lg: 4, xl: 6 } }) {
+  const fetchLimit = limit && more ? Math.max(limit, 36) : limit
+  const live = useAsync(() => getShowcase({ placement, limit: fetchLimit }), [String(placement), fetchLimit])
   const rows = live.data?.length ? live.data : FALLBACK
-  const list = limit ? rows.slice(0, limit) : rows
+  const [shown, setShown] = useState(limit || Infinity)
+  const list = rows.slice(0, shown)
+  const rest = rows.length - list.length
   const [open, setOpen] = useState(-1)
 
   return (
@@ -87,6 +92,11 @@ export default function WorkWall({ placement = ['home', 'work'], limit, columns 
         )
       })}
     </SimpleGrid>
+    {more && rest > 0 && (
+      <Box textAlign="center" mt={{ base: 5, md: 7 }}>
+        <Button variant="outline" size="sm" onClick={() => setShown((n) => n + 12)}>View more</Button>
+      </Box>
+    )}
     <Lightbox items={list} index={open} onClose={() => setOpen(-1)} onIndex={setOpen} />
     </>
   )

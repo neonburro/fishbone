@@ -59,8 +59,8 @@ export default function ContactForm({ kicker = 'Send us something', title = 'A f
     if (!valid) return
     setSending(true); setError(null)
     try {
-      await submitQuote({ ...form, request_type: requestType, product_interest: [requestType], source_page: source })
-      notifyAdmin({ kind, ...form, files: form.artwork_files.map((f) => f.name) })
+      const id = await submitQuote({ ...form, request_type: requestType, product_interest: [requestType], source_page: source })
+      notifyAdmin({ kind, ...form, files: form.artwork_files.map((f) => f.name), request_id: typeof id === 'string' ? id : null })
       setDone(true)
     } catch (err) { setError(err) } finally { setSending(false) }
   }
