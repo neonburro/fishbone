@@ -145,7 +145,7 @@ export default function Home() {
 
       {/* THE WALL. */}
       <Container size="page" pb={BAND_Y}>
-        <WorkWall limit={13} />
+        <WorkWall limit={11} />
         <HStack mt={{ base: 4, md: 5 }} justify="space-between" align="baseline">
           <Text variant="kicker">Recent runs</Text>
           <Button as={RouterLink} to="/work/" variant="link" rightIcon={<FiArrowRight />}>All the work</Button>
