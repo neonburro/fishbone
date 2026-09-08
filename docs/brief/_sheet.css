@@ -19,9 +19,17 @@ h1 { font-size:28pt; font-weight:700; max-width:20ch } h2 { font-size:16pt; font
 table { width:100%; border-collapse:collapse; font-size:10pt; line-height:1.4 } td { padding:3pt 0; border-bottom:1px solid var(--line); vertical-align:top } td:first-child { width:30%; font-family:'JetBrains Mono',monospace; font-size:8pt; letter-spacing:.12em; text-transform:uppercase; color:var(--mute); padding-top:7pt } tr:last-child td { border-bottom:0 }
 ol.steps { margin:0; padding:0; list-style:none; counter-reset:s; display:grid; gap:4pt } ol.steps li { counter-increment:s; display:grid; grid-template-columns:30pt 1fr; gap:8pt; align-items:start } ol.steps li:before { content:counter(s,decimal-leading-zero); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22pt; line-height:1; color:var(--red) } ol.steps b { display:block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; font-size:12.5pt; font-weight:600 } ol.steps span { font-size:10pt; line-height:1.35; color:var(--type) }
 ul.dots { margin:0; padding:0; list-style:none; display:grid; gap:5pt } ul.dots li { position:relative; padding-left:14pt; font-size:10.5pt } ul.dots li:before { content:""; position:absolute; left:0; top:7pt; width:7pt; height:7pt; border-radius:2pt; background:var(--red) }
-.q { display:grid; grid-template-columns:26pt 1fr; gap:8pt; padding:5pt 0; border-top:1px solid var(--line) } .q:first-of-type { border-top:0 } .q i { font-style:normal; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:18pt; line-height:1; color:var(--red) } .q b { display:block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; font-size:12.5pt; font-weight:600; line-height:1.1 } .q span { display:block; font-size:9.5pt; line-height:1.4; color:var(--mute); margin-top:2pt } .q .lines { margin-top:5pt; height:28pt; background:repeating-linear-gradient(to bottom, transparent 0, transparent 16pt, var(--line) 16pt, var(--line) 17pt) }
 .foot { position:absolute; left:0.7in; right:0.7in; bottom:0.4in; display:flex; justify-content:space-between; align-items:center; gap:18pt; border-top:1px solid var(--line); padding-top:9pt }
 .foot .l { font-family:'JetBrains Mono',monospace; font-size:7.5pt; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); white-space:nowrap }
 .nb { display:flex; align-items:center; gap:8px } .nb img { width:24px; height:24px; filter:grayscale(1) brightness(.35) } .nb .t { font-family:'JetBrains Mono',monospace; font-size:7.5pt; letter-spacing:.08em; color:var(--dim); white-space:nowrap } .nb .t b { color:var(--type); font-weight:500 }
 
 .ink { background:var(--ink); color:var(--bone); border-color:var(--ink) } .ink .k { color:var(--bone); opacity:.7 } .ink p { color:var(--bone) }
+
+.q { display:grid; grid-template-columns:28pt 1fr; gap:10pt; height:2.5in; padding:10pt 0 0; border-top:1px solid var(--line) }
+.q:first-of-type { border-top:0; padding-top:0 }
+.q i { font-style:normal; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20pt; line-height:1; color:var(--red) }
+.q .body { display:flex; flex-direction:column; height:100% }
+.q b { display:block; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; font-size:13pt; font-weight:600; line-height:1.1 }
+.q span { display:block; font-size:9.5pt; line-height:1.4; color:var(--mute); margin-top:3pt }
+.q .lines { margin-top:auto; height:76pt; background:repeating-linear-gradient(to bottom, transparent 0, transparent 18pt, var(--line) 18pt, var(--line) 19pt) }
+.icon { width:26px; height:26px; color:var(--red) } .icon svg { width:26px; height:26px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round }
