@@ -4,7 +4,7 @@ A running list. Add to it as they come up. When it is ready it becomes the
 brief we hand the shop, styled, with the site next to it. Group headings
 are the sections of that brief.
 
-Updated 2026-09-07.
+Updated 2026-09-08.
 
 ## Inventory and stock
 
@@ -115,3 +115,26 @@ Updated 2026-09-07.
     want that on the site so people come to Fishbone to see what is in town?
 34. Would a shop calendar in Pulse help, with blanks arriving, orders due,
     and jobs on press?
+
+## Access and what you pay for
+
+    What we can see from outside, 2026-09-08: the domain is at GoDaddy
+    (registered 2001, renews Aug 2027). The site is WordPress with the
+    YooTheme Pro builder and two DJ-Extensions plugins, hosted at Scala
+    Hosting. Email is Microsoft 365. The SPF record still points at
+    GoDaddy's mail (secureserver.net), not Microsoft, so outbound mail from
+    the shop may be failing spam checks today. Nothing here needs changing
+    to launch, but the site hosting, theme and plugins stop being needed
+    once the new site is live.
+
+35. Who has the GoDaddy login? That is the one that matters, it holds the
+    domain and DNS. We will need a DNS change to point the domain at the
+    new site and to send email as fishbonegraphics.com.
+36. Who built the WordPress site, and do they still have a login? Is anyone
+    paying them monthly?
+37. Who has the Scala Hosting login, and what does it cost per month? It
+    can be cancelled after launch.
+38. Who administers Microsoft 365 for the shop email? We only need them to
+    keep the mail records when DNS moves.
+39. Are you paying for YooTheme Pro or the DJ plugins yearly? Those can
+    lapse after launch.
