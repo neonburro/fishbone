@@ -40,7 +40,7 @@ export const DEFAULT_SETTINGS = {
   shipping: { flat_rate: 0, enabled: true },
   payments: { provider: 'invoice' },
   ordering: { turnaround_days: 10, rush_available: true, min_order_note: 'Most screen print jobs start at 12 pieces.' },
-  announcement: { enabled: false, text: '' },
+  announcement: { enabled: false, text: '', tone: 'accent' },
   design: { accent: 'red', switcher: true },
 }
 

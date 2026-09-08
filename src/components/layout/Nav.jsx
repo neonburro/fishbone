@@ -151,8 +151,8 @@ export default function Nav() {
       >
         {/* The stripe. Wears the accent, so it follows the ink picked in the footer. */}
         {showAnn && !menuOpen && (
-          <Box bg="red.500" px={RAIL} py="6px" transition={`background 300ms ${EASE}`}>
-            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" color={ON_RED} noOfLines={1}>
+          <Box bg={ann.tone === 'ink' ? 'ink.500' : 'red.500'} borderBottom={ann.tone === 'ink' ? '1px solid' : 'none'} borderColor="ink.300" px={RAIL} py="6px" transition={`background 300ms ${EASE}`}>
+            <Text fontFamily="mono" fontSize="11px" fontWeight={500} letterSpacing="0.14em" textTransform="uppercase" color={ann.tone === 'ink' ? 'bone.300' : ON_RED} noOfLines={1}>
               {ann.text}
             </Text>
           </Box>
