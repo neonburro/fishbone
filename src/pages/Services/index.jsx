@@ -16,16 +16,16 @@ import { BAND_Y, MEASURE } from '../../theme/layout'
 
 const STEPS = [
   { n: '01', title: 'Garment and color', copy: 'Real blanks in real colors. We will tell you straight which one suits your art and your budget.' },
-  { n: '02', title: 'Print and placement', copy: 'Where the ink goes and how many colors. Front, back, sleeve, nape. One color or eight.' },
-  { n: '03', title: 'Sizes', copy: 'A grid that adds up. The price updates as it does, so you see the number before you send it.' },
+  { n: '02', title: 'Print and placement', copy: 'Where the ink goes and how many colors. Front, back, nape. One color or eight.' },
+  { n: '03', title: 'Sizes', copy: 'A grid that adds up as you fill it, so the ticket is right before you send it.' },
   { n: '04', title: 'Proof', copy: 'A person looks at every run before a screen is burned. You approve the proof, we pull the run.' },
 ]
 
 const PRICE = [
-  ['Quantity', 'Screens cost the same whether we print 24 or 240, so the unit price drops at 24, 48, 72 and 144. Every product page shows the breaks.'],
+  ['Quantity', 'Screens cost the same whether we print two dozen or two hundred, so the more you print the less each shirt costs. The proof shows the number.'],
   ['Colors', 'Each color is a screen. One color is the cheapest shirt we make. Six colors is a poster on a shirt and priced like one.'],
-  ['Locations', 'Front is the baseline. A back, a sleeve or a nape is another screen and a small setup, charged once per run, not per shirt.'],
-  ['Reorders', 'Your screens and files stay on record. Year two of your event skips the setup and is one phone call.'],
+  ['Locations', 'Front is the baseline. A back or a nape is another screen, set up once per run, not per shirt.'],
+  ['Reorders', 'Your screens and files stay on record. Year two of your event is one phone call.'],
 ]
 
 const ART = [
@@ -42,7 +42,7 @@ export default function Services() {
       <Container size="page" pt={{ base: 6, md: 12 }} pb={BAND_Y}>
         <FadeIn>
           <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} maxW="22ch">
-            Screen printing, <Box as="strong" fontWeight={700}>24 pieces and up.</Box> Here is how a run works and what moves the price.
+            Screen printing, <Box as="strong" fontWeight={700}>start to finish.</Box> Here is how a run works and what moves the number.
           </Text>
         </FadeIn>
 
@@ -90,7 +90,7 @@ export default function Services() {
             <FadeIn>
               <Stack spacing={3} p={{ base: 5, md: 6 }} borderRadius="lg" border="1px solid" borderColor="ink.300" h="100%">
                 <Text variant="kicker">What we print on</Text>
-                <Text color="bone.100">Tees, long sleeves, hoodies and crewnecks, tanks, totes and bandanas. Comfort Colors, Bella Canvas, Gildan and the rest of the catalog, in every color they make.</Text>
+                <Text color="bone.100">Tees, long sleeves, hoodies and crewnecks, tanks, totes and bandanas. Comfort Colors, Gildan, Independent and the rest of the catalog, in every color they make.</Text>
                 <Text color="bone.300" fontSize="sm" maxW={MEASURE}>Bring your own blanks and we will print them too. Ask first about nylon, waterproof shells and anything with a lot of seams where the art goes.</Text>
               </Stack>
             </FadeIn>

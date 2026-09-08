@@ -30,8 +30,8 @@ export default function Cart() {
       </FadeIn>
 
       {lines.length === 0 ? (
-        <EmptyState title="Your order sheet is blank." message="Pick a garment, tell us where the ink goes and it shows up here. Or skip all that and just ask for a quote." ctaLabel="Shop blanks" ctaTo="/shop/">
-          <Button as={RouterLink} to="/quote/" variant="link" mt={4} display="block" mx="auto">Request a quote instead</Button>
+        <EmptyState title="Your order sheet is blank." message="Pick a garment, tell us where the ink goes and it shows up here. Or skip all that and just ask for a quote." ctaLabel="Start a run" ctaTo="/shop/">
+          <Button as={RouterLink} to="/quote/" variant="link" mt={4} display="block" mx="auto">Send your art instead</Button>
         </EmptyState>
       ) : (
         <Grid templateColumns={{ base: '1fr', lg: '7fr 4fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">

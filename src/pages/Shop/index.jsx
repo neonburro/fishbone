@@ -31,7 +31,7 @@ export function CategoryCard({ category }) {
 
 export default function Shop() {
   const cats = useAsync(getCategories, [])
-  const featured = useAsync(() => getProducts({ featured: true, limit: 8 }), [])
+  const shelf = useAsync(() => getProducts({ limit: 12 }), [])
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Shop() {
       <PageHero eyebrow="Runs" title="Create a run." lead="Pick a blank, a color and where the ink goes. Say how many. A printer sends the proof and the number back. No file yet, or just a thought? Share it anyway, the form takes pictures, sketches and opinions." />
 
       <Section py={{ base: 10, md: 16 }}>
-        <SectionHeader eyebrow="Browse by" title="Categories" mb={{ base: 6, md: 8 }} size="xl" />
+        <SectionHeader eyebrow="Pick a rack" title="What we print on" mb={{ base: 6, md: 8 }} size="xl" />
         {cats.loading ? (
           <CardSkeleton count={3} columns={{ base: 1, sm: 2, lg: 3 }} />
         ) : cats.error ? (
@@ -51,20 +51,20 @@ export default function Shop() {
             ))}
           </SimpleGrid>
         ) : (
-          <EmptyState title="Categories are being set up." message="Check back shortly or send a quote request and we’ll point you at the right blank." ctaLabel="Send your art" ctaTo="/quote/" />
+          <EmptyState title="The racks are being built." message="Send what you are after and the shop points you at the right blank." ctaLabel="Send your art" ctaTo="/quote/" />
         )}
       </Section>
 
       <Section bg="ink.500" borderTop="1px solid" borderColor="ink.300" py={{ base: 10, md: 16 }}>
-        <SectionHeader eyebrow="Shop favorites" title="Featured" mb={{ base: 6, md: 8 }} size="xl" />
-        {featured.loading ? (
-          <CardSkeleton count={4} />
-        ) : featured.error ? (
-          <LoadError onRetry={featured.reload} error={featured.error} />
-        ) : featured.data?.length ? (
-          <ProductGrid products={featured.data} />
+        <SectionHeader eyebrow="On the shelf" title="Blanks we keep" mb={{ base: 6, md: 8 }} size="xl" />
+        {shelf.loading ? (
+          <CardSkeleton count={3} />
+        ) : shelf.error ? (
+          <LoadError onRetry={shelf.reload} error={shelf.error} />
+        ) : shelf.data?.length ? (
+          <ProductGrid products={shelf.data} />
         ) : (
-          <EmptyState title="Nothing featured yet." message="Pick a category above to see everything we carry." />
+          <EmptyState title="The shelf is being stocked." message="Tell us what you are after and the shop sources the blank." ctaLabel="Send your art" ctaTo="/quote/" />
         )}
       </Section>
     </>

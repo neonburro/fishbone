@@ -163,7 +163,7 @@ export default function Product() {
       />
       <Container size="page" pt={{ base: 5, md: 8 }} pb={{ base: '120px', lg: 24 }}>
         <Breadcrumb separator="/" fontSize="sm" color="bone.500" mb={{ base: 5, md: 8 }} fontFamily="heading" textTransform="uppercase" letterSpacing="0.08em" fontWeight={600} sx={{ ol: { flexWrap: 'wrap' }, li: { whiteSpace: 'nowrap' } }}>
-          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop/" color="bone.300">Shop</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop/" color="bone.300">Runs</BreadcrumbLink></BreadcrumbItem>
           {product.categories?.key && (
             <BreadcrumbItem><BreadcrumbLink as={RouterLink} to={`/shop/${product.categories.key}/`} color="bone.300">{product.categories.name}</BreadcrumbLink></BreadcrumbItem>
           )}
@@ -222,22 +222,30 @@ export default function Product() {
 
                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} alignItems="start">
                   <FormControl isInvalid={touched && !qtyOk}>
-                    <FormLabel htmlFor="qty">Quantity <Text as="span" color="bone.500" fontWeight={400} textTransform="none" letterSpacing={0}>(min {minQty})</Text></FormLabel>
+                    <FormLabel htmlFor="qty">Quantity{minQty > 1 && <Text as="span" color="bone.500" fontWeight={400} textTransform="none" letterSpacing={0}> (min {minQty})</Text>}</FormLabel>
                     <NumberInput id="qty" value={qty} min={minQty} max={100000} step={1} clampValueOnBlur onChange={(_, n) => setQty(Number.isFinite(n) ? n : minQty)} size="lg">
                       <NumberInputField fontFamily="mono" />
                       <NumberInputStepper><NumberIncrementStepper /><NumberDecrementStepper /></NumberInputStepper>
                     </NumberInput>
                     {!qtyOk && <Text fontSize="sm" color="ember.400" mt={1}>Minimum order is {minQty} pieces.</Text>}
                     <HStack mt={3} spacing={2} flexWrap="wrap">
-                      {[minQty, 24, 48, 72, 144].filter((n, i, a) => n >= minQty && a.indexOf(n) === i).slice(0, 5).map((n) => (
+                      {[12, 24, 48, 72, 144].filter((n) => n >= minQty).map((n) => (
                         <Button key={n} size="xs" variant={qty === n ? 'ember' : 'outline'} onClick={() => setQty(n)} fontFamily="mono">{n}</Button>
                       ))}
                     </HStack>
                   </FormControl>
-                  <Box>
-                    <Text fontFamily="heading" fontWeight={600} textTransform="uppercase" letterSpacing="0.08em" fontSize="sm" color="bone.300" mb={1.5}>Price breaks</Text>
-                    <PriceBreaks tiers={tiers} basePrice={product.base_price} qty={qty} priceAdjustment={variant?.price_adjustment} unit={product.price_unit || 'ea'} />
-                  </Box>
+                  {/* The breaks show once the shop has set prices in Backstage. Until then the ticket says $0.00 and a printer sends the number. */}
+                  {(Number(product.base_price) > 0 || (tiers || []).some((x) => Number(x.unit_price ?? x.price) > 0)) ? (
+                    <Box>
+                      <Text fontFamily="heading" fontWeight={600} textTransform="uppercase" letterSpacing="0.08em" fontSize="sm" color="bone.300" mb={1.5}>By the count</Text>
+                      <PriceBreaks tiers={tiers} basePrice={product.base_price} qty={qty} priceAdjustment={variant?.price_adjustment} unit={product.price_unit || 'ea'} />
+                    </Box>
+                  ) : (
+                    <Box>
+                      <Text fontFamily="heading" fontWeight={600} textTransform="uppercase" letterSpacing="0.08em" fontSize="sm" color="bone.300" mb={1.5}>The number</Text>
+                      <Text fontSize="sm" color="bone.300">Comes back on the proof, from a printer, usually within a business day.</Text>
+                    </Box>
+                  )}
                 </SimpleGrid>
 
                 <Box border="1px solid" borderColor={touched && !sizesOk ? 'ember.600' : 'ink.300'} borderRadius="base" p={4} bg="ink.500">

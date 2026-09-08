@@ -70,7 +70,7 @@ export default function Quote() {
               </Text>
               <Text mt={5} color="bone.300" maxW={MEASURE}>Festival lines, tour merch, staff tees, a weird idea on a napkin. Give us the headcount and the date and a printer replies, usually within a business day.</Text>
               <Stack spacing={2} mt={8} maxW="420px">
-                {[['Have a known quantity and art in hand?', 'Build it on a product page and see price breaks live.', '/shop/', 'Start a run'], ['Just a question?', 'The short form on Shop info is faster.', '/contact/', 'Shop info']].map(([h, c, to, label]) => (
+                {[['Know the blank and the count?', 'Build the run yourself and watch the ticket fill in.', '/shop/', 'Start a run'], ['No art yet, just the idea?', 'That door is over here. The shop draws.', '/design/', 'Share your vision']].map(([h, c, to, label]) => (
                   <Box key={to} p={4} borderRadius="md" border="1px solid" borderColor="ink.300">
                     <Text fontSize="sm" color="bone.100">{h}</Text>
                     <Text fontSize="sm" color="bone.300" mt={0.5}>{c}</Text>

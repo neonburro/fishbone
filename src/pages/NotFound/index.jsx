@@ -17,7 +17,7 @@ export default function NotFound({ title = 'Off the registration.' }) {
           That page isn’t on the press. Head back to the shop or ask us where it went.
         </Text>
         <Stack direction={{ base: 'column', sm: 'row' }} justify="center" spacing={3}>
-          <Button as={RouterLink} to="/shop/">Shop blanks</Button>
+          <Button as={RouterLink} to="/shop/">Start a run</Button>
           <Button as={RouterLink} to="/" variant="outline">Home</Button>
         </Stack>
       </Container>

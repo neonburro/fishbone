@@ -21,10 +21,10 @@ export default function Category() {
 
   return (
     <>
-      <SEO title={cat.data?.name || 'Shop'} description={cat.data?.description || cat.data?.tagline || `Shop ${name} from Fishbone Graphics in Ridgway, Colorado.`} path={`/shop/${categoryKey}`} />
+      <SEO title={cat.data?.name || 'Runs'} description={cat.data?.description || cat.data?.tagline || `${name} printed by Fishbone Graphics in Ridgway, Colorado.`} path={`/shop/${categoryKey}`} />
       <PageHero eyebrow={
         <Breadcrumb fontFamily="heading" fontWeight={700} textTransform="uppercase" letterSpacing="0.12em" fontSize="sm" color="ember.500" separator="/">
-          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop/" color="ember.500">Shop</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbLink as={RouterLink} to="/shop/" color="ember.500">Runs</BreadcrumbLink></BreadcrumbItem>
           <BreadcrumbItem isCurrentPage><Text as="span" color="bone.300">{name}</Text></BreadcrumbItem>
         </Breadcrumb>
       } title={name} lead={cat.data?.description || cat.data?.tagline} />
@@ -36,11 +36,11 @@ export default function Category() {
           <LoadError onRetry={products.reload} error={products.error} />
         ) : products.data?.length ? (
           <>
-            <Text variant="mono" mb={5}>{products.data.length} {products.data.length === 1 ? 'product' : 'products'}</Text>
+            <Text variant="mono" mb={5}>{products.data.length} {products.data.length === 1 ? 'blank' : 'blanks'}</Text>
             <ProductGrid products={products.data} />
           </>
         ) : (
-          <EmptyState title="Nothing in this rack yet." message="We can still get it. Tell us what you’re after and we’ll source the blank." ctaLabel="Request a quote" ctaTo="/quote/" />
+          <EmptyState title="Nothing on this rack yet." message="We can still get it. Say what you are after and the shop sources the blank, same catalog, same press." ctaLabel="Send your art" ctaTo="/quote/" />
         )}
       </Section>
     </>

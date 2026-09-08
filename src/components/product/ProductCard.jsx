@@ -1,12 +1,11 @@
 // src/components/product/ProductCard.jsx
-import { Box, Text, HStack, Badge, LinkBox, LinkOverlay, Stack } from '@chakra-ui/react'
+import { Box, Text, HStack, LinkBox, LinkOverlay, Stack } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import ProductImage from '../common/ProductImage'
 import Price from '../common/Price'
 
 export default function ProductCard({ product }) {
   const img = product.images?.[0]
-  const badges = Array.isArray(product.badges) ? product.badges.slice(0, 2) : []
   return (
     <LinkBox
       as="article"
@@ -24,13 +23,6 @@ export default function ProductCard({ product }) {
     >
       <Box position="relative">
         <ProductImage src={img?.url} alt={img?.alt || product.name} label={product.brand || product.name} caption={product.style_number} borderRadius="0" />
-        {badges.length > 0 && (
-          <HStack position="absolute" top={2} left={2} spacing={1.5}>
-            {badges.map((b) => (
-              <Badge key={b} variant={/new|hot|festival/i.test(b) ? 'hivis' : 'ember'}>{b}</Badge>
-            ))}
-          </HStack>
-        )}
       </Box>
       <Stack p={{ base: 3, md: 4 }} spacing={1.5} flex={1}>
         <HStack justify="space-between" align="baseline">
@@ -50,7 +42,6 @@ export default function ProductCard({ product }) {
             <Text as="span" color="bone.500" fontSize="xs" mr={1}>from</Text>
             <Price value={product.base_price} suffix={`/${product.price_unit || 'ea'}`} />
           </Text>
-          {product.min_quantity > 1 && <Text fontSize="xs" color="bone.500" fontFamily="mono">min {product.min_quantity}</Text>}
         </HStack>
       </Stack>
     </LinkBox>

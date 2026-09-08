@@ -47,7 +47,7 @@ export default function CartDrawer() {
             <Stack spacing={4} pt={6}>
               <Text fontFamily="heading" fontWeight={800} textTransform="uppercase" fontSize="2xl" lineHeight={1}>Nothing on the ticket yet.</Text>
               <Text color="bone.300" fontSize="sm">Pick a blank, tell us where the ink goes and it shows up here.</Text>
-              <Button as={RouterLink} to="/shop/" onClick={close} alignSelf="flex-start" rightIcon={<FiArrowRight />}>Shop blanks</Button>
+              <Button as={RouterLink} to="/shop/" onClick={close} alignSelf="flex-start" rightIcon={<FiArrowRight />}>Start a run</Button>
             </Stack>
           ) : (
             <Stack spacing={3} as="ul" listStyleType="none" m={0} p={0}>
