@@ -8,7 +8,7 @@ export default function ProductImage({ src, alt, label, ratio = 1, caption, ...r
   const [broken, setBroken] = useState(false)
   if (!src || broken) return <Placeholder label={label} ratio={ratio} caption={caption} {...rest} />
   return (
-    <Box position="relative" w="100%" pt={`${100 / ratio}%`} bg="ink.400" overflow="hidden" borderRadius="base" {...rest}>
+    <Box position="relative" w="100%" pt={`${100 / ratio}%`} bg="#EFEAE0" overflow="hidden" borderRadius="base" {...rest}>
       <Image
         src={src}
         alt={alt || label || ''}
@@ -16,7 +16,7 @@ export default function ProductImage({ src, alt, label, ratio = 1, caption, ...r
         inset={0}
         w="100%"
         h="100%"
-        objectFit="cover"
+        objectFit="contain"
         loading="lazy"
         onError={() => setBroken(true)}
       />
