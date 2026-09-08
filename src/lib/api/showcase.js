@@ -29,8 +29,9 @@ export function resolveShowcase(row) {
  */
 export async function getShowcase({ placement, limit } = {}) {
   let q = supabase.from('showcase_items').select(FIELDS).eq('is_active', true)
-  if (Array.isArray(placement)) q = q.in('placement', placement)
+  if (Array.isArray(placement)) q = q.in('placement', placement).order('placement', { ascending: true })
   else if (placement) q = q.eq('placement', placement)
+  // 'home' sorts before 'work', so the home page leads with the photos flagged for it.
   q = q.order('sort_order', { ascending: true }).order('created_at', { ascending: false })
   if (limit) q = q.limit(limit)
   const { data, error } = await q
