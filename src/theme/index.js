@@ -225,7 +225,9 @@ const theme = extendTheme({
   styles: {
     global: {
       ':root': { ...accentVars(DEFAULT_ACCENT) },
-      html: { scrollBehavior: 'smooth' },
+      // html carries the ground too, so the overscroll past the top or bottom
+      // of a page on a phone is scale or bone, never a bare black.
+      html: { scrollBehavior: 'smooth', bg: 'ink.900' },
       body: {
         bg: 'ink.900',
         color: 'bone.100',

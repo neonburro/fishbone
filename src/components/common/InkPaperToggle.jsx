@@ -7,12 +7,18 @@
 // mode. In the code the light surfaces are still called paper, because the
 // ordering cards are paper, that name stays.
 
+import { useEffect } from 'react'
 import { Box, HStack, Text, useColorMode } from '@chakra-ui/react'
 import { EASE } from '../../theme/layout'
 
 export default function InkPaperToggle(props) {
   const { colorMode, setColorMode } = useColorMode()
   const paper = colorMode === 'light'
+  // The browser chrome on a phone takes its color from this tag. Keep it with the mode.
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (meta) meta.setAttribute('content', paper ? '#F6F2EA' : '#2B2E33')
+  }, [paper])
   return (
     <HStack
       as="button"
