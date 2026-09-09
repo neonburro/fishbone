@@ -104,12 +104,16 @@ export default function Footer() {
         </Grid>
 
         <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" align={{ md: 'center' }} spacing={3} mt={{ base: 10, md: 14 }} pt={6} borderTop="1px solid" borderColor="ink.300">
-          <HStack spacing={5}>
-            <InkPaperToggle />
-            <AccentPicker />
+          {/* On a phone the switches take a line of their own and the copyright sits
+              flat under them, full width. On a desktop it is all one row. */}
+          <Stack direction={{ base: 'column', md: 'row' }} spacing={{ base: 3, md: 5 }} align={{ base: 'flex-start', md: 'center' }}>
+            <HStack spacing={5}>
+              <InkPaperToggle />
+              <AccentPicker />
+            </HStack>
             <Text color="bone.500" fontSize="xs">© {year} {s.legal_name || s.name || 'Fishbone Graphics'}. {s.city || 'Ridgway'}, {s.state || 'CO'} {s.zip || '81432'}.</Text>
-          </HStack>
-          <HStack spacing={4}>
+          </Stack>
+          <HStack spacing={4} justify={{ base: 'space-between', md: 'flex-end' }} w={{ base: '100%', md: 'auto' }}>
             <Text fontFamily="mono" fontSize="11px" color="bone.600" letterSpacing="0.14em" textTransform="uppercase">Printing since {s.founded || 1985}</Text>
             {/* Backstage. The door to Pulse for the crew. A pulse line, not a lock. */}
             <Tooltip label="Fishbone backstage" placement="top" hasArrow openDelay={150}>
