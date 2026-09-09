@@ -1,6 +1,6 @@
 // src/components/common/InkPaperToggle.jsx
 //
-// The mode switch. Two words, Ink and Bone, on a pill. Ink is the dark
+// The mode switch. Two words, Scale and Bone, on a pill. Scale is the dark
 // side, bone is the light, and the two of them are the fish. The knob
 // slides to whichever word is on. Sits in the footer. Chakra remembers the
 // choice in localStorage. Nothing about the site says dark mode or light
@@ -19,7 +19,7 @@ export default function InkPaperToggle(props) {
       type="button"
       role="switch"
       aria-checked={paper}
-      aria-label={paper ? 'Bone is on. Switch to ink' : 'Ink is on. Switch to bone'}
+      aria-label={paper ? 'Bone is on. Switch to scale' : 'Scale is on. Switch to bone'}
       onClick={() => setColorMode(paper ? 'dark' : 'light')}
       spacing={0}
       position="relative"
@@ -45,7 +45,7 @@ export default function InkPaperToggle(props) {
         bg="bone.100"
         transition={`left 420ms ${EASE}`}
       />
-      {[['Ink', !paper], ['Bone', paper]].map(([label, on]) => (
+      {[['Scale', !paper], ['Bone', paper]].map(([label, on]) => (
         <HStack key={label} spacing={2} position="relative" px={4} h="100%" align="center" justify="center" minW="72px">
           <Box w="7px" h="7px" borderRadius="full" bg={on ? 'red.500' : 'transparent'} border="1px solid" borderColor={on ? 'red.500' : 'bone.600'} transition={`background-color 260ms ${EASE}`} />
           <Text as="span" fontFamily="heading" fontSize="15px" fontWeight={700} letterSpacing="0.06em" textTransform="uppercase" lineHeight={1} color={on ? 'ink.900' : 'bone.300'} transition={`color 260ms ${EASE}`}>

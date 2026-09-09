@@ -77,7 +77,7 @@ export default function WorkWall({ placement = ['home', 'work'], limit, more = f
                 px={3}
                 pt={8}
                 pb={2.5}
-                bgGradient="linear(to-t, rgba(22,22,24,0.85), transparent)"
+                bgGradient="linear(to-t, rgba(43,46,51,0.88), transparent)"
                 opacity={{ base: 1, md: 0 }}
                 transition={`opacity 380ms ${EASE}`}
                 _groupHover={{ opacity: 1 }}

@@ -58,14 +58,18 @@ import { accentVars, DEFAULT_ACCENT } from './accents'
 // theme. Defaults are set in styles.global below and by theme/accents.js.
 const red = Object.fromEntries([50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((k) => [k, `var(--fb-red-${k})`]))
 
-// Dark values. The `colors` block below carries only what does not flip.
+// Dark values. Scale, not ink: a cool grey like the side of a fish, lifted
+// off black so the photos and the paper forms have something to sit against.
+// The tokens are still called ink in the code, renaming four hundred
+// references buys nothing. The word on the site is Scale.
+// The `colors` block below carries only what does not flip.
 const inkDark = {
-  50: '#4B4F58', 100: '#3F434B', 200: '#34373E', 300: '#2C2F35', 400: '#26262A',
-  500: '#1D1D20', 600: '#1A1A1D', 700: '#181819', 800: '#171718', 900: '#161618',
+  50: '#7C848F', 100: '#6A717B', 200: '#5A6069', 300: '#4D525A', 400: '#42464E',
+  500: '#3A3E45', 600: '#35383F', 700: '#31343A', 800: '#2E3137', 900: '#2B2E33',
 }
 const boneDark = {
   50: '#FBF8F2', 100: '#EFEAE0', 200: '#E2DCD0', 300: '#CFC9BE', 400: '#B5B0A6',
-  500: '#9AA1AA', 600: '#6B727C', 700: '#4F545C', 800: '#3B4048', 900: '#2A2D33',
+  500: '#A3AAB3', 600: '#8A929C', 700: '#6E757F', 800: '#3B4048', 900: '#2A2D33',
 }
 // Light values. ink becomes paper, bone becomes the type. Contrast is kept
 // deliberately hard: near black on paper, not grey on cream.
