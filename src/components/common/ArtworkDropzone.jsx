@@ -135,8 +135,12 @@ export default function ArtworkDropzone({ value = [], onChange, id = 'artwork', 
         )}
       </SimpleGrid>
       <HStack mt={2} spacing={3}>
-        <Text fontSize="xs" color="bone.500" lineHeight={1.4}>{helper || 'PNG, JPG, PDF, AI, EPS, PSD or ZIP. Up to 50 MB each.'}</Text>
-        <Text fontFamily="mono" fontSize="10px" letterSpacing="0.1em" color="bone.600" flexShrink={0}>{(value?.length || 0) + pending.length}/{max}</Text>
+        {/* This dropzone sits on ink on the product page and on paper inside the
+            contact and quote cards. A fixed grey was right for one of them and
+            2.1 to 1 on the other, so the muted tone is the surface's own colour
+            held back, which lands above 4.5 either way. */}
+        <Text fontSize="xs" color="currentColor" opacity={0.72} lineHeight={1.4}>{helper || 'PNG, JPG, PDF, AI, EPS, PSD or ZIP. Up to 50 MB each.'}</Text>
+        <Text fontFamily="mono" fontSize="10px" letterSpacing="0.1em" color="currentColor" opacity={0.62} flexShrink={0}>{(value?.length || 0) + pending.length}/{max}</Text>
       </HStack>
       {(value || []).some((f) => f.size) && <Text srOnly>{(value || []).map((f) => `${f.name} ${bytes(f.size)}`).join(', ')}</Text>}
     </Box>

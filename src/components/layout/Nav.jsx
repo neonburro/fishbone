@@ -64,13 +64,16 @@ export const NAV_LINKS = [
 
 const INLINE = NAV_LINKS.filter((l) => ['Runs', 'Work', 'Printing', 'Shop info'].includes(l.label))
 
-// Smoked glass on ink, frosted glass on paper. Same blur, different tint.
-const glassFor = (p, shadow) => ({
-  bg: alpha(p.inkSurface, 0.74),
+// A painted panel, not smoked glass. The tile used to be 74 percent ink over
+// a 14px blur, which is screen furniture and, worse, let whatever scrolled
+// underneath wash through the mark and the links. Solid ink with a hairline
+// keeps the contrast fixed no matter what is behind it, which matters most on
+// a phone where the wall scrolls right under the bar.
+const panelFor = (p, shadow) => ({
+  bg: p.inkSurface,
   border: '1px solid',
-  borderColor: alpha(p.bone, 0.1),
-  boxShadow: `0 10px 30px ${alpha('#000000', shadow)}`,
-  sx: { backdropFilter: 'blur(14px) saturate(140%)', WebkitBackdropFilter: 'blur(14px) saturate(140%)' },
+  borderColor: alpha(p.bone, 0.14),
+  boxShadow: `0 2px 0 ${alpha('#000000', shadow)}`,
 })
 
 export default function Nav() {
@@ -115,7 +118,7 @@ export default function Nav() {
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
-  const glass = useColorModeValue(glassFor(paletteLight, 0.12), glassFor(palette, 0.34))
+  const panel = useColorModeValue(panelFor(paletteLight, 0.14), panelFor(palette, 0.42))
   const hoverBorder = useColorModeValue(alpha(paletteLight.bone, 0.28), alpha(palette.bone, 0.18))
   const wash = useColorModeValue(alpha(paletteLight.bone, 0.08), alpha(palette.bone, 0.08))
   const plumb = useColorModeValue(alpha(paletteLight.bone, 0.28), alpha(palette.bone, 0.22))
@@ -160,27 +163,37 @@ export default function Nav() {
             </Text>
           </Box>
         )}
-        <Flex align="center" justify="space-between" px={RAIL} h={NAV_H}>
-          {/* The tile. Its left edge is the rail. */}
+        <Flex align="center" justify={{ base: 'flex-end', md: 'space-between' }} px={RAIL} h={NAV_H} position="relative">
+          {/* The mark. On a phone it is centred and bare: there are no links up
+              here to sit beside it, so the panel was framing nothing, and the
+              oval reads better as a shop sign than as a button. From md up it
+              goes back on the rail, on its panel, because that left edge is
+              the line every heading on the page is measured against. */}
           <ChakraLink
             as={RouterLink}
             to="/"
             aria-label="Fishbone Graphics. Home"
             display="inline-flex"
             alignItems="center"
-            px="14px"
-            py="9px"
+            position={{ base: 'absolute', md: 'static' }}
+            left={{ base: '50%', md: 'auto' }}
+            transform={{ base: 'translateX(-50%)', md: 'none' }}
+            px={{ base: 0, md: '14px' }}
+            py={{ base: 0, md: '9px' }}
             borderRadius="md"
-            {...glass}
+            bg={{ base: 'transparent', md: panel.bg }}
+            border={{ base: 'none', md: panel.border }}
+            borderColor={panel.borderColor}
+            boxShadow={{ base: 'none', md: panel.boxShadow }}
             _hover={{ textDecoration: 'none', borderColor: hoverBorder }}
             transition={`border-color 260ms ${EASE}`}
             onClick={() => setMenuOpen(false)}
           >
-            <OvalLogo w={{ base: '96px', md: '116px' }} />
+            <OvalLogo w={{ base: '112px', md: '116px' }} />
           </ChakraLink>
 
           {/* The links. Desktop only. */}
-          <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} px="6px" py="6px" borderRadius="full" {...glass}>
+          <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} px="6px" py="6px" borderRadius="full" {...panel}>
             {INLINE.map((l) => (
               <NavLink key={l.to} to={l.to} style={{ textDecoration: 'none' }}>
                 {({ isActive }) => (
@@ -223,7 +236,7 @@ export default function Nav() {
             borderRadius="full"
             bg="bone.100"
             color="ink.900"
-            boxShadow={`0 10px 30px ${alpha('#000000', 0.34)}`}
+            boxShadow={`0 2px 0 ${alpha('#000000', 0.42)}`}
             transition={`transform 260ms ${EASE}, background-color 260ms ${EASE}`}
             _hover={{ transform: 'translateY(-1px)' }}
             _active={{ transform: 'translateY(0)' }}

@@ -84,7 +84,7 @@ export default function WorkWall({ placement = ['home', 'work'], limit, more = f
               >
                 <Text fontFamily="mono" fontSize="10px" letterSpacing="0.1em" textTransform="uppercase" color="bone.100" noOfLines={1}>
                   {it.client_name || it.title}
-                  {it.year ? <Text as="span" color="bone.400"> · {it.year}</Text> : null}
+                  {it.year ? <Text as="span" color="bone.300"> · {it.year}</Text> : null}
                 </Text>
               </Box>
             </Box>

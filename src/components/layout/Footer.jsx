@@ -25,8 +25,21 @@ import { NAV_LINKS } from './Nav'
 const SERVICES = ['Screen printing', 'Art and design', 'Festival merch']
 const PULSE_URL = import.meta.env.VITE_PULSE_URL || 'https://fishbonepulse.netlify.app/'
 
+// A footer link is a 21px line of text. On a phone that is a thin thing to
+// hit, so the row grows to 40px there and stays tight on a desktop where
+// there is a pointer.
 const FootLink = ({ to, children }) => (
-  <ChakraLink as={RouterLink} to={to} color="bone.300" fontSize="sm" _hover={{ color: 'bone.100', textDecoration: 'none' }} transition={`color 200ms ${EASE}`}>
+  <ChakraLink
+    as={RouterLink}
+    to={to}
+    color="bone.300"
+    fontSize="sm"
+    display="flex"
+    alignItems="center"
+    minH={{ base: '40px', md: 'auto' }}
+    _hover={{ color: 'bone.100', textDecoration: 'none' }}
+    transition={`color 200ms ${EASE}`}
+  >
     {children}
   </ChakraLink>
 )
@@ -53,14 +66,18 @@ export default function Footer() {
                 {s.tagline || 'Ridgway, Colorado. Printing since 1985.'}
               </Text>
               <OpenNow />
-              <HStack spacing={4} pt={1}>
+              {/* The glyph stays 20px, the target is 44. A 20px link is a
+                  coin toss with a thumb, and these two are the only way out
+                  of the site on a phone. Negative margin keeps the row
+                  optically aligned with the text above it. */}
+              <HStack spacing={1} pt={1} ml="-10px">
                 {s.instagram && (
-                  <ChakraLink href={s.instagram} isExternal aria-label="Fishbone Graphics on Instagram" color="bone.300" _hover={{ color: 'bone.100' }}>
+                  <ChakraLink href={s.instagram} isExternal aria-label="Fishbone Graphics on Instagram" color="bone.300" _hover={{ color: 'bone.100' }} display="inline-flex" alignItems="center" justifyContent="center" w="44px" h="44px">
                     <FiInstagram size={20} />
                   </ChakraLink>
                 )}
                 {s.facebook && (
-                  <ChakraLink href={s.facebook} isExternal aria-label="Fishbone Graphics on Facebook" color="bone.300" _hover={{ color: 'bone.100' }}>
+                  <ChakraLink href={s.facebook} isExternal aria-label="Fishbone Graphics on Facebook" color="bone.300" _hover={{ color: 'bone.100' }} display="inline-flex" alignItems="center" justifyContent="center" w="44px" h="44px">
                     <FiFacebook size={20} />
                   </ChakraLink>
                 )}
@@ -69,7 +86,7 @@ export default function Footer() {
           </GridItem>
 
           <GridItem>
-            <Stack spacing={2.5}>
+            <Stack spacing={{ base: 0, md: 2.5 }}>
               <Text variant="kicker" mb={1}>Menu</Text>
               {NAV_LINKS.map((l) => <FootLink key={l.to} to={l.to}>{l.label}</FootLink>)}
               <FootLink to="/order/track/">Track a run</FootLink>
@@ -115,10 +132,10 @@ export default function Footer() {
             <Text color="bone.500" fontSize="xs">© {year} {s.legal_name || s.name || 'Fishbone Graphics'}. {s.city || 'Ridgway'}, {s.state || 'CO'} {s.zip || '81432'}.</Text>
           </Stack>
           <HStack spacing={4} justify={{ base: 'space-between', md: 'flex-end' }} w={{ base: '100%', md: 'auto' }}>
-            <Text fontFamily="mono" fontSize="11px" color="bone.600" letterSpacing="0.14em" textTransform="uppercase">Printing since {s.founded || 1985}</Text>
+            <Text fontFamily="mono" fontSize="11px" color="bone.500" letterSpacing="0.14em" textTransform="uppercase">Printing since {s.founded || 1985}</Text>
             {/* Backstage. The door to Pulse for the crew. A pulse line, not a lock. */}
             <Tooltip label="Fishbone backstage" placement="top" hasArrow openDelay={150}>
-              <ChakraLink href={PULSE_URL} isExternal aria-label="Fishbone backstage, the shop's Pulse admin" display="inline-flex" alignItems="center" justifyContent="center" w="32px" h="32px" borderRadius="full" border="1px solid" borderColor="ink.300" color="bone.500" _hover={{ color: 'red.500', borderColor: 'red.500' }} transition={`color 200ms ${EASE}, border-color 200ms ${EASE}`}>
+              <ChakraLink href={PULSE_URL} isExternal aria-label="Fishbone backstage, the shop's Pulse admin" display="inline-flex" alignItems="center" justifyContent="center" w="44px" h="44px" borderRadius="full" border="1px solid" borderColor="ink.300" color="bone.500" _hover={{ color: 'red.500', borderColor: 'red.500' }} transition={`color 200ms ${EASE}, border-color 200ms ${EASE}`}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12h4l2-6 4 12 3-8 2 2h5" /></svg>
               </ChakraLink>
             </Tooltip>

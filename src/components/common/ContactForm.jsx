@@ -69,7 +69,7 @@ export default function ContactForm({ kicker = 'Send us something', title = 'A f
     <Box bg="paper.50" color="paper.900" borderRadius="lg" p={{ base: 5, md: 8 }} boxShadow="paper" {...rest}>
       {done ? (
         <Stack spacing={3}>
-          <Text variant="kicker" color="red.500">Sent</Text>
+          <Text variant="kicker" color="var(--fb-red-paper)">Sent</Text>
           <Heading as="h2" size="xl" color="paper.900">Got it.</Heading>
           <Text color="paper.500" maxW={MEASURE}>We read everything that comes in here, usually the same day. If it is urgent, call {phone}.</Text>
         </Stack>

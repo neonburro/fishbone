@@ -86,7 +86,7 @@ export default function Quote() {
               <Box bg="paper.50" color="paper.900" borderRadius="lg" p={{ base: 5, md: 8 }} boxShadow="paper">
                 {done ? (
                   <Stack spacing={3}>
-                    <Text variant="kicker" color="red.500">Sent</Text>
+                    <Text variant="kicker" color="var(--fb-red-paper)">Sent</Text>
                     <Heading as="h2" size="xl" color="paper.900">Got it. We are on it.</Heading>
                     <Text color="paper.500" maxW={MEASURE}>Your request is in the shop. Expect a reply from a printer, not a form letter. On a rush timeline, call (970) 626-4350 and say so.</Text>
                     <HStack spacing={3} pt={2}><Button as={RouterLink} to="/work/" size="sm">See the work</Button></HStack>

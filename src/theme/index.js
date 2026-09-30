@@ -192,19 +192,27 @@ const theme = extendTheme({
   },
   colors,
   fonts,
+  // A trimmed sheet has a corner, not a curve. The scale used to run 8 to
+  // 24px, which is app furniture, and it was the loudest digital tell on the
+  // page. Everything here is a hair off square now. `full` stays for the
+  // things that really are round: the one nav button, the pills, a dot.
   radii: {
     none: '0',
-    sm: '8px',
-    base: '10px',
-    md: '12px',
-    lg: '18px',
-    xl: '24px',
+    sm: '2px',
+    base: '2px',
+    md: '3px',
+    lg: '4px',
+    xl: '6px',
     full: '9999px',
   },
+  // Paper does not glow. A 30 to 60px blur is a screen pretending to have
+  // depth, so the two elevations are hard offsets now, the way a sheet sits
+  // on a table under one light. `outline` is the focus ring and stays soft
+  // and obvious, that one is not decoration.
   shadows: {
     outline: `0 0 0 3px color-mix(in srgb, ${red[500]} 45%, transparent)`,
-    raised: `0 1px 0 ${alpha('#FFFFFF', 0.03)} inset, 0 10px 30px ${alpha('#000000', 0.45)}`,
-    paper: `0 20px 60px ${alpha('#000000', 0.35)}`,
+    raised: `0 2px 0 ${alpha('#000000', 0.5)}`,
+    paper: `0 3px 0 ${alpha('#000000', 0.42)}`,
   },
   semanticTokens: {
     colors: {
@@ -220,6 +228,9 @@ const theme = extendTheme({
       'text.primary': 'bone.100',
       'text.muted': 'bone.300',
       'text.subtle': 'bone.500',
+      // The accent as TYPE, lifted far enough off each ground to clear 4.5.
+      // See theme/accents.js. Fills still use red.500.
+      'accent.text': { default: 'var(--fb-red-ink)', _light: 'var(--fb-red-paper)' },
     },
   },
   styles: {

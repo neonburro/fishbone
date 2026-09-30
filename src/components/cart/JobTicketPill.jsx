@@ -100,7 +100,6 @@ export default function JobTicketPill() {
               border="1px solid"
               borderColor="ink.200"
               boxShadow={`0 12px 30px ${alpha('#000000', 0.45)}`}
-              sx={{ backdropFilter: 'blur(14px) saturate(140%)' }}
               overflow="hidden"
               transition={`border-color 260ms ${EASE}, transform 260ms ${EASE}`}
               _hover={{ borderColor: 'ember.500', transform: 'translateY(-1px)' }}

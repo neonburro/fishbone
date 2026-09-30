@@ -12,7 +12,7 @@ import Price from '../common/Price'
 export default function OrderSummary({ variant = 'card', unit, qty, total, priceUnit = 'ea', canAdd, sizesOk, onAdd }) {
   if (variant === 'bar') {
     return (
-      <Box position="fixed" left={0} right={0} bottom={0} zIndex={50} bg="rgba(20,20,22,0.97)" backdropFilter="blur(8px)" borderTop="1px solid" borderColor="ink.300" px={5} py={3} display={{ base: 'block', lg: 'none' }} role="region" aria-label="Order summary">
+      <Box position="fixed" left={0} right={0} bottom={0} zIndex={50} bg="ink.900" borderTop="1px solid" borderColor="ink.300" px={5} py={3} display={{ base: 'block', lg: 'none' }} role="region" aria-label="Order summary">
         <HStack justify="space-between" spacing={4}>
           <Box>
             <Text fontFamily="mono" fontSize="lg" lineHeight={1.1}><Price value={total} /></Text>

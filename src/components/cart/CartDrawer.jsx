@@ -32,7 +32,7 @@ export default function CartDrawer() {
 
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={close} size="sm">
-      <DrawerOverlay bg={alpha(palette.ink, 0.7)} sx={{ backdropFilter: 'blur(4px)' }} zIndex={Z.drawer} />
+      <DrawerOverlay bg={alpha(palette.ink, 0.88)} zIndex={Z.drawer} />
       <DrawerContent bg="ink.900" borderLeft="1px solid" borderColor="ink.300" maxW={{ base: '100%', sm: '440px' }} containerProps={{ zIndex: Z.drawer }}>
         <DrawerCloseButton top="18px" right="18px" color="bone.300" _hover={{ color: 'bone.100', bg: 'ink.400' }} />
         <DrawerHeader pt={5} pb={4} px={6} borderBottom="1px solid" borderColor="ink.300">

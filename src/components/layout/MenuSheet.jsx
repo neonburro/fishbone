@@ -103,7 +103,7 @@ export default function MenuSheet({ open, onClose }) {
         bg="ink.900"
         borderLeft="1px solid"
         borderColor="ink.300"
-        boxShadow="-24px 0 60px rgba(0,0,0,0.4)"
+        boxShadow="-3px 0 0 rgba(0,0,0,0.45)"
         display="flex"
         flexDir="column"
         overflowY="auto"
@@ -167,7 +167,7 @@ export default function MenuSheet({ open, onClose }) {
             _hover={{ color: 'bone.100' }}
           >
             Job ticket
-            <Text as="span" fontFamily="mono" fontSize="12px" letterSpacing="0.14em" color={count > 0 ? 'red.500' : 'bone.600'}>{String(count).padStart(2, '0')}</Text>
+            <Text as="span" fontFamily="mono" fontSize="12px" letterSpacing="0.14em" color={count > 0 ? 'accent.text' : 'bone.600'}>{String(count).padStart(2, '0')}</Text>
           </Text>
         </Stack>
 

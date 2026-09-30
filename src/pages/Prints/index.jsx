@@ -35,7 +35,7 @@ export default function Prints() {
       <SEO title="Available prints" description="Designs with screens already burned and the randoms off the end of a run. Small runs, quick turns, priced to sell. Fishbone Graphics, Ridgway, Colorado. Coming soon." path="/prints/" />
       <Container size="page" pt={{ base: 6, md: 12 }} pb={BAND_Y}>
         <FadeIn>
-          <Text variant="kicker" color="red.500">Soon</Text>
+          <Text variant="kicker" color="accent.text">Soon</Text>
           <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} maxW="22ch" mt={3}>
             Available prints. <Box as="strong" fontWeight={700}>Screens we already have, and the randoms off the pile.</Box>
           </Text>

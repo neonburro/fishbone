@@ -55,7 +55,7 @@ function ActionTile({ to, title, copy, soon }) {
       <Box>
         <HStack spacing={3} align="baseline" mb={1}>
           <Heading as="h2" size="md">{title}</Heading>
-          {soon && <Text variant="kicker" color="red.500">Soon</Text>}
+          {soon && <Text variant="kicker" color="accent.text">Soon</Text>}
         </HStack>
         <Text fontSize="sm" color="bone.300">{copy}</Text>
       </Box>
@@ -110,7 +110,7 @@ export default function Home() {
         <Grid templateColumns={{ base: '1fr', lg: '1.1fr 0.9fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">
           <GridItem position={{ lg: 'sticky' }} top={{ lg: '108px' }}>
             <FadeIn>
-              <Text variant="kicker" color="red.500">Ridgway, Colorado, since 1985</Text>
+              <Text variant="kicker" color="accent.text">Ridgway, Colorado, since 1985</Text>
               <Text
                 as="h1"
                 fontFamily="heading"

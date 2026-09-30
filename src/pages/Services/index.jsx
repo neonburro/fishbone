@@ -55,7 +55,7 @@ export default function Services() {
                 <Stack spacing={0} divider={<Box borderBottom="1px dashed" borderColor="paper.200" />}>
                   {STEPS.map((s) => (
                     <Grid key={s.n} templateColumns="auto 1fr" gap={4} py={3.5} alignItems="baseline">
-                      <Text fontFamily="mono" fontSize="12px" color="red.500">{s.n}</Text>
+                      <Text fontFamily="mono" fontSize="12px" color="var(--fb-red-paper)">{s.n}</Text>
                       <Box>
                         <Heading as="h3" size="sm" color="paper.900" letterSpacing="0.02em">{s.title}</Heading>
                         <Text fontSize="sm" color="paper.500" mt={1} maxW={MEASURE}>{s.copy}</Text>

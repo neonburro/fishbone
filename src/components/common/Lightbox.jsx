@@ -59,7 +59,7 @@ export default function Lightbox({ items = [], index = -1, onClose, onIndex }) {
       cursor="zoom-out"
       onClick={onClose}
       animation={`${fade} 240ms ease-out`}
-      sx={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', '@media (prefers-reduced-motion: reduce)': { animation: 'none' } }}
+      sx={{ '@media (prefers-reduced-motion: reduce)': { animation: 'none' } }}
     >
       <Box key={item.id} display="flex" flexDir="column" alignItems="center" gap={3} px={4} animation={`${rise} 320ms cubic-bezier(0.16, 1, 0.3, 1)`} sx={{ '@media (prefers-reduced-motion: reduce)': { animation: 'none' } }}>
         <Box as="img" src={item.src} alt={item.alt || item.title || ''} display="block" maxW="min(94vw, 1400px)" maxH="82vh" objectFit="contain" borderRadius="md" draggable={false} userSelect="none" />

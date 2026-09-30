@@ -50,7 +50,7 @@ export default function Proof() {
     return (
       <Container size="page" py={BAND_Y}>
         <SEO title="Quote" noIndex path={`/proof/${token}/`} />
-        <Text variant="kicker" color="red.500">Quote</Text>
+        <Text variant="kicker" color="accent.text">Quote</Text>
         <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem' }} lineHeight={1.08} mt={3} maxW="20ch">That link did not open a quote.</Text>
         <Text color="bone.300" mt={4} maxW={MEASURE}>It may have been replaced by a newer one. Call the shop at (970) 626-4350 and we will send it again.</Text>
       </Container>
@@ -67,7 +67,7 @@ export default function Proof() {
         <Grid templateColumns={{ base: '1fr', lg: '0.8fr 1.2fr' }} gap={{ base: 8, lg: 12 }} alignItems="start">
           <GridItem>
             <FadeIn>
-              <Text variant="kicker" color="red.500">Quote · {q.order_number}</Text>
+              <Text variant="kicker" color="accent.text">Quote · {q.order_number}</Text>
               <Text as="h1" fontFamily="heading" fontWeight={500} fontSize={{ base: '1.75rem', md: '2.4rem', lg: '3rem' }} lineHeight={1.08} mt={3} maxW="16ch">
                 {accepted ? <>Thanks, {first}. <Box as="strong" fontWeight={700}>Your run is on the board.</Box></> : <>Here is your quote, {first}. <Box as="strong" fontWeight={700}>Accept it and we book the press.</Box></>}
               </Text>
