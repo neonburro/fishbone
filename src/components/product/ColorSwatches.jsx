@@ -38,8 +38,10 @@ export default function ColorSwatches({ variants = [], value, onChange, labelId 
                   bg={v.color_hex || '#888'}
                   border="2px solid"
                   borderColor={active ? 'ember.500' : light ? 'bone.700' : 'ink.300'}
-                  outline={active ? '2px solid' : 'none'}
-                  outlineColor="ember.500"
+                  // Colour lives inside the conditional on purpose. Chakra rewrites
+                  // outline="none" into a 2px TRANSPARENT ring, so a separate
+                  // outlineColor prop paints every swatch, selected or not.
+                  outline={active ? '2px solid var(--chakra-colors-ember-500)' : 'none'}
                   outlineOffset="2px"
                   position="relative"
                   opacity={v.in_stock === false ? 0.35 : 1}

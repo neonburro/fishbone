@@ -157,9 +157,9 @@ export function alpha(hex, a = 1) {
 // One easing everywhere. Heavy ease out: leaves fast, lands almost still.
 export const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
-// Body is Archivo. It shares Barlow Condensed's American sign-shop bones but
-// the letterforms have more character at reading size. Karla is loaded as
-// the alternate, warmer and a touch more vintage, swap the name to try it.
+// Body is Karla: warmer than a grotesque and a touch more vintage, and it
+// sits well under Barlow Condensed's American sign-shop bones. Archivo was
+// loaded alongside it for a while and never used, so it is no longer fetched.
 const fonts = {
   heading: `'Barlow Condensed', 'Arial Narrow', sans-serif`,
   body: `'Karla', 'Helvetica Neue', Arial, sans-serif`,

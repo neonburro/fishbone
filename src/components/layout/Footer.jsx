@@ -1,8 +1,9 @@
 // src/components/layout/Footer.jsx
 //
-// The footer is where the shop's real logo lives, the oval with the hand cut
-// skeleton, traced to public/brand-oval.svg and drawn in the type color so
-// it flips with ink and paper (components/brand/OvalLogo.jsx). Next to it the NAP,
+// The footer signs off with the line lockup, the clean fishbone and the
+// FISHBONE / GRAPHICS words (components/brand/Logo.jsx). It sits bare on the
+// page, no tile, no border, no glass. The shop's real oval logo leads the
+// nav instead, where people meet it first. Under the signature the NAP,
 // the hours as the printer typed them, the live open line and the
 // LocalBusiness JSON-LD built from the same settings so what the search
 // engines index is what the door says. No decoration.
@@ -11,7 +12,7 @@ import { Box, Container, Grid, GridItem, HStack, Stack, Text, Tooltip, Link as C
 import { Helmet } from 'react-helmet-async'
 import { Link as RouterLink } from 'react-router-dom'
 import { FiInstagram, FiFacebook } from 'react-icons/fi'
-import OvalLogo from '../brand/OvalLogo'
+import Logo from '../brand/Logo'
 import OpenNow from '../common/OpenNow'
 import InkPaperToggle from '../common/InkPaperToggle'
 import AccentPicker from '../common/AccentPicker'
@@ -47,7 +48,7 @@ export default function Footer() {
         <Grid templateColumns={{ base: '1fr', sm: '1fr 1fr', lg: '5fr 2fr 3fr 3fr' }} gap={{ base: 10, lg: 8 }}>
           <GridItem>
             <Stack spacing={5} align="flex-start">
-              <OvalLogo w={{ base: '140px', md: '168px' }} />
+              <Logo height={{ base: '42px', md: '50px' }} />
               <Text color="bone.300" fontSize="sm" maxW="300px">
                 {s.tagline || 'Ridgway, Colorado. Printing since 1985.'}
               </Text>

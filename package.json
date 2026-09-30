@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Fishbone Graphics & Screen Printing storefront — Ridgway, Colorado",
+  "description": "Fishbone Graphics & Screen Printing storefront \u2014 Ridgway, Colorado",
   "engines": {
     "node": ">=22"
   },
@@ -20,7 +20,6 @@
     "@supabase/supabase-js": "^2.49.4",
     "dompurify": "^3.4.15",
     "framer-motion": "^11.18.2",
-    "maplibre-gl": "^6.7.0",
     "marked": "^18.0.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

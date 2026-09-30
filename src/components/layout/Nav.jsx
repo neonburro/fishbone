@@ -4,9 +4,12 @@
 // the links in the middle on a desktop, and one round button on the right.
 //
 // ── THE TILE ────────────────────────────────────────────────────────────────
-// The lockup sits on a piece of smoked glass, translucent ink over a blur with
-// a hairline border, so it reads as sitting ON the page rather than as a
-// hole cut through it. The tile's left edge is the rail. A plumb line drops
+// The shop's real oval logo sits on a piece of smoked glass, translucent ink
+// over a blur with a hairline border, so it reads as sitting ON the page
+// rather than as a hole cut through it. The oval is the mark people already
+// know from the door and the shirts, so it is the one that leads. The line
+// lockup it replaced now signs the footer, bare.
+// The tile's left edge is the rail. A plumb line drops
 // from under it on a desktop and every heading on the page starts on that
 // line. If a heading ever looks off, the line is how you catch it.
 //
@@ -25,7 +28,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Box, Flex, HStack, Text, Link as ChakraLink, useColorModeValue } from '@chakra-ui/react'
 import { Link as RouterLink, NavLink, useLocation } from 'react-router-dom'
-import Logo from '../brand/Logo'
+import OvalLogo from '../brand/OvalLogo'
 import MenuSheet from './MenuSheet'
 import useCartStore, { selectLineCount } from '../../store/cartStore'
 import { useSettings } from '../../hooks/useSettings'
@@ -173,9 +176,7 @@ export default function Nav() {
             transition={`border-color 260ms ${EASE}`}
             onClick={() => setMenuOpen(false)}
           >
-            <Box h={{ base: '32px', md: '38px' }}>
-              <Logo height="100%" />
-            </Box>
+            <OvalLogo w={{ base: '96px', md: '116px' }} />
           </ChakraLink>
 
           {/* The links. Desktop only. */}
