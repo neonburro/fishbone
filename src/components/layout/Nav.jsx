@@ -193,7 +193,7 @@ export default function Nav() {
           </ChakraLink>
 
           {/* The links. Desktop only. */}
-          <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} px="6px" py="6px" borderRadius="full" {...panel}>
+          <HStack as="nav" aria-label="Primary" spacing={1} display={{ base: 'none', lg: 'flex' }} px="6px" py="6px" borderRadius="md" {...panel}>
             {INLINE.map((l) => (
               <NavLink key={l.to} to={l.to} style={{ textDecoration: 'none' }}>
                 {({ isActive }) => (
@@ -202,7 +202,7 @@ export default function Nav() {
                     display="block"
                     px={4}
                     py={2}
-                    borderRadius="full"
+                    borderRadius="sm"
                     fontFamily="heading"
                     fontSize="17px"
                     fontWeight={600}
